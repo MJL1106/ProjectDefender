@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour
 {
     private NavMeshAgent agent;
 
     [SerializeField] private float turnSpeed = 10;
-    [SerializeField] private Transform[] waypoint;
+    [FormerlySerializedAs("waypoint")] [SerializeField] private Transform[] waypoints;
     private int waypointIndex;
 
     private void Awake()
@@ -15,6 +16,11 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.avoidancePriority = Mathf.RoundToInt(agent.speed * 10);
+    }
+
+    private void Start()
+    {
+        waypoints = FindFirstObjectByType<WaypointManager>().GetWaypoints();
     }
 
     private void Update()
@@ -42,9 +48,9 @@ public class Enemy : MonoBehaviour
 
     private Vector3 GetNextWaypoint()
     {
-        if (waypointIndex >= waypoint.Length) return transform.position;
+        if (waypointIndex >= waypoints.Length) return transform.position;
         
-        Vector3 targetPoint = waypoint[waypointIndex].position;
+        Vector3 targetPoint = waypoints[waypointIndex].position;
         waypointIndex++;
 
         return targetPoint;
