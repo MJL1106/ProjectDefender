@@ -745,8 +745,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.23797937, y: 0.38058972, z: -0.10199339, w: 0.88775826}
+  m_LocalPosition: {x: -9.138611, y: 3.9570057, z: -2.0450578}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1379,9 +1379,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWave:
-    basicEnemy: 4
-    fastEnemy: 2
-  spawnCooldown: 1
+    basicEnemy: 100
+    fastEnemy: 0
+  spawnCooldown: 2
   respawn: {fileID: 6072686009982406910}
   basicEnemy: {fileID: 676721995329201836, guid: d8c4b6b8f941a774fbd0ac9a9fea148e, type: 3}
   fastEnemy: {fileID: 3322419712278476238, guid: a16379705ee181d4781ec762ace7a251, type: 3}
@@ -4598,6 +4598,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7777615014133600985, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
   m_PrefabInstance: {fileID: 4415456248216832065}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7265112877455866855
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.49999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.116
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495532987959624718, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748250119000925149, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      propertyPath: m_Name
+      value: Tower_Crossbow
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
 --- !u!1 &8480427318283821897 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3901150406001254186, guid: aed0b2e572700d44887c7e6f0ed4ebf6, type: 3}
@@ -4648,3 +4705,4 @@ SceneRoots:
   - {fileID: 1777538763}
   - {fileID: 4415456248216832065}
   - {fileID: 687509786}
+  - {fileID: 7265112877455866855}
