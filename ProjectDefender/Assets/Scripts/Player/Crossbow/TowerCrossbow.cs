@@ -7,8 +7,9 @@ public class TowerCrossbow : Tower
 
    private CrossbowVisuals visuals;
    
-   [Header("Crossbow Details")] [SerializeField]
-   private Transform gunPoint;
+   [Header("Crossbow Details")] 
+   [SerializeField] private Transform gunPoint;
+   [SerializeField] private int damage;
 
    protected override void Awake()
    {
@@ -17,6 +18,7 @@ public class TowerCrossbow : Tower
       visuals = GetComponent<CrossbowVisuals>();
    }
 
+   // ReSharper disable Unity.PerformanceAnalysis
    protected override void Attack()
    {
       Vector3 directionToEnemy = DirectionToEnemyFrom(gunPoint);
@@ -25,10 +27,12 @@ public class TowerCrossbow : Tower
       {
          towerHead.forward = directionToEnemy;
          
-         Debug.DrawLine(gunPoint.position, hitInfo.point);
-         
          visuals.PlayAttackVFX(gunPoint.position, hitInfo.point);
          visuals.PlayerReloadFX(attackCooldown);
+
+         IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+
+         if (damageable != null) damageable.TakeDamage(damage);
       }
    }
 }
