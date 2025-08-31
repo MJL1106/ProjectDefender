@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class TowerCrossbow : Tower
 {
-
    private CrossbowVisuals visuals;
    
    [Header("Crossbow Details")] 
@@ -25,13 +24,19 @@ public class TowerCrossbow : Tower
       if (Physics.Raycast(gunPoint.position, directionToEnemy, out RaycastHit hitInfo, Mathf.Infinity))
       {
          towerHead.forward = directionToEnemy;
-         
-         visuals.PlayAttackVFX(gunPoint.position, hitInfo.point);
-         visuals.PlayerReloadFX(attackCooldown);
 
+         Enemy enemyTarget = null;
+         
          IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
 
-         if (damageable != null) damageable.TakeDamage(damage);
+         if (damageable != null)
+         {
+            damageable.TakeDamage(damage);
+            enemyTarget = currentEnemy;
+         }
+         
+         visuals.PlayAttackVFX(gunPoint.position, hitInfo.point, enemyTarget);
+         visuals.PlayerReloadVFX(attackCooldown);
       }
    }
 }

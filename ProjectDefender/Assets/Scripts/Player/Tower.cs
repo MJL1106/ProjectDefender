@@ -22,6 +22,11 @@ public class Tower : MonoBehaviour
     [SerializeField] protected float attackRange = 2.5f;
     [SerializeField] protected LayerMask whatIsEnemy;
 
+    [Space] [Tooltip("Enabling this allows toer to change target between attacks")] [SerializeField]
+    private bool dynamicTargetChange;
+    private float targetCheckInterval = .1f;
+    private float lastTimeCheckedTarget;
+
     protected virtual void Awake()
     {
         EnableRotation(true);
@@ -29,6 +34,8 @@ public class Tower : MonoBehaviour
 
     protected virtual void Update()
     {
+        UpdateTargetIfNeeded();
+        
         if (currentEnemy == null)
         {
             currentEnemy = FindEnemyWithinRange();
@@ -40,6 +47,17 @@ public class Tower : MonoBehaviour
         if (Vector3.Distance(currentEnemy.CentrePoint(), transform.position) > attackRange) currentEnemy = null;
         
         RotateTowardsEnemy();
+    }
+
+    private void UpdateTargetIfNeeded()
+    {
+        if (dynamicTargetChange == false) return;
+
+        if (Time.time > lastTimeCheckedTarget + targetCheckInterval)
+        {
+            lastTimeCheckedTarget = Time.time;
+            currentEnemy = FindEnemyWithinRange();
+        } 
     }
 
     protected virtual void Attack()
