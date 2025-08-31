@@ -1411,6 +1411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemy: {fileID: 0}
   attackCooldown: 2
+  enemyPriorityType: 1
   towerHead: {fileID: 606353449706686464}
   rotationSpeed: 10
   attackRange: 2.5
@@ -1418,6 +1419,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   gunPoint: {fileID: 4675967544544072893}
+  damage: 0
 --- !u!114 &4105478440329888710
 MonoBehaviour:
   m_ObjectHideFlags: 0

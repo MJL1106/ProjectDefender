@@ -3,10 +3,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
+public enum EnemyType { Basic, Fast, None}
+
 public class Enemy : MonoBehaviour , IDamageable
 {
     private NavMeshAgent agent;
 
+    [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
     public int healthPoints = 4;
     
@@ -90,6 +93,11 @@ public class Enemy : MonoBehaviour , IDamageable
     public Vector3 CentrePoint()
     {
         return centrePoint.position;
+    }
+
+    public EnemyType GetEnemyType()
+    {
+        return enemyType;
     }
 
     public void TakeDamage(int damage)

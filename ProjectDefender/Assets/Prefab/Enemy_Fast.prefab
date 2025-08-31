@@ -222,6 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f563642ae555c44bafa997954110d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 1
   centrePoint: {fileID: 565057722832192237}
   healthPoints: 4
   turnSpeed: 10

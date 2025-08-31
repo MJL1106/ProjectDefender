@@ -172,18 +172,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f563642ae555c44bafa997954110d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   centrePoint: {fileID: 5973087668014973993}
   healthPoints: 6
   turnSpeed: 10
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  waypoints: []
 --- !u!65 &3221371238286765156
 BoxCollider:
   m_ObjectHideFlags: 0
