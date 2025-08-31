@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6736543438905705845}
   - component: {fileID: 4583428309582923027}
   - component: {fileID: 4896574723569010914}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fast_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,6 +86,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1595258594307984081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 565057722832192237}
+  m_Layer: 7
+  m_Name: centre_point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &565057722832192237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595258594307984081}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.431, z: 0.068}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1044491789174842472}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2385261878971217440
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +126,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6277688684156826609}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fast_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +164,7 @@ GameObject:
   - component: {fileID: 7664277478060991877}
   - component: {fileID: 1891814590172412651}
   - component: {fileID: 4120729091514251755}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_Fast
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -154,6 +185,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6277688684156826609}
+  - {fileID: 565057722832192237}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &7071900189906666766
@@ -190,16 +222,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f563642ae555c44bafa997954110d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 1
+  centrePoint: {fileID: 565057722832192237}
+  healthPoints: 4
   turnSpeed: 10
-  waypoint:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  waypoints: []
 --- !u!65 &1891814590172412651
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -219,8 +246,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.33, y: 0.55, z: 0.33}
-  m_Center: {x: 0, y: 0.27, z: 0}
+  m_Size: {x: 0.14409757, y: 0.55, z: 0.26619923}
+  m_Center: {x: 0.0038501024, y: 0.27, z: 0.026400298}
 --- !u!54 &4120729091514251755
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -260,7 +287,7 @@ GameObject:
   - component: {fileID: 5319158896337154751}
   - component: {fileID: 2553131309135930895}
   - component: {fileID: 5475315291459069173}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fast_enemy_wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +387,7 @@ GameObject:
   - component: {fileID: 2844786094073008692}
   - component: {fileID: 8263284856762143369}
   - component: {fileID: 1660533522235274839}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fast_enemy_emission
   m_TagString: Untagged
   m_Icon: {fileID: 0}

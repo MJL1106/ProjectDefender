@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public class CrossbowVisuals : MonoBehaviour
 {
-   private TowerCrossbow myTower;
+   private Enemy myEnemy;
 
    [SerializeField] private LineRenderer attackVisuals;
    [SerializeField] private float attackVisualDuration = .1f;
@@ -53,7 +53,6 @@ public class CrossbowVisuals : MonoBehaviour
 
 private void Awake()
    {
-      myTower = GetComponent<TowerCrossbow>();
       material = new Material(meshRenderer.material);
       meshRenderer.material = material;
 
@@ -74,6 +73,13 @@ private void Awake()
    {
       UpdateEmissionColor();
       UpdateStrings();
+      
+      UpdateAttackVisualsIfNeeded();
+   }
+
+   private void UpdateAttackVisualsIfNeeded()
+   {
+      if (attackVisuals.enabled && myEnemy != null) attackVisuals.SetPosition(1, myEnemy.CentrePoint());
    }
 
    private void UpdateStrings()
@@ -91,7 +97,7 @@ private void Awake()
       material.SetColor("_EmissionColor", emissionColor);
    }
 
-   public void PlayerReloadFX(float duration)
+   public void PlayerReloadVFX(float duration)
    {
       float newDuration = duration / 2;
       
@@ -99,14 +105,14 @@ private void Awake()
       StartCoroutine(UpdateRotorPosition(newDuration));
    }
 
-   public void PlayAttackVFX(Vector3 startPoint, Vector3 endPoint)
+   public void PlayAttackVFX(Vector3 startPoint, Vector3 endPoint, Enemy newEnemy)
    {
-      StartCoroutine(VFXCoroutine(startPoint, endPoint));
+      StartCoroutine(VFXCoroutine(startPoint, endPoint, newEnemy));
    }
 
-   private IEnumerator VFXCoroutine(Vector3 startPoint, Vector3 endPoint)
+   private IEnumerator VFXCoroutine(Vector3 startPoint, Vector3 endPoint, Enemy newEnemy)
    {
-      myTower.EnableRotation(false);
+      myEnemy = newEnemy;
       
       attackVisuals.enabled = true;
       attackVisuals.SetPosition(0, startPoint);
@@ -115,8 +121,6 @@ private void Awake()
       yield return new WaitForSeconds(attackVisualDuration);
 
       attackVisuals.enabled = false;
-
-      myTower.EnableRotation(true);
    }
 
    private IEnumerator ChangeEmission(float duration)

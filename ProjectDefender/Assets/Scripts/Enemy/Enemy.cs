@@ -3,13 +3,22 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public class Enemy : MonoBehaviour
+public enum EnemyType { Basic, Fast, None}
+
+public class Enemy : MonoBehaviour , IDamageable
 {
     private NavMeshAgent agent;
 
+    [SerializeField] private EnemyType enemyType;
+    [SerializeField] private Transform centrePoint;
+    public int healthPoints = 4;
+    
+    [Header("Movement")]
     [SerializeField] private float turnSpeed = 10;
-    [FormerlySerializedAs("waypoint")] [SerializeField] private Transform[] waypoints;
+    [SerializeField] private Transform[] waypoints;
     private int waypointIndex;
+    
+    private float totalDistance;
 
     private void Awake()
     {
@@ -21,6 +30,8 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         waypoints = FindFirstObjectByType<WaypointManager>().GetWaypoints();
+
+        CollectTotalDistance();
     }
 
     private void Update()
@@ -34,6 +45,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public float DistanceToFinishLine()
+    {
+        return totalDistance + agent.remainingDistance;
+    }
+    
+    private void CollectTotalDistance()
+    {
+        for (int i = 0; i < waypoints.Length - 1; i++)
+        {
+            float distance = Vector3.Distance(waypoints[i].position, waypoints[i + 1].position);
+            totalDistance = totalDistance + distance;
+        }
+    }
+    
     private void FaceTarget(Vector3 newTarget)
     {
         Vector3 directionToTarget = newTarget - transform.position;
@@ -51,8 +76,34 @@ public class Enemy : MonoBehaviour
         if (waypointIndex >= waypoints.Length) return transform.position;
         
         Vector3 targetPoint = waypoints[waypointIndex].position;
+
+        // Once the enemy is past the first waypoint, calculate the distance from the previous waypoint
+        if (waypointIndex > 0)
+        {
+            float distance = Vector3.Distance(waypoints[waypointIndex].position, waypoints[waypointIndex - 1].position);
+            // Workout new total distance left to finish point
+            totalDistance = totalDistance - distance;
+        }
+        
         waypointIndex++;
 
         return targetPoint;
+    }
+
+    public Vector3 CentrePoint()
+    {
+        return centrePoint.position;
+    }
+
+    public EnemyType GetEnemyType()
+    {
+        return enemyType;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        healthPoints = healthPoints - damage;
+        
+        if (healthPoints <= 0) Destroy(gameObject);
     }
 }

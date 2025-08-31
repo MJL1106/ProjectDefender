@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class TowerCrossbow : Tower
 {
-
    private CrossbowVisuals visuals;
    
-   [Header("Crossbow Details")] [SerializeField]
-   private Transform gunPoint;
+   [Header("Crossbow Details")] 
+   [SerializeField] private Transform gunPoint;
+   [SerializeField] private int damage;
 
    protected override void Awake()
    {
@@ -16,7 +16,7 @@ public class TowerCrossbow : Tower
 
       visuals = GetComponent<CrossbowVisuals>();
    }
-
+   
    protected override void Attack()
    {
       Vector3 directionToEnemy = DirectionToEnemyFrom(gunPoint);
@@ -24,11 +24,19 @@ public class TowerCrossbow : Tower
       if (Physics.Raycast(gunPoint.position, directionToEnemy, out RaycastHit hitInfo, Mathf.Infinity))
       {
          towerHead.forward = directionToEnemy;
+
+         Enemy enemyTarget = null;
          
-         Debug.DrawLine(gunPoint.position, hitInfo.point);
+         IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+
+         if (damageable != null)
+         {
+            damageable.TakeDamage(damage);
+            enemyTarget = currentEnemy;
+         }
          
-         visuals.PlayAttackVFX(gunPoint.position, hitInfo.point);
-         visuals.PlayerReloadFX(attackCooldown);
+         visuals.PlayAttackVFX(gunPoint.position, hitInfo.point, enemyTarget);
+         visuals.PlayerReloadVFX(attackCooldown);
       }
    }
 }
