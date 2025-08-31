@@ -17,8 +17,7 @@ public class TowerCrossbow : Tower
 
       visuals = GetComponent<CrossbowVisuals>();
    }
-
-   // ReSharper disable Unity.PerformanceAnalysis
+   
    protected override void Attack()
    {
       Vector3 directionToEnemy = DirectionToEnemyFrom(gunPoint);

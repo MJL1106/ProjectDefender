@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour , IDamageable
 {
     private NavMeshAgent agent;
 
+    [SerializeField] private Transform centrePoint;
     public int healthPoints = 4;
     
     [Header("Movement")]
@@ -84,6 +85,11 @@ public class Enemy : MonoBehaviour , IDamageable
         waypointIndex++;
 
         return targetPoint;
+    }
+
+    public Vector3 CentrePoint()
+    {
+        return centrePoint.position;
     }
 
     public void TakeDamage(int damage)

@@ -8,7 +8,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Tower : MonoBehaviour
 {
-    public Transform currentEnemy;
+    public Enemy currentEnemy;
 
     [SerializeField] protected float attackCooldown = 1f;
     protected float lastTimeAttacked;
@@ -23,7 +23,7 @@ public class Tower : MonoBehaviour
 
     protected virtual void Awake()
     {
-        
+        EnableRotation(true);
     }
 
     protected virtual void Update()
@@ -36,7 +36,7 @@ public class Tower : MonoBehaviour
 
         if (CanAttack()) Attack();
 
-        if (Vector3.Distance(currentEnemy.position, transform.position) > attackRange) currentEnemy = null;
+        if (Vector3.Distance(currentEnemy.CentrePoint(), transform.position) > attackRange) currentEnemy = null;
         
         RotateTowardsEnemy();
     }
@@ -69,8 +69,8 @@ public class Tower : MonoBehaviour
         if (!canRotate) return;
         
         if (currentEnemy == null) return;
-        
-        Vector3 directionToEnemy = currentEnemy.position - towerHead.position;
+
+        Vector3 directionToEnemy = DirectionToEnemyFrom(towerHead);
 
         Quaternion lookRotation = Quaternion.LookRotation(directionToEnemy);
 
@@ -80,7 +80,7 @@ public class Tower : MonoBehaviour
         towerHead.rotation = Quaternion.Euler(rotation);
     }
 
-    protected Transform FindRandomEnemyWithinRange()
+    protected Enemy FindRandomEnemyWithinRange()
     {
         List<Enemy> possibleTargets = new List<Enemy>();
         Collider[] enemiesAround = Physics.OverlapSphere(transform.position, attackRange, whatIsEnemy);
@@ -93,7 +93,7 @@ public class Tower : MonoBehaviour
 
         Enemy newTarget = GetMostAdvancedEnemy(possibleTargets);
 
-        if (newTarget != null) return newTarget.transform;
+        if (newTarget != null) return newTarget;
 
         return null;
     }
@@ -119,7 +119,7 @@ public class Tower : MonoBehaviour
     
     protected Vector3 DirectionToEnemyFrom(Transform startPoint)
     {
-        return (currentEnemy.position - startPoint.position).normalized;
+        return (currentEnemy.CentrePoint() - startPoint.position).normalized;
     }
 
     protected virtual void OnDrawGizmos()
