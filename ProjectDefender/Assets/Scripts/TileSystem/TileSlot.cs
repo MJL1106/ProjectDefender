@@ -1,41 +1,36 @@
 using System.Collections.Generic;
 using NUnit.Framework;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class TileSlot : MonoBehaviour
 {
-    private MeshRenderer meshRenderer => GetComponent<MeshRenderer>();
+     private MeshRenderer meshRenderer => GetComponent<MeshRenderer>();
     private MeshFilter meshFilter => GetComponent<MeshFilter>();
-    private Collider myCollider => GetComponent<Collider>();
+    private Collider myCollder => GetComponent<Collider>();
+    private NavMeshSurface myNavMesh => GetComponentInParent<NavMeshSurface>();
+
     public void SwitchTile(GameObject referenceTile)
     {
         gameObject.name = referenceTile.name;
-        
+
         TileSlot newTile = referenceTile.GetComponent<TileSlot>();
 
         meshFilter.mesh = newTile.GetMesh();
         meshRenderer.material = newTile.GetMaterial();
-        
+
         UpdateCollider(newTile.GetCollider());
-
-        foreach (GameObject obj in GetAllChildren())
-        {
-            DestroyImmediate(obj);
-        }
-
-        foreach (GameObject obj in newTile.GetAllChildren())
-        {
-            Instantiate(obj, transform);
-        }
+        UpdateChildren(newTile);
+        UpdateLayer(referenceTile);
+        UpdateNavMesh();
     }
 
-    public Material GetMaterial() { return meshRenderer.sharedMaterial; }
-    
-    public Mesh GetMesh() { return meshFilter.sharedMesh; }
 
-    public Collider GetCollider() { return myCollider; }
 
+    public Material GetMaterial() => meshRenderer.sharedMaterial;
+    public Mesh GetMesh() => meshFilter.sharedMesh;
+    public Collider GetCollider() => myCollder;
     public List<GameObject> GetAllChildren()
     {
         List<GameObject> children = new List<GameObject>();
@@ -48,9 +43,11 @@ public class TileSlot : MonoBehaviour
         return children;
     }
 
-    public void UpdateCollider(Collider newCollider)
+    private void UpdateNavMesh() => myNavMesh.BuildNavMesh();
+
+    private void UpdateCollider(Collider newCollider)
     {
-        DestroyImmediate(myCollider);
+        DestroyImmediate(myCollder);
 
         if (newCollider is BoxCollider)
         {
@@ -68,11 +65,33 @@ public class TileSlot : MonoBehaviour
 
             myNewCollider.sharedMesh = original.sharedMesh;
             myNewCollider.convex = original.convex;
-
         }
     }
 
-    public void RotateTile(int dir) => transform.Rotate(0, 90 * dir, 0);
+    private void UpdateChildren(TileSlot newTile)
+    {
+        foreach (GameObject obj in GetAllChildren())
+        {
+            DestroyImmediate(obj);
+        }
 
-    public void AdjustY(int verticalDir) => transform.position += new Vector3(0, .1f * verticalDir, 0);
+        foreach (GameObject obj in newTile.GetAllChildren())
+        {
+            Instantiate(obj, transform);
+        }
+    }
+
+    public void UpdateLayer(GameObject referenceObj) => gameObject.layer = referenceObj.layer;
+
+    public void RotateTile(int dir)
+    {
+        transform.Rotate(0, 90 * dir, 0);
+        UpdateNavMesh();
+    }
+
+    public void AdjustY(int verticalDir)
+    {
+        transform.position += new Vector3(0, .1f * verticalDir, 0);
+        UpdateNavMesh();
+    }
 }
