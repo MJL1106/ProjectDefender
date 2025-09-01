@@ -71,4 +71,8 @@ public class TileSlot : MonoBehaviour
 
         }
     }
+
+    public void RotateTile(int dir) => transform.Rotate(0, 90 * dir, 0);
+
+    public void AdjustY(int verticalDir) => transform.position += new Vector3(0, .1f * verticalDir, 0);
 }
