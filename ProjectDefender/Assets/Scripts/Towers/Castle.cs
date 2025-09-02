@@ -7,7 +7,7 @@ public class Castle : MonoBehaviour
    {
       if (other.CompareTag("Enemy"))
       {
-         Destroy(other.gameObject);
+         other.GetComponent<Enemy>().Die();
       }
    }
 }
