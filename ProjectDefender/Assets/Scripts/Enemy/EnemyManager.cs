@@ -11,67 +11,58 @@ public class WaveDetails
     public int basicEnemy;
     public int fastEnemy;
 }
+
 public class EnemyManager : MonoBehaviour
 {
+    public List<EnemyPortal> enemyPortals;
     [SerializeField] private WaveDetails currentWave;
-    [Space]
-    [SerializeField] private float spawnCooldown;
-    [SerializeField] private Transform respawn;
-    private float spawnTimer;
-
-    private List<GameObject> enemiesToCreate;
     
     [Header("Enemy Prefabs")]
     [SerializeField] private GameObject basicEnemy;
     [SerializeField] private GameObject fastEnemy;
-    
 
-    private void Start()
+    private void Awake()
     {
-        enemiesToCreate = NewEnemyWave();
+        enemyPortals = new List<EnemyPortal>(FindObjectsByType<EnemyPortal>(FindObjectsSortMode.None));
     }
 
-    private void Update()
+    [ContextMenu("Setup Next Wave")]
+    private void SetupNextWave()
     {
-        spawnTimer -= Time.deltaTime;
+        List<GameObject> newEnemies = NewEnemyWave();
+        int portalIndex = 0;
 
-        if (spawnTimer <= 0 && enemiesToCreate.Count > 0)
+        for (int i = 0; i < newEnemies.Count; i++)
         {
-            CreateEnemy();
-            spawnTimer = spawnCooldown;
+            GameObject enemyToAdd = newEnemies[i];
+            EnemyPortal portalToReceiveEnemy = enemyPortals[portalIndex];
+
+            portalToReceiveEnemy.GetEnemyList().Add(enemyToAdd);
+
+            portalIndex++;
+
+            if (portalIndex >= enemyPortals.Count)
+            {
+                portalIndex = 0;
+            }
         }
     }
-
-    private void CreateEnemy()
-    {
-        GameObject randomEnemy = GetRandomEnemy();
-        GameObject newEnemy = Instantiate(randomEnemy, respawn.position, Quaternion.identity);
-    }
-
-    private GameObject GetRandomEnemy()
-    {
-        int randomIndex = Random.Range(0, enemiesToCreate.Count);
-        GameObject chosenEnemy = enemiesToCreate[randomIndex];
-
-        enemiesToCreate.Remove(chosenEnemy);
-
-        return chosenEnemy;
-    }
-
     private List<GameObject> NewEnemyWave()
     {
         List<GameObject> newEnemyList = new List<GameObject>();
 
+        // Add basic enemies
         for (int i = 0; i < currentWave.basicEnemy; i++)
         {
             newEnemyList.Add(basicEnemy);
         }
 
+        // Add fast enemies  
         for (int i = 0; i < currentWave.fastEnemy; i++)
         {
             newEnemyList.Add(fastEnemy);
         }
-
+        
         return newEnemyList;
     }
 }
