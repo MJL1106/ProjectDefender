@@ -160,6 +160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1044491789174842472}
+  - component: {fileID: 6640624372965792299}
   - component: {fileID: 7071900189906666766}
   - component: {fileID: 7664277478060991877}
   - component: {fileID: 1891814590172412651}
@@ -188,6 +189,23 @@ Transform:
   - {fileID: 565057722832192237}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6640624372965792299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3322419712278476238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fac0ae7f13d88a45b5b93e6efcf95e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visuals: {fileID: 6277688684156826609}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  verticalRotationSpeed: 5
 --- !u!195 &7071900189906666766
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -226,7 +244,7 @@ MonoBehaviour:
   centrePoint: {fileID: 565057722832192237}
   healthPoints: 4
   turnSpeed: 10
-  waypoints: []
+  myWaypoints: []
 --- !u!65 &1891814590172412651
 BoxCollider:
   m_ObjectHideFlags: 0
