@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Screen = UnityEngine.Device.Screen;
 
 public class CameraController : MonoBehaviour
@@ -62,7 +63,13 @@ public class CameraController : MonoBehaviour
     }
 
     public void EnableCameraControlls(bool enable) => canControll = enable;
+    
     public float AdjustPitchValue(float value) => pitch = value;
+
+    public float AdjustKeyboardSensitivity(float value) => movementSpeed = value;
+
+    public float AdjustMouseSensitivity(float value) => mouseMovementSpeed = value;
+    
     private void HandleZoom()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");

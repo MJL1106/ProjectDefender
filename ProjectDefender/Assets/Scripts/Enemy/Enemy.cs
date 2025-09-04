@@ -8,6 +8,7 @@ public enum EnemyType { Basic, Fast, None}
 
 public class Enemy : MonoBehaviour , IDamageable
 {
+    private GameManager gameManager;
     private EnemyPortal myPortal;
     private NavMeshAgent agent;
 
@@ -26,6 +27,8 @@ public class Enemy : MonoBehaviour , IDamageable
 
     private void Awake()
     {
+        gameManager = FindFirstObjectByType<GameManager>();
+        
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.avoidancePriority = Mathf.RoundToInt(agent.speed * 10);
@@ -130,10 +133,17 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         healthPoints = healthPoints - damage;
         
-        if (healthPoints <= 0) Destroy(gameObject);
+        if (healthPoints <= 0) Die();
     }
 
     public void Die()
+    {
+        myPortal.RemoveActiveEnemy(gameObject);
+        gameManager.UpdateCurrency(1);
+        Destroy(gameObject);
+    }
+
+    public void DestroyEnemy()
     {
         myPortal.RemoveActiveEnemy(gameObject);
         Destroy(gameObject);
