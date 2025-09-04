@@ -8,23 +8,23 @@ public class UI : MonoBehaviour
     [SerializeField] private Image uiFadeImage;
     [SerializeField] private GameObject[] uiElements;
 
-    private UIAnimator uiAnim;
-    private UISettings uiSettings;
-    private UIMainMenu uiMainMenu;
-    private UIGame uiInGame;
+    private UIAnimator animUI;
+    private UISettings settingsUI;
+    private UIMainMenu mainMenuUI;
+    private UIGame inGameUI;
     
     private void Awake()
     {
-        uiSettings = GetComponentInChildren<UISettings>(true);
-        uiMainMenu = GetComponentInChildren<UIMainMenu>(true);
-        uiInGame = GetComponentInChildren<UIGame>(true);
-        uiAnim = GetComponent<UIAnimator>();
+        settingsUI = GetComponentInChildren<UISettings>(true);
+        mainMenuUI = GetComponentInChildren<UIMainMenu>(true);
+        inGameUI = GetComponentInChildren<UIGame>(true);
+        animUI = GetComponent<UIAnimator>();
 
         //ActivateFadeEffect(true);
         
-        SwitchTo(uiSettings.gameObject);
-        SwitchTo(uiMainMenu.gameObject);
-        //SwitchTo(uiInGame.gameObject);
+        SwitchTo(settingsUI.gameObject);
+        //SwitchTo(uiMainMenu.gameObject);
+        SwitchTo(inGameUI.gameObject);
     }
 
     public void SwitchTo(GameObject uiToEnable)
@@ -45,8 +45,8 @@ public class UI : MonoBehaviour
 
     public void ActivateFadeEffect(bool fadeIn)
     {
-        if (fadeIn) uiAnim.ChangeColour(uiFadeImage, 0, 2);
-        else uiAnim.ChangeColour(uiFadeImage, 1, 2);
+        if (fadeIn) animUI.ChangeColour(uiFadeImage, 0, 2);
+        else animUI.ChangeColour(uiFadeImage, 1, 2);
 
     }
 }

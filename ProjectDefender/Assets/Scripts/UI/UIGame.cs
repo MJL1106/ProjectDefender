@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class UIGame : MonoBehaviour
 {
-    private UIAnimator uiAnimator;
+    private UI ui;
+    private UIPause pauseUI;
+    
+    private UIAnimator animatorUI;
     
     [SerializeField] private TextMeshProUGUI healthPointsText;
     [SerializeField] private TextMeshProUGUI currencyText;
@@ -15,7 +18,38 @@ public class UIGame : MonoBehaviour
 
     private void Awake()
     {
-        uiAnimator = GetComponentInParent<UIAnimator>();
+        animatorUI = GetComponentInParent<UIAnimator>();
+        if (animatorUI == null)
+            Debug.LogError("UIAnimator not found in parent objects of " + gameObject.name);
+
+        ui = GetComponentInParent<UI>();
+        if (ui == null)
+            Debug.LogError("UI component not found in parent objects of " + gameObject.name);
+
+        // Use the Canvas search method (this seems to be working based on your debug output)
+        Canvas canvas = GetComponentInParent<Canvas>();
+        if (canvas != null)
+        {
+            pauseUI = canvas.GetComponentInChildren<UIPause>(true);
+        }
+        
+        // Fallback to GameObject.Find if canvas method fails
+        if (pauseUI == null)
+        {
+            GameObject pauseUI = GameObject.Find("Pause_UI");
+            if (pauseUI != null)
+            {
+                this.pauseUI = pauseUI.GetComponent<UIPause>();
+            }
+        }
+        
+        if (pauseUI == null)
+            Debug.LogError("UIPause component not found!");
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) ui.SwitchTo(pauseUI.gameObject);
     }
 
     public void UpdateHealthPointsUI(int value, int maxValue)
@@ -41,7 +75,7 @@ public class UIGame : MonoBehaviour
         float yOffset = enable ? -waveTimerOffset : waveTimerOffset;
         Vector3 offset = new Vector3(0, yOffset);
         
-        uiAnimator.ChangePosition(waveTimerTransform, offset);
+        animatorUI.ChangePosition(waveTimerTransform, offset);
         waveTimerTextBlinkEffect.EnableBlink(enable);
 
         //waveTimerText.transform.parent.gameObject.SetActive(enable);
