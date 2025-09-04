@@ -1,17 +1,23 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UIBuildButtons : MonoBehaviour
 {
     private UIAnimator uiAnim;
-    private bool isActive;
+    private bool isBuildMenuActive;
+    
+    [SerializeField] private float openAnimationDuration = 0.1f;
 
     [SerializeField]
     private float yPositionOffset;
 
+    private UIBuildButtonOnHoverEffect[] buildButtons;
+
     private void Awake()
     {
         uiAnim = GetComponentInParent<UIAnimator>();
+        buildButtons = GetComponentsInChildren<UIBuildButtonOnHoverEffect>();
     }
 
     private void Update()
@@ -21,11 +27,21 @@ public class UIBuildButtons : MonoBehaviour
 
     public void ShowBuildButtons()
     {
-        isActive = !isActive;
+        isBuildMenuActive = !isBuildMenuActive;
 
-        float yOffset = isActive ? yPositionOffset : -yPositionOffset;
-        Vector3 offset = new Vector3(0, yOffset);
+        float yOffset = isBuildMenuActive ? yPositionOffset : -yPositionOffset;
+        float methodDelay = isBuildMenuActive ? openAnimationDuration : 0;
         
-        uiAnim.ChangePosition(transform, offset);
+        uiAnim.ChangePosition(transform, new Vector3(0,yOffset), openAnimationDuration);
+        
+        Invoke(nameof(ToggleButtonMovement), methodDelay);
+    }
+
+    private void ToggleButtonMovement()
+    {
+        foreach (var button in buildButtons)
+        {
+            button.ToggleMovement(isBuildMenuActive);
+        }
     }
 }
