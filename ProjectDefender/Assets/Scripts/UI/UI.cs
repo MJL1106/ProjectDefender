@@ -1,11 +1,14 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
+    [SerializeField] private Image uiFadeImage;
     [SerializeField] private GameObject[] uiElements;
 
+    private UIAnimator uiAnim;
     private UISettings uiSettings;
     private UIMainMenu uiMainMenu;
     private UIGame uiInGame;
@@ -15,10 +18,13 @@ public class UI : MonoBehaviour
         uiSettings = GetComponentInChildren<UISettings>(true);
         uiMainMenu = GetComponentInChildren<UIMainMenu>(true);
         uiInGame = GetComponentInChildren<UIGame>(true);
+        uiAnim = GetComponent<UIAnimator>();
+
+        //ActivateFadeEffect(true);
         
         SwitchTo(uiSettings.gameObject);
-       // SwitchTo(uiMainMenu.gameObject);
-        SwitchTo(uiInGame.gameObject);
+        SwitchTo(uiMainMenu.gameObject);
+        //SwitchTo(uiInGame.gameObject);
     }
 
     public void SwitchTo(GameObject uiToEnable)
@@ -35,5 +41,12 @@ public class UI : MonoBehaviour
     {
         if (EditorApplication.isPlaying) EditorApplication.isPlaying = false;
         else Application.Quit();
+    }
+
+    public void ActivateFadeEffect(bool fadeIn)
+    {
+        if (fadeIn) uiAnim.ChangeColour(uiFadeImage, 0, 2);
+        else uiAnim.ChangeColour(uiFadeImage, 1, 2);
+
     }
 }
