@@ -10,6 +10,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private float scaleUpDuration = .25f;
 
     private Coroutine scaleCoroutine;
+    [Space] [SerializeField] private UITextBlinkEffect myTextBlinkEffect;
     
     private void Awake()
     {
@@ -22,6 +23,8 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
         
         scaleCoroutine = StartCoroutine(uiAnim.ChangeScaleCo(myRect, showcaseScale, scaleUpDuration));
+
+        if (myTextBlinkEffect != null) myTextBlinkEffect.EnableBlink(false);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -29,6 +32,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
         
         scaleCoroutine = StartCoroutine(uiAnim.ChangeScaleCo(myRect, 1, scaleUpDuration));
+        if (myTextBlinkEffect != null) myTextBlinkEffect.EnableBlink(true);
     }
 
     public void OnPointerDown(PointerEventData eventData)
