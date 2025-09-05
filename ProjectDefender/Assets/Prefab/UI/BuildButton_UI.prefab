@@ -511,6 +511,7 @@ GameObject:
   - component: {fileID: 3988016879542101285}
   - component: {fileID: 5727008882357254751}
   - component: {fileID: 4541214616939044650}
+  - component: {fileID: 6028690439968568079}
   m_Layer: 5
   m_Name: BuildButton_UI
   m_TagString: Untagged
@@ -624,3 +625,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6028690439968568079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552599841747379595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b8fbddf38eea34b9b295e268c148a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerToBuild: {fileID: 0}
+  towerCentreY: 0.5

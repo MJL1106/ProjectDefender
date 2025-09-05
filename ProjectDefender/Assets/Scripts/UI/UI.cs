@@ -14,11 +14,11 @@ public class UI : MonoBehaviour
     private UIMainMenu mainMenuUI;
     private UIGame inGameUI;
 
-    public UIBuildButtons buildButtonsUI { get; private set; }
+    public UIBuildButtonsHolder BuildButtonsHolderUI { get; private set; }
     
     private void Awake()
     {
-        buildButtonsUI = GetComponentInChildren<UIBuildButtons>(true);
+        BuildButtonsHolderUI = GetComponentInChildren<UIBuildButtonsHolder>(true);
         settingsUI = GetComponentInChildren<UISettings>(true);
         mainMenuUI = GetComponentInChildren<UIMainMenu>(true);
         inGameUI = GetComponentInChildren<UIGame>(true);

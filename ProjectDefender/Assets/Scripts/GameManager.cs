@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     {
         currentHp = maxHp;
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
+        inGameUI.UpdateCurrencyUI(currency);
     }
 
     public void UpdateHp(int value)
@@ -31,5 +32,17 @@ public class GameManager : MonoBehaviour
     {
         currency += value;
         inGameUI.UpdateCurrencyUI(currency);
+    }
+
+    public bool HasEnoughCurrency(int price)
+    {
+        if (price < currency)
+        {
+            currency = currency - price;
+            inGameUI.UpdateCurrencyUI(currency);
+            return true;
+        }
+
+        return false;
     }
 }

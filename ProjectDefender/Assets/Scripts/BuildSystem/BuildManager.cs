@@ -27,7 +27,7 @@ public class BuildManager : MonoBehaviour
 
    }
 
-   private void CancelBuildAction()
+   public void CancelBuildAction()
    {
       if (selectedBuildSlot == null) return;
 
@@ -48,12 +48,12 @@ public class BuildManager : MonoBehaviour
    {
       if (selectedBuildSlot != null) return;
       
-      ui.buildButtonsUI.ShowBuildButtons(true);
+      ui.BuildButtonsHolderUI.ShowBuildButtons(true);
    }
 
    private void DisableBuildMenu()
    {
-      ui.buildButtonsUI.ShowBuildButtons(false);
+      ui.BuildButtonsHolderUI.ShowBuildButtons(false);
    }
 
    public BuildSlot GetSelectedSlot() => selectedBuildSlot;
