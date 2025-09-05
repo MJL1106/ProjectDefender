@@ -1,20 +1,24 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    [SerializeField] private Image uiFadeImage;
-    [SerializeField] private GameObject[] uiElements;
+    [SerializeField] private Image fadeImageUI;
+    [SerializeField] private GameObject[] elementsUI;
 
     private UIAnimator animUI;
     private UISettings settingsUI;
     private UIMainMenu mainMenuUI;
     private UIGame inGameUI;
+
+    public UIBuildButtons buildButtonsUI { get; private set; }
     
     private void Awake()
     {
+        buildButtonsUI = GetComponentInChildren<UIBuildButtons>(true);
         settingsUI = GetComponentInChildren<UISettings>(true);
         mainMenuUI = GetComponentInChildren<UIMainMenu>(true);
         inGameUI = GetComponentInChildren<UIGame>(true);
@@ -29,7 +33,7 @@ public class UI : MonoBehaviour
 
     public void SwitchTo(GameObject uiToEnable)
     {
-        foreach (GameObject ui in uiElements)
+        foreach (GameObject ui in elementsUI)
         {
             ui.SetActive(false);
         }
@@ -45,8 +49,8 @@ public class UI : MonoBehaviour
 
     public void ActivateFadeEffect(bool fadeIn)
     {
-        if (fadeIn) animUI.ChangeColour(uiFadeImage, 0, 2);
-        else animUI.ChangeColour(uiFadeImage, 1, 2);
+        if (fadeIn) animUI.ChangeColour(fadeImageUI, 0, 2);
+        else animUI.ChangeColour(fadeImageUI, 1, 2);
 
     }
 }

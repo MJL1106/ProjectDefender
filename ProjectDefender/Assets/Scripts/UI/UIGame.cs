@@ -49,7 +49,7 @@ public class UIGame : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) ui.SwitchTo(pauseUI.gameObject);
+        if (Input.GetKeyDown(KeyCode.F10)) ui.SwitchTo(pauseUI.gameObject);
     }
 
     public void UpdateHealthPointsUI(int value, int maxValue)

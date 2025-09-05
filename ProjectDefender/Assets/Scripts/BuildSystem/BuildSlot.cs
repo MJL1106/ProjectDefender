@@ -37,7 +37,10 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left) return;
+
+        if (buildManager.GetSelectedSlot() == this) return;
         
+        buildManager.EnableBuildMenu();
         buildManager.SelectBuildSlot(this);
         MoveTileUp();
 
