@@ -9,6 +9,7 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private BuildManager buildManager;
 
     private bool tileCanBeMoved = true;
+    private bool buildSlotAvailable = true;
 
     private Coroutine currentMovementUpCo;
     private Coroutine moveToDefaultCo;
@@ -20,8 +21,20 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         defaultPosition = transform.position;
     }
 
+    private void Start()
+    {
+        if (buildSlotAvailable == false)
+        {
+            transform.position += new Vector3(0, .1f);
+        }
+    }
+
+    public void SetSlotAvailableTo(bool value) => buildSlotAvailable = value;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (buildSlotAvailable == false) return;
+        
         if (tileCanBeMoved == false) return;
         
         MoveTileUp();
@@ -29,6 +42,8 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (buildSlotAvailable == false) return;
+        
         if (tileCanBeMoved == false) return;
 
         if (currentMovementUpCo != null) Invoke(nameof(MoveToDefaultPosition), tileAnim.GetTravelDuration());
@@ -37,6 +52,8 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (buildSlotAvailable == false) return;
+        
         if (eventData.button != PointerEventData.InputButton.Left) return;
 
         if (buildManager.GetSelectedSlot() == this) return;
