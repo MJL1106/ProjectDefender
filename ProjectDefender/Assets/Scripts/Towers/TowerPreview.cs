@@ -14,6 +14,7 @@ public class TowerPreview : MonoBehaviour
     {
         meshRenderers = GetComponentsInChildren<MeshRenderer>();
         myTower = GetComponent<Tower>();
+        
         attackRadiusDisplay = transform.AddComponent<TowerAttackRadiusDisplay>();
         attackRange = myTower.GetAttackRange();
 

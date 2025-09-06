@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
-public class UIBuildButton : MonoBehaviour, IPointerEnterHandler
+public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private UI ui;
     private BuildManager buildManager;
@@ -22,9 +22,6 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler
     [Header("Text Components")]
     [SerializeField] private TextMeshProUGUI towerNameText;
     [SerializeField] private TextMeshProUGUI towerPriceText;
-
-    [Header("Tower Details")] [SerializeField]
-    private float towerAttackRadius = 3;
     
     private TowerPreview towerPreview;
     
@@ -126,18 +123,18 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler
     
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (buildButtonsHolder == null || buildManager == null) 
-        {
-            Debug.LogWarning("References not initialized yet in OnPointerEnter");
-            return;
-        }
+        buildManager.MouseOverUI(true);
     
-        foreach (var button in buildButtonsHolder.GetBuildButtons())
+        foreach (var button in buildButtonsHolder.GetUnlockedBuildButtons())
         {
             button.SelectButton(false);
         }
     
         SelectButton(true);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        buildManager.MouseOverUI(false);
     }
 
     private void OnValidate()
