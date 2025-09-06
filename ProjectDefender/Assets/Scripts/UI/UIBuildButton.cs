@@ -76,7 +76,6 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler
         towerPreview.ShowPreview(select, previewPosition);
         onHoverEffect.ShowCaseButton(select);
         buildButtonsHolder.SetLastSelected(this);
-
     }
 
     public void UnlockTowerIfNeeded(string towerNameToCheck, bool unlockStatus)
@@ -106,12 +105,19 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler
             Debug.LogWarning("YOu did not assign a tower to this button!");
             return;
         }
+
+        if (ui.BuildButtonsHolderUI.GetLastSelected() == null)
+        {
+            return;
+        }
         
         BuildSlot slotToUse = buildManager.GetSelectedSlot();
         buildManager.CancelBuildAction();
         
         slotToUse.SnapToDefaultPosition();
         slotToUse.SetSlotAvailableTo(false);
+        
+        ui.BuildButtonsHolderUI.SetLastSelected(null);
         
         cameraEffects.ScreenShake(.15f, .02f);
 

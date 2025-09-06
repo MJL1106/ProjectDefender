@@ -692,9 +692,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adjustmentSpeed: 10
-  showcaseY: 160
+  showcaseY: 140
   defaultY: 123
-  selectedY: 0
 --- !u!222 &3988016879542101285
 CanvasRenderer:
   m_ObjectHideFlags: 0
