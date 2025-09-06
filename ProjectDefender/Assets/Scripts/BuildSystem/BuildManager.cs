@@ -11,6 +11,11 @@ public class BuildManager : MonoBehaviour
    public WaveManager waveManager;
    public GridBuilder currentGrid;
 
+   [Header("Build Materials")] [SerializeField]
+   private Material attackRadiusMat;
+
+   [SerializeField] private Material buildPreviewMat;
+   
    private void Awake()
    {
       ui = FindFirstObjectByType<UI>();
@@ -91,4 +96,6 @@ public class BuildManager : MonoBehaviour
    }
 
    public BuildSlot GetSelectedSlot() => selectedBuildSlot;
+   public Material GetAttackRadiusMat() => attackRadiusMat;
+   public Material GetBuildPreviewMat() => buildPreviewMat;
 }

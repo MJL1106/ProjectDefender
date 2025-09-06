@@ -806,3 +806,4 @@ MonoBehaviour:
   towerCentreY: 0.5
   towerNameText: {fileID: 5810272529766149009}
   towerPriceText: {fileID: 1483223718029093709}
+  towerAttackRadius: 3

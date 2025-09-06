@@ -7,6 +7,7 @@ public class TowerAttackRadiusDisplay : MonoBehaviour
 {
     private LineRenderer lineRenderer;
 
+    [SerializeField] private float lineWidth = .1f;
     [SerializeField] private float radius;
     private int segments = 50;
     
@@ -15,23 +16,17 @@ public class TowerAttackRadiusDisplay : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = segments + 1; // Add extra points to close the circle
         lineRenderer.useWorldSpace = true;
-        lineRenderer.enabled = false;
+        lineRenderer.startWidth = lineWidth;
+        lineRenderer.endWidth = lineWidth;
+        lineRenderer.material = FindFirstObjectByType<BuildManager>().GetAttackRadiusMat();
     }
-
-    public void ShowAttackRadius(bool showRadius, float newRadius, Vector3 newCentre)
+    
+    public void CreateCircle(bool showCircle, float radius = 0)
     {
-        lineRenderer.enabled = showRadius;
-
-        if (showRadius == false) return;
-
-        transform.position = newCentre;
-        radius = newRadius;
+        lineRenderer.enabled = showCircle;
         
-        CreateCircle();
-    }
-
-    private void CreateCircle()
-    {
+        if (showCircle == false) return;
+        
         float angle = 0;
         Vector3 centre = transform.position;
 

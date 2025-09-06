@@ -78,14 +78,12 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
 
     public void OnPointerEnter(PointerEventData eventData)
-    {
-        BuildSlot slotToUse = buildManager.GetSelectedSlot();
-        
-        towerAttackRadiusDisplay.ShowAttackRadius(true, towerAttackRadius,slotToUse.GetBuildPosition(.5f));
+    { 
+
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        towerAttackRadiusDisplay.ShowAttackRadius(false, towerAttackRadius,Vector3.zero);
+
     }
 }
