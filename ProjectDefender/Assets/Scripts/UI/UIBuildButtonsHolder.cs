@@ -12,13 +12,17 @@ public class UIBuildButtonsHolder : MonoBehaviour
     [SerializeField]
     private float yPositionOffset;
 
-    private UIBuildButtonOnHoverEffect[] buildButtons;
+    private UIBuildButtonOnHoverEffect[] buildButtonsEffects;
+    private UIBuildButton[] buildButtons;
 
     private void Awake()
     {
         uiAnim = GetComponentInParent<UIAnimator>();
-        buildButtons = GetComponentsInChildren<UIBuildButtonOnHoverEffect>();
+        buildButtonsEffects = GetComponentsInChildren<UIBuildButtonOnHoverEffect>();
+        buildButtons = GetComponentsInChildren<UIBuildButton>();
     }
+
+    public UIBuildButton[] GetBuildButtons() => buildButtons;
 
     public void ShowBuildButtons(bool showButtons)
     {
@@ -34,7 +38,7 @@ public class UIBuildButtonsHolder : MonoBehaviour
 
     private void ToggleButtonMovement()
     {
-        foreach (var button in buildButtons)
+        foreach (var button in buildButtonsEffects)
         {
             button.ToggleMovement(isBuildMenuActive);
         }
