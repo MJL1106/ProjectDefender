@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 
 public class UIBuildButton : MonoBehaviour
 {
+    private UI ui;
     private BuildManager buildManager;
     private CameraEffects cameraEffects;
     private GameManager gameManager;
@@ -22,6 +23,7 @@ public class UIBuildButton : MonoBehaviour
 
     private void Awake()
     {
+        ui = GetComponentInParent<UI>();
         buildManager = FindFirstObjectByType<BuildManager>();
         cameraEffects = FindFirstObjectByType<CameraEffects>();
         gameManager = FindFirstObjectByType<GameManager>();
@@ -36,7 +38,11 @@ public class UIBuildButton : MonoBehaviour
 
     public void BuildTower()
     {
-        if (gameManager.HasEnoughCurrency(towerPrice) == false) return;
+        if (gameManager.HasEnoughCurrency(towerPrice) == false)
+        {
+            ui.inGameUI.ShakeCurrencyUI();
+            return;
+        }
         
         if (towerToBuild == null)
         {

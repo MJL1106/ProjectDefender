@@ -52,6 +52,16 @@ public class UIGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F10)) ui.SwitchTo(pauseUI.gameObject);
     }
 
+    public void ShakeCurrencyUI()
+    {
+        ui.animUI.Shake(currencyText.transform.parent);
+    }
+
+    public void ShakeHealthUI()
+    {
+        ui.animUI.Shake(healthPointsText.transform.parent);
+    }
+
     public void UpdateHealthPointsUI(int value, int maxValue)
     {
         int newValue = maxValue - value;

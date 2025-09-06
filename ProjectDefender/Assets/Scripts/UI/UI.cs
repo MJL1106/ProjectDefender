@@ -9,11 +9,11 @@ public class UI : MonoBehaviour
     [SerializeField] private Image fadeImageUI;
     [SerializeField] private GameObject[] elementsUI;
 
-    private UIAnimator animUI;
     private UISettings settingsUI;
     private UIMainMenu mainMenuUI;
-    private UIGame inGameUI;
-
+    
+    public UIGame inGameUI { get; private set; }
+    public UIAnimator animUI { get; private set; }
     public UIBuildButtonsHolder BuildButtonsHolderUI { get; private set; }
     
     private void Awake()
