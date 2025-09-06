@@ -23,6 +23,8 @@ public class LevelManager : MonoBehaviour
                 buildButton.UnlockTowerIfNeeded(unlockData.towerName, unlockData.unlocked);
             }
         }
+        
+        ui.BuildButtonsHolderUI.UpdateUnlockedBuildButtons();
     }
 
     [ContextMenu("Initialize Tower Data")]

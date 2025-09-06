@@ -69,7 +69,8 @@ public class BuildManager : MonoBehaviour
    public void CancelBuildAction()
    {
       if (selectedBuildSlot == null) return;
-
+      
+      ui.BuildButtonsHolderUI.GetLastSelected().SelectButton(false);
       selectedBuildSlot.UnselectTile();
       selectedBuildSlot = null;
       DisableBuildMenu();

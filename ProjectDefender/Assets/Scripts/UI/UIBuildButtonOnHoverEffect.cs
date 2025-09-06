@@ -2,12 +2,14 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIBuildButtonOnHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UIBuildButtonOnHoverEffect : MonoBehaviour, IPointerExitHandler
 {
     [SerializeField] private float adjustmentSpeed = 10;
 
     [SerializeField] private float showcaseY;
     [SerializeField] private float defaultY;
+    [SerializeField] private float selectedY;
+    
     private float targetY;
 
     private bool canMove;
@@ -45,14 +47,20 @@ public class UIBuildButtonOnHoverEffect : MonoBehaviour, IPointerEnterHandler, I
     }
 
     private void SetTargetY(float newY) => targetY = newY;
-    
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        SetTargetY(showcaseY);
-    }
 
+    public void ShowCaseButton(bool showcase)
+    {
+        if (showcase)
+        {
+            SetTargetY(showcaseY);
+        }
+        else
+        {
+            SetTargetY(defaultY);      
+        }
+    }
     public void OnPointerExit(PointerEventData eventData)
     {
-        SetTargetY(defaultY);
+        SetTargetY(selectedY);
     }
 }

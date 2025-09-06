@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,6 +15,9 @@ public class UIBuildButtonsHolder : MonoBehaviour
 
     private UIBuildButtonOnHoverEffect[] buildButtonsEffects;
     private UIBuildButton[] buildButtons;
+    
+    private List<UIBuildButton> unlockedBuildButtons;
+    private UIBuildButton lastSelectedButton;
 
     private void Awake()
     {
@@ -23,6 +27,19 @@ public class UIBuildButtonsHolder : MonoBehaviour
     }
 
     public UIBuildButton[] GetBuildButtons() => buildButtons;
+    public List<UIBuildButton> GetUnlockedBuildButtons() => unlockedBuildButtons;
+    public void SetLastSelected(UIBuildButton newLastSelected) => lastSelectedButton = newLastSelected;
+    public UIBuildButton GetLastSelected() => lastSelectedButton;
+
+    public void UpdateUnlockedBuildButtons()
+    {
+        unlockedBuildButtons = new List<UIBuildButton>();
+        
+        foreach (var button in buildButtons)
+        {
+            if (button.buttonUnlocked) unlockedBuildButtons.Add(button);
+        }
+    }
 
     public void ShowBuildButtons(bool showButtons)
     {
