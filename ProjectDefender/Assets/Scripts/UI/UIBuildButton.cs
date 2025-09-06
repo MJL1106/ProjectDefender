@@ -1,14 +1,16 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
-public class UIBuildButton : MonoBehaviour
+public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private UI ui;
     private BuildManager buildManager;
     private CameraEffects cameraEffects;
     private GameManager gameManager;
+    private TowerAttackRadiusDisplay towerAttackRadiusDisplay;
 
     [SerializeField] private string towerName;
     [FormerlySerializedAs("price")] [SerializeField] private int towerPrice = 50;
@@ -19,6 +21,9 @@ public class UIBuildButton : MonoBehaviour
     [Header("Text Components")]
     [SerializeField] private TextMeshProUGUI towerNameText;
     [SerializeField] private TextMeshProUGUI towerPriceText;
+
+    [Header("Tower Details")] [SerializeField]
+    private float towerAttackRadius = 3;
     
 
     private void Awake()
@@ -27,6 +32,10 @@ public class UIBuildButton : MonoBehaviour
         buildManager = FindFirstObjectByType<BuildManager>();
         cameraEffects = FindFirstObjectByType<CameraEffects>();
         gameManager = FindFirstObjectByType<GameManager>();
+
+        towerAttackRadiusDisplay = FindFirstObjectByType<TowerAttackRadiusDisplay>(FindObjectsInactive.Include);
+
+        if (towerToBuild != null) towerAttackRadius = towerToBuild.GetComponent<Tower>().GetAttackRadius();
     }
 
     public void UnlockTowerIfNeeded(string towerNameToCheck, bool unlockStatus)
@@ -66,5 +75,17 @@ public class UIBuildButton : MonoBehaviour
         towerNameText.text = towerName;
         towerPriceText.text = towerPrice + "";
         gameObject.name = "BuildButton_UI - " + towerName;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        BuildSlot slotToUse = buildManager.GetSelectedSlot();
+        
+        towerAttackRadiusDisplay.ShowAttackRadius(true, towerAttackRadius,slotToUse.GetBuildPosition(.5f));
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        towerAttackRadiusDisplay.ShowAttackRadius(false, towerAttackRadius,Vector3.zero);
     }
 }

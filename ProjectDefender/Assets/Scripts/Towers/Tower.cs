@@ -49,6 +49,8 @@ public class Tower : MonoBehaviour
         RotateTowardsEnemy();
     }
 
+    public float GetAttackRadius() => attackRange;
+
     private void UpdateTargetIfNeeded()
     {
         if (dynamicTargetChange == false) return;
