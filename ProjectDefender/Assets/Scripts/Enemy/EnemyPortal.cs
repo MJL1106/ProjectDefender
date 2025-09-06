@@ -5,6 +5,8 @@ using Random = UnityEngine.Random;
 
 public class EnemyPortal : MonoBehaviour
 {
+    [SerializeField] private WaveManager myWaveManager;
+    
     [SerializeField] private float spawnCooldown;
     private float spawnTimer;
     
@@ -25,6 +27,7 @@ public class EnemyPortal : MonoBehaviour
         if (CanMakeNewEnemy()) CreateEnemy();
     }
 
+    public void AssignWaveManager(WaveManager newWaveManager) => myWaveManager = newWaveManager;
     private bool CanMakeNewEnemy()
     {
         spawnTimer -= Time.deltaTime;
@@ -74,6 +77,8 @@ public class EnemyPortal : MonoBehaviour
         {
             activeEnemies.Remove(enemyToRemove);
         }
+        
+        myWaveManager.CheckIfWaveCompleted();
     }
 
 

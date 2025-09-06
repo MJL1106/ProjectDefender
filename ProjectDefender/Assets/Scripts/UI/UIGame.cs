@@ -87,13 +87,11 @@ public class UIGame : MonoBehaviour
         
         animatorUI.ChangePosition(waveTimerTransform, offset);
         waveTimerTextBlinkEffect.EnableBlink(enable);
-
-        //waveTimerText.transform.parent.gameObject.SetActive(enable);
     }
 
     public void ForceWaveButton()
     {
         WaveManager waveManager = FindFirstObjectByType<WaveManager>();
-        waveManager.ForceNextWave();
+        waveManager.StartNewWave();
     }
 }
