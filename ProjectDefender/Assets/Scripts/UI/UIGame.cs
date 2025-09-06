@@ -49,7 +49,17 @@ public class UIGame : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) ui.SwitchTo(pauseUI.gameObject);
+        if (Input.GetKeyDown(KeyCode.F10)) ui.SwitchTo(pauseUI.gameObject);
+    }
+
+    public void ShakeCurrencyUI()
+    {
+        ui.animUI.Shake(currencyText.transform.parent);
+    }
+
+    public void ShakeHealthUI()
+    {
+        ui.animUI.Shake(healthPointsText.transform.parent);
     }
 
     public void UpdateHealthPointsUI(int value, int maxValue)

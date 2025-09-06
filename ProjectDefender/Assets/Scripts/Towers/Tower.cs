@@ -22,7 +22,7 @@ public class Tower : MonoBehaviour
     [SerializeField] protected float attackRange = 2.5f;
     [SerializeField] protected LayerMask whatIsEnemy;
 
-    [Space] [Tooltip("Enabling this allows toer to change target between attacks")] [SerializeField]
+    [Space] [Tooltip("Enabling this allows tower to change target between attacks")] [SerializeField]
     private bool dynamicTargetChange;
     private float targetCheckInterval = .1f;
     private float lastTimeCheckedTarget;
@@ -48,6 +48,10 @@ public class Tower : MonoBehaviour
         
         RotateTowardsEnemy();
     }
+    
+    public float GetAttackRange() => attackRange;
+
+    public float GetAttackRadius() => attackRange;
 
     private void UpdateTargetIfNeeded()
     {
