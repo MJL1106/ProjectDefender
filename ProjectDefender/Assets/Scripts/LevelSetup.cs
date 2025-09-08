@@ -22,7 +22,6 @@ public class LevelSetup : MonoBehaviour
     
     private IEnumerator Start()
     {
-        
         if (LevelWasLoadedToMainScene())
         {
             DeleteExtraObjects();
@@ -33,12 +32,11 @@ public class LevelSetup : MonoBehaviour
             tileAnimator.ShowGrid(myMainGrid, true);
 
             yield return tileAnimator.GetActiveCoroutine();
-            
-            myWaveManager.ActivateWaveManager();
 
             ui = FindFirstObjectByType<UI>();
             ui.EnableInGameUI(true);
             
+            myWaveManager.ActivateWaveManager();
             UnlockAvailableTowers();
         }
     }

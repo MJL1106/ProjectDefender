@@ -16,24 +16,21 @@ public class UIGame : MonoBehaviour
     [SerializeField] private float waveTimerOffset;
     [SerializeField] private UITextBlinkEffect waveTimerTextBlinkEffect;
 
+    [SerializeField] private Transform waveTimer;
+    private Coroutine waveTimerMoveCo;
+    private Vector3 waveTimerDefaultPosition;
+
     private void Awake()
     {
         animatorUI = GetComponentInParent<UIAnimator>();
-        if (animatorUI == null)
-            Debug.LogError("UIAnimator not found in parent objects of " + gameObject.name);
-
         ui = GetComponentInParent<UI>();
-        if (ui == null)
-            Debug.LogError("UI component not found in parent objects of " + gameObject.name);
-
-        // Use the Canvas search method (this seems to be working based on your debug output)
+        
         Canvas canvas = GetComponentInParent<Canvas>();
         if (canvas != null)
         {
             pauseUI = canvas.GetComponentInChildren<UIPause>(true);
         }
         
-        // Fallback to GameObject.Find if canvas method fails
         if (pauseUI == null)
         {
             GameObject pauseUI = GameObject.Find("Pause_UI");
@@ -42,9 +39,8 @@ public class UIGame : MonoBehaviour
                 this.pauseUI = pauseUI.GetComponent<UIPause>();
             }
         }
-        
-        if (pauseUI == null)
-            Debug.LogError("UIPause component not found!");
+
+        if (waveTimer != null) waveTimerDefaultPosition = waveTimer.localPosition;
     }
 
     private void Update()
@@ -80,13 +76,22 @@ public class UIGame : MonoBehaviour
 
     public void EnableWaveTimer(bool enable)
     {
-        Transform waveTimerTransform = waveTimerText.transform.parent;
-        
+        RectTransform rect = waveTimer.GetComponent<RectTransform>();
         float yOffset = enable ? -waveTimerOffset : waveTimerOffset;
-        Vector3 offset = new Vector3(0, yOffset);
         
-        animatorUI.ChangePosition(waveTimerTransform, offset);
+        Vector3 offset = new Vector3(0, yOffset);
+
+        waveTimerMoveCo = StartCoroutine(animatorUI.ChangePositionCo(rect, offset));
         waveTimerTextBlinkEffect.EnableBlink(enable);
+    }
+    
+    public void SnapTimerToDefaultPosition()
+    {
+        if (waveTimer == null) return;
+
+        if (waveTimerMoveCo != null) StopCoroutine(waveTimerMoveCo);
+
+        waveTimer.localPosition = waveTimerDefaultPosition;
     }
 
     public void ForceWaveButton()

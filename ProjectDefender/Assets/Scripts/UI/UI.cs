@@ -62,6 +62,7 @@ public class UI : MonoBehaviour
         }
         else
         {
+            inGameUI.SnapTimerToDefaultPosition();
             SwitchTo(null);
         }
     }
