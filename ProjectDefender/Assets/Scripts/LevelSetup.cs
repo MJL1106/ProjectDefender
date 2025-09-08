@@ -1,15 +1,58 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelSetup : MonoBehaviour
 {
+    private UI ui;
+    private TileAnimator tileAnimator;
+    
+    [SerializeField] private List<GameObject> extraObjectsToDelete = new List<GameObject>();
+
+    [Header("Level Details")] [SerializeField]
+    private GridBuilder myMainGrid;
+
+    [SerializeField] private WaveManager myWaveManager;
+    
+    
+    [Header("Tower Unlocks")]
     public List<TowerUnlockData> towersUnlocked;
-
-
-    private void Start()
+    
+    private IEnumerator Start()
     {
-        UnlockAvailableTowers();
+        
+        if (LevelWasLoadedToMainScene())
+        {
+            DeleteExtraObjects();
+
+            tileAnimator = FindFirstObjectByType<TileAnimator>();
+            tileAnimator.ShowGrid(myMainGrid, true);
+
+            yield return tileAnimator.GetActiveCoroutine();
+            
+            myWaveManager.ActivateWaveManager();
+
+            ui = FindFirstObjectByType<UI>();
+            ui.EnableInGameUI(true);
+            
+            UnlockAvailableTowers();
+        }
+    }
+
+    private bool LevelWasLoadedToMainScene()
+    {
+        LevelManager levelManager = FindFirstObjectByType<LevelManager>();
+
+        return levelManager != null;
+    }
+
+    private void DeleteExtraObjects()
+    {
+        foreach (var obj in extraObjectsToDelete)
+        {
+            Destroy(obj);
+        }
     }
 
     private void UnlockAvailableTowers()

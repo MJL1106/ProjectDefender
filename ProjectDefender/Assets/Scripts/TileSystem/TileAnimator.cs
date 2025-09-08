@@ -21,6 +21,7 @@ public class TileAnimator : MonoBehaviour
     [Space]
     [SerializeField] private List<GameObject> mainMenuObjects = new List<GameObject>();
     [SerializeField] private GridBuilder mainSceneGrid;
+    private Coroutine currentActiveCoroutine;
     private bool isGridMoving;
 
 
@@ -43,7 +44,7 @@ public class TileAnimator : MonoBehaviour
 
         float offset = showGrid ? yOffset : -yOffset;
 
-        StartCoroutine(MoveGridCo(objectsToMove, offset));
+        currentActiveCoroutine = StartCoroutine(MoveGridCo(objectsToMove, offset));
     }
 
     private IEnumerator MoveGridCo(List<GameObject> objectsToMove, float yOffsetGrid)
@@ -139,6 +140,8 @@ public class TileAnimator : MonoBehaviour
         return extraObjects;
     }
 
+    public Coroutine GetActiveCoroutine() => currentActiveCoroutine;
+    
     public float GetBuildOffset() => buildSlotYOffset;
     public float GetTravelDuration() => defaultMoveDuration;
 
