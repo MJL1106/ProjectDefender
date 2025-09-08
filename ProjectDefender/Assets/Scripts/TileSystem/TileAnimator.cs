@@ -30,12 +30,6 @@ public class TileAnimator : MonoBehaviour
         ShowGrid(mainSceneGrid,true);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J)) BringUpMainGrid(true);
-        if (Input.GetKeyDown(KeyCode.K)) BringUpMainGrid(false);
-    }
-
     public void BringUpMainGrid(bool showMainGrid)
     {
         ShowGrid(mainSceneGrid, showMainGrid);
