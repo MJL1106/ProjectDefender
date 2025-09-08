@@ -13,6 +13,19 @@ public class GridBuilder : MonoBehaviour
 
     [SerializeField] private List<GameObject> createdTiles;
 
+    private bool hadFirstLoad;
+
+    public bool IsOnFirstLoad()
+    {
+        if (hadFirstLoad == false)
+        {
+            hadFirstLoad = true;
+            return true;
+        }
+
+        return false;
+    }
+
     public List<GameObject> GetTileSetup() => createdTiles;
     
     public void UpdateNavMesh() => myNavMesh.BuildNavMesh();
