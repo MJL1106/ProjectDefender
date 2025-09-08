@@ -7,6 +7,7 @@ public class LevelSetup : MonoBehaviour
 {
     private UI ui;
     private TileAnimator tileAnimator;
+    private LevelManager levelManager;
     
     [SerializeField] private List<GameObject> extraObjectsToDelete = new List<GameObject>();
 
@@ -25,6 +26,8 @@ public class LevelSetup : MonoBehaviour
         if (LevelWasLoadedToMainScene())
         {
             DeleteExtraObjects();
+            
+            levelManager.UpdateCurrentGrid(myMainGrid);
 
             tileAnimator = FindFirstObjectByType<TileAnimator>();
             tileAnimator.ShowGrid(myMainGrid, true);
@@ -42,7 +45,7 @@ public class LevelSetup : MonoBehaviour
 
     private bool LevelWasLoadedToMainScene()
     {
-        LevelManager levelManager = FindFirstObjectByType<LevelManager>();
+        levelManager = FindFirstObjectByType<LevelManager>();
 
         return levelManager != null;
     }

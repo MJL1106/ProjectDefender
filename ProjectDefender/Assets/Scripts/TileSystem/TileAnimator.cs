@@ -31,7 +31,7 @@ public class TileAnimator : MonoBehaviour
         ShowGrid(mainSceneGrid,true);
     }
 
-    public void BringUpMainGrid(bool showMainGrid)
+    public void ShowMainGrid(bool showMainGrid)
     {
         ShowGrid(mainSceneGrid, showMainGrid);
     }
@@ -54,6 +54,8 @@ public class TileAnimator : MonoBehaviour
         for (int i = 0; i < objectsToMove.Count; i++)
         {
             yield return new WaitForSeconds(tileDelay);
+            
+            if (objectsToMove[i] == null) continue;
 
             Transform tile = objectsToMove[i].transform;
             Vector3 targetPosition = tile.position + new Vector3(0, yOffsetGrid, 0);
@@ -79,13 +81,15 @@ public class TileAnimator : MonoBehaviour
 
         while (time < duration)
         {
+            if (objectToMove == null) break;
+            
             objectToMove.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
 
             time += Time.deltaTime;
             yield return null;
         }
 
-        objectToMove.position = targetPosition;
+        if (objectToMove != null) objectToMove.position = targetPosition;
     }
 
     private void ApplyOffset(List<GameObject> objectsToMove, Vector3 offset)
