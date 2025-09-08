@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int currentHp;
 
     private UIGame inGameUI;
+    private WaveManager currentActiveWaveManager;
 
     private void Awake()
     {
@@ -19,6 +20,16 @@ public class GameManager : MonoBehaviour
     {
         currentHp = maxHp;
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
+        inGameUI.UpdateCurrencyUI(currency);
+    }
+
+    public void UpdateGameManager(int levelCurrency, WaveManager newWaveManager)
+    {
+        currentActiveWaveManager = newWaveManager;
+        currency = levelCurrency;
+        currentHp = maxHp;
+        
+        inGameUI.UpdateHealthPointsUI(currentHp, maxHp);
         inGameUI.UpdateCurrencyUI(currency);
     }
 

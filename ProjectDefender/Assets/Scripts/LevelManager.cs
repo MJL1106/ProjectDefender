@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     private UI ui;
     
     private GridBuilder currentActiveGrid;
-    private string currentSceneName;
+    private string currentLevelName;
     
     private void Awake()
     {
@@ -19,11 +19,29 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J)) StartCoroutine(LoadLevelCo());
-        if (Input.GetKeyDown(KeyCode.K)) StartCoroutine(LoadMainMenuCo());
+        if (Input.GetKeyDown(KeyCode.J)) LoadLevelFromMenu("Level_1");
+        if (Input.GetKeyDown(KeyCode.K)) LoadMainMenu();
+        if (Input.GetKeyDown(KeyCode.R)) RestartCurrentLevel();
     }
 
-    private IEnumerator LoadLevelCo()
+    public void RestartCurrentLevel() => StartCoroutine(LoadLevelCo(currentLevelName));
+    public void LoadLevel(string levelName) => StartCoroutine(LoadLevelCo(levelName));
+    public void LoadLevelFromMenu(string levelName) => StartCoroutine(LoadLevelFromMenuCo(levelName));
+
+    public void LoadMainMenu() => StartCoroutine(LoadMainMenuCo());
+
+    private IEnumerator LoadLevelCo(string levelName)
+    {
+        CleanUpScene();
+        ui.EnableInGameUI(false);
+        
+        yield return tileAnimator.GetActiveCoroutine();
+        
+        UnloadCurrentScene();
+        LoadScene(levelName);
+    }
+
+    private IEnumerator LoadLevelFromMenuCo(string levelName)
     {
         tileAnimator.ShowMainGrid(false);
         ui.EnableMainMenuUI(false);
@@ -31,17 +49,14 @@ public class LevelManager : MonoBehaviour
         yield return tileAnimator.GetActiveCoroutine();
         
         tileAnimator.EnableMainSceneObjects(false);
-
-        currentSceneName = "Level_1";
-        LoadScene("Level_1");
+        
+        LoadScene(levelName);
     }
 
     private IEnumerator LoadMainMenuCo()
     {
-        EliminateAllEnemies();
-        EliminateAllTowers();
+        CleanUpScene();
         
-        tileAnimator.ShowGrid(currentActiveGrid, false);
         ui.EnableInGameUI(false);
 
         yield return tileAnimator.GetActiveCoroutine();
@@ -55,10 +70,21 @@ public class LevelManager : MonoBehaviour
         ui.EnableMainMenuUI(true);
     }
 
-    private void LoadScene(string sceneNameToLoad) =>
+    private void LoadScene(string sceneNameToLoad)
+    {
+        currentLevelName = sceneNameToLoad;
         SceneManager.LoadSceneAsync(sceneNameToLoad, LoadSceneMode.Additive);
+    }
 
-    private void UnloadCurrentScene() => SceneManager.UnloadSceneAsync(currentSceneName);
+    private void UnloadCurrentScene() => SceneManager.UnloadSceneAsync(currentLevelName);
+
+    private void CleanUpScene()
+    {
+        EliminateAllEnemies();
+        EliminateAllTowers();
+        
+        if (currentActiveGrid != null) tileAnimator.ShowGrid(currentActiveGrid, false);
+    }
 
     private void EliminateAllEnemies()
     {
