@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,14 +17,16 @@ public class TileAnimator : MonoBehaviour
     [SerializeField] private float tileDelay = .1f;
     [SerializeField] private float yOffset = 5;
 
-    [Space]
-    [SerializeField] private GridBuilder mainSceneGrid;
 
+    [Space]
+    [SerializeField] private List<GameObject> mainMenuObjects = new List<GameObject>();
+    [SerializeField] private GridBuilder mainSceneGrid;
     private bool isGridMoving;
 
 
     private void Start()
     {
+        CollectMainSceneObjects();
         ShowGrid(mainSceneGrid,true);
     }
 
@@ -40,7 +43,7 @@ public class TileAnimator : MonoBehaviour
 
     public void ShowGrid(GridBuilder gridToMove, bool showGrid)
     {
-        List<GameObject> objectsToMove = gridToMove.GetTileSetup();
+        List<GameObject> objectsToMove = GetObjectsToMove(gridToMove, showGrid);
         
         if (gridToMove.IsOnFirstLoad()) ApplyOffset(objectsToMove, new Vector3(0, -yOffset, 0));
 
@@ -96,6 +99,50 @@ public class TileAnimator : MonoBehaviour
         {
             obj.transform.position += offset;
         }
+    }
+
+    public void EnableMainSceneObjects(bool enable)
+    {
+        foreach (var obj in mainMenuObjects)
+        {
+            obj.SetActive(enable);
+        }
+    }
+    
+    private void CollectMainSceneObjects()
+    {
+        mainMenuObjects.AddRange(mainSceneGrid.GetTileSetup());
+        mainMenuObjects.AddRange(GetExtraObjects());
+    }
+
+    private List<GameObject> GetObjectsToMove(GridBuilder gridToMove, bool startWithTiles)
+    {
+        List<GameObject> objectsToMove = new List<GameObject>();
+        List<GameObject> extraObjects = GetExtraObjects();
+
+        if (startWithTiles)
+        {
+            objectsToMove.AddRange(gridToMove.GetTileSetup());
+            objectsToMove.AddRange(extraObjects);
+        }
+        else
+        {
+            objectsToMove.AddRange(extraObjects);
+            objectsToMove.AddRange(gridToMove.GetTileSetup());
+        }
+
+        return objectsToMove;
+    }
+
+
+    private List<GameObject> GetExtraObjects()
+    {
+        List<GameObject> extraObjects = new List<GameObject>();
+
+        extraObjects.AddRange(FindObjectsByType<EnemyPortal>(FindObjectsSortMode.None).Select(component => component.gameObject));
+        extraObjects.AddRange(FindObjectsByType<Castle>(FindObjectsSortMode.None).Select(component => component.gameObject));
+
+        return extraObjects;
     }
 
     public float GetBuildOffset() => buildSlotYOffset;
