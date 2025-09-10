@@ -22,6 +22,19 @@ public class AudioManager : MonoBehaviour
         
         InvokeRepeating(nameof(PlayMusicIfNeeded), 0, 2);
     }
+    
+    public void PlaySFX(AudioSource audioToPlay)
+    {
+        if (audioToPlay.clip == null)
+        {
+            Debug.Log("Could not play " + audioToPlay.gameObject.name + ". THere is no audio Clip assigned");
+            return;
+        }
+        
+        if (audioToPlay.isPlaying) audioToPlay.Stop();
+
+        audioToPlay.Play();
+    }
 
     private void PlayMusicIfNeeded()
     {
@@ -64,10 +77,5 @@ public class AudioManager : MonoBehaviour
         {
             bgm[i].Stop();
         }
-    }
-
-    public void PlaySFX()
-    {
-        Debug.Log("SFX PLayed");
     }
 }

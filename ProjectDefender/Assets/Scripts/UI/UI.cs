@@ -15,6 +15,10 @@ public class UI : MonoBehaviour
     public UIGame inGameUI { get; private set; }
     public UIAnimator animUI { get; private set; }
     public UIBuildButtonsHolder BuildButtonsHolderUI { get; private set; }
+
+    [Header("UI SFX")] 
+    public AudioSource onHoverSFX;
+    public AudioSource onClickSFX;
     
     private void Awake()
     {
