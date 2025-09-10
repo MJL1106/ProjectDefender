@@ -59,8 +59,12 @@ public class WaveManager : MonoBehaviour
         EnableWaveTimer(true);
     }
 
+    public void DeactivateWaveManager() => gameBegan = false;
+
     public void CheckIfWaveCompleted()
     {
+        if (gameBegan == false) return;
+        
         if (AllEnemiesDefeated() == false || makingNextWave) return;
 
         makingNextWave = true;

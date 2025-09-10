@@ -7,12 +7,16 @@ using Random = UnityEngine.Random;
 public class CameraEffects : MonoBehaviour
 {
     private CameraController camController;
+    private Coroutine cameraCo;
     
     [SerializeField] private Vector3 inMenuPosition;
     [SerializeField] private Quaternion inMenuRotation;
     [Space]
     [SerializeField] private Vector3 inGamePosition;
     [SerializeField] private Quaternion inGameRotation;
+    [Space] 
+    [SerializeField] private Vector3 levelSelectPosition;
+    [SerializeField] private Quaternion levelSelectRotation;
 
     [Header("ScreenShake Details")] 
     [Range(0.01f, .5f)]
@@ -42,14 +46,26 @@ public class CameraEffects : MonoBehaviour
 
     public void SwitchToMenuView()
     {
-        StartCoroutine(ChangePositionAndRotation(inMenuPosition, inMenuRotation));
+        if (cameraCo != null) StopCoroutine(cameraCo);
+        
+        cameraCo = StartCoroutine(ChangePositionAndRotation(inMenuPosition, inMenuRotation));
         camController.AdjustPitchValue(inMenuRotation.eulerAngles.x);
     }
 
     public void SwitchToGameView()
     {
-        StartCoroutine(ChangePositionAndRotation(inGamePosition, inGameRotation));
+        if (cameraCo != null) StopCoroutine(cameraCo);
+        
+        cameraCo = StartCoroutine(ChangePositionAndRotation(inGamePosition, inGameRotation));
         camController.AdjustPitchValue(inGameRotation.eulerAngles.x);
+    }
+
+    public void SwitchToLevelSelectView()
+    {
+        if (cameraCo != null) StopCoroutine(cameraCo);
+        
+        cameraCo = StartCoroutine(ChangePositionAndRotation(levelSelectPosition, levelSelectRotation));
+        camController.AdjustPitchValue(levelSelectRotation.eulerAngles.x);
     }
 
     private IEnumerator ChangePositionAndRotation(Vector3 targetPosition, Quaternion targetRotation, float duration = 3,

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private UIGame inGameUI;
     private WaveManager currentActiveWaveManager;
     private LevelManager levelManager;
+    private bool gameLost = false;
 
     private void Awake()
     {
@@ -24,6 +25,15 @@ public class GameManager : MonoBehaviour
         currentHp = maxHp;
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
         inGameUI.UpdateCurrencyUI(currency);
+    }
+
+    public void LevelFailed()
+    {
+        if (gameLost) return;
+
+        gameLost = true;
+        currentActiveWaveManager.DeactivateWaveManager();
+        inGameUI.EnableGameOverUI(true);
     }
 
     public void LevelCompleted()
@@ -43,6 +53,8 @@ public class GameManager : MonoBehaviour
 
     public void UpdateGameManager(int levelCurrency, WaveManager newWaveManager)
     {
+        gameLost = false;
+        
         currentActiveWaveManager = newWaveManager;
         currency = levelCurrency;
         currentHp = maxHp;
@@ -56,6 +68,8 @@ public class GameManager : MonoBehaviour
         currentHp += value;
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
         inGameUI.ShakeHealthUI();
+        
+        if (currentHp <= 0) LevelFailed();
     }
 
     public void UpdateCurrency(int value)

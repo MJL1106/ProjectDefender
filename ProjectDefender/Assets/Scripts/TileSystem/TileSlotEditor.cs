@@ -224,6 +224,22 @@ public class TileSlotEditor : Editor
         }
         
         GUILayout.EndHorizontal();
+        
+        GUILayout.Label("Level Button",centredStyle);
+        
+        GUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Level Button Tile", GUILayout.Width(oneButtonWidth)))
+        {
+            GameObject newTile = FindFirstObjectByType<TileSetHolder>().levelSelectTile;
+
+            foreach (var targetTile in targets)
+            {
+                ((TileSlot)targetTile).SwitchTile(newTile);
+            }
+        }
+        
+        GUILayout.EndHorizontal();
 
     }
 }

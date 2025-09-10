@@ -22,6 +22,7 @@ public class UIGame : MonoBehaviour
 
     [Header("Victory and Defeat")] [SerializeField]
     private GameObject victoryUI;
+    [SerializeField] private GameObject gameOverUI;
 
     private void Awake()
     {
@@ -54,6 +55,11 @@ public class UIGame : MonoBehaviour
     public void EnableVictoryUI(bool enable)
     {
         if (victoryUI != null) victoryUI.SetActive(enable);
+    }
+
+    public void EnableGameOverUI(bool enable)
+    {
+        if (gameOverUI != null) gameOverUI.SetActive(enable);
     }
 
     public void ShakeCurrencyUI()
