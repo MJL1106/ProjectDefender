@@ -28,6 +28,11 @@ public class CameraEffects : MonoBehaviour
     [Range(0.1f,3f)]
     [SerializeField] private float shakeDuration;
 
+    [Header("Castle Focus Details")] 
+    [SerializeField] private float focusOnCastleDuration = 2;
+    [SerializeField] private float heightOffset = 3;
+    [SerializeField] private float distanceToCastle = 7;
+
     private void Awake()
     {
         camController = GetComponent<CameraController>();
@@ -41,11 +46,34 @@ public class CameraEffects : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.V)) ScreenShake(shakeDuration,shakeMagnitude);
+        if (Input.GetKeyDown(KeyCode.B)) FocusOnCastle();
     }
 
     public void ScreenShake(float newDuration, float newMagnitude)
     {
         StartCoroutine(ScreenShakeVFX(newDuration, newMagnitude));
+    }
+
+    public void FocusOnCastle()
+    {
+        Transform castle = FindFirstObjectByType<Castle>().transform;
+
+        if (castle == null)
+        {
+            Debug.Log("No Castle to focus on!");
+            return;
+        }
+
+        Vector3 directionToCastle = (castle.position - transform.position).normalized;
+        Vector3 targetPosition = castle.position - directionToCastle * distanceToCastle;
+        targetPosition.y = castle.position.y + heightOffset;
+
+        Quaternion targetRotation = Quaternion.LookRotation(castle.position - targetPosition);
+        
+        if (cameraCo != null) StopCoroutine(cameraCo);
+
+        cameraCo = StartCoroutine(ChangePositionAndRotation(targetPosition, targetRotation, focusOnCastleDuration));
+        StartCoroutine(EnableCameraControlsAfter(focusOnCastleDuration + .1f));
     }
 
     public void SwitchToMenuView()
