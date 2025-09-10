@@ -2100,6 +2100,8 @@ MonoBehaviour:
   waveTimerTextBlinkEffect: {fileID: 732677009}
   waveTimer: {fileID: 0}
   victoryUI: {fileID: 0}
+  gameOverUI: {fileID: 0}
+  levelCompletedUI: {fileID: 0}
 --- !u!1 &25617073
 GameObject:
   m_ObjectHideFlags: 0
@@ -19560,12 +19562,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85b516482c5f7a4fbac69eb8c55f30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionDuration: 3
   inMenuPosition: {x: -10, y: 13, z: -8.5}
   inMenuRotation: {x: 0.34215847, y: 0.33343184, z: -0.13134234, w: 0.86861956}
   inGamePosition: {x: -6, y: 20, z: 0.2}
   inGameRotation: {x: 0.46617788, y: 0.3529743, z: -0.20999779, w: 0.783574}
+  levelSelectPosition: {x: 0, y: 0, z: 0}
+  levelSelectRotation: {x: 0, y: 0, z: 0, w: 0}
   shakeMagnitude: 0.204
   shakeDuration: 0.3
+  focusOnCastleDuration: 2
+  heightOffset: 3
+  distanceToCastle: 7
 --- !u!114 &330585550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42043,20 +42051,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 687509784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3454daaa26ebb44890a3ff44499fd84, type: 3}
+  m_Script: {fileID: 11500000, guid: 08891405f0e55084f930fa0c5bda33ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentGrid: {fileID: 1199274202421046181}
   timeBetweenWaves: 10
-  waveTimer: 0
+  waveTimer: 5
   levelWaves:
   - nextGrid: {fileID: 0}
     newPortals: []
     basicEnemy: 0
     fastEnemy: 2
   - nextGrid: {fileID: 0}
-    newPortals:
-    - {fileID: 0}
+    newPortals: []
     basicEnemy: 0
     fastEnemy: 4
   - nextGrid: {fileID: 1522258238}
@@ -43728,7 +43735,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 718979423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e64d4ebdc6a2594eac5081269dd5a09, type: 3}
+  m_Script: {fileID: 11500000, guid: 73bd772771c74bc4c871c09aa2302b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   selectedBuildSlot: {fileID: 0}

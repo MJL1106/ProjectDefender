@@ -22,6 +22,8 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
         
+        AudioManager.instance.PlaySFX();
+        
         scaleCoroutine = StartCoroutine(uiAnim.ChangeScaleCo(myRect, showcaseScale, scaleUpDuration));
 
         if (myTextBlinkEffect != null) myTextBlinkEffect.EnableBlink(false);
