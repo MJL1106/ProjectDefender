@@ -20,9 +20,10 @@ public class UIGame : MonoBehaviour
     private Coroutine waveTimerMoveCo;
     private Vector3 waveTimerDefaultPosition;
 
-    [Header("Victory and Defeat")] [SerializeField]
-    private GameObject victoryUI;
+    [Header("Victory and Defeat")] 
+    [SerializeField] private GameObject victoryUI;
     [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private GameObject levelCompletedUI;
 
     private void Awake()
     {
@@ -60,6 +61,11 @@ public class UIGame : MonoBehaviour
     public void EnableGameOverUI(bool enable)
     {
         if (gameOverUI != null) gameOverUI.SetActive(enable);
+    }
+
+    public void EnableLevelCompletedUI(bool enable)
+    {
+        if (levelCompletedUI != null) levelCompletedUI.SetActive(enable);
     }
 
     public void ShakeCurrencyUI()

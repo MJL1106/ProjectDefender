@@ -28,6 +28,7 @@ public class LevelManager : MonoBehaviour
 
     public void RestartCurrentLevel() => StartCoroutine(LoadLevelCo(currentLevelName));
     public void LoadLevel(string levelName) => StartCoroutine(LoadLevelCo(levelName));
+    public void LoadNextLevel() => LoadLevel(GetNextLevelName());
     public void LoadLevelFromMenu(string levelName) => StartCoroutine(LoadLevelFromMenuCo(levelName));
 
     public void LoadMainMenu()
@@ -40,6 +41,7 @@ public class LevelManager : MonoBehaviour
         CleanUpScene();
         ui.EnableInGameUI(false);
         
+        cameraEffects.SwitchToGameView();
         yield return tileAnimator.GetActiveCoroutine();
         
         UnloadCurrentScene();
@@ -122,4 +124,8 @@ public class LevelManager : MonoBehaviour
     }
 
     public void UpdateCurrentGrid(GridBuilder newGrid) => currentActiveGrid = newGrid;
+
+    public int GetNextLevelIndex() => SceneUtility.GetBuildIndexByScenePath(currentLevelName) + 1;
+    public string GetNextLevelName() => "Level_" + GetNextLevelIndex();
+    public bool HasNoMoreLevels() => GetNextLevelIndex() >= SceneManager.sceneCountInBuildSettings;
 }

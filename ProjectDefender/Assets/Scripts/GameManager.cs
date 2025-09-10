@@ -1,23 +1,28 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private int currency;
-    
-    [SerializeField] private int maxHp;
-    [SerializeField] private int currentHp;
-
     private UIGame inGameUI;
     private WaveManager currentActiveWaveManager;
     private LevelManager levelManager;
-    private bool gameLost = false;
+    private CameraEffects cameraEffects;
+    
+    [SerializeField] private int currency;
+    [SerializeField] private int maxHp;
+    [SerializeField] private int currentHp;
+    
+    public int enemiesKilled { get; private set; }
+
+    private bool gameLost;
 
     private void Awake()
     {
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
         levelManager = FindFirstObjectByType<LevelManager>();
+        cameraEffects = FindFirstObjectByType<CameraEffects>();
     }
 
     private void Start()
@@ -27,36 +32,36 @@ public class GameManager : MonoBehaviour
         inGameUI.UpdateCurrencyUI(currency);
     }
 
-    public void LevelFailed()
+    public IEnumerator LevelFailedCo()
     {
-        if (gameLost) return;
-
         gameLost = true;
         currentActiveWaveManager.DeactivateWaveManager();
+        cameraEffects.FocusOnCastle();
+
+        yield return cameraEffects.GetActiveCameraCo();
+        
         inGameUI.EnableGameOverUI(true);
     }
 
-    public void LevelCompleted()
+    public void LevelCompleted() => StartCoroutine(LevelCompletedCo());
+
+    public IEnumerator LevelCompletedCo()
     {
-        string currentLevelName = levelManager.currentLevelName;
-        int nextLevelIndex = SceneUtility.GetBuildIndexByScenePath(currentLevelName) + 1;
+        PlayerPrefs.SetInt(levelManager.GetNextLevelName() + " unlocked", 1);
+        cameraEffects.FocusOnCastle();
 
-        string nextLevelName = "Level_" + nextLevelIndex;
-        PlayerPrefs.SetInt(nextLevelName + " unlocked", 1);
+        yield return cameraEffects.GetActiveCameraCo();
 
-        if (nextLevelIndex >= SceneManager.sceneCountInBuildSettings)
-        {
+        if (levelManager.HasNoMoreLevels()) 
             inGameUI.EnableVictoryUI(true);
-        }
-        else
-        {
-            levelManager.LoadLevel("Level_" + nextLevelIndex);
-        }
+        else 
+            inGameUI.EnableLevelCompletedUI(true);
     }
 
     public void UpdateGameManager(int levelCurrency, WaveManager newWaveManager)
     {
         gameLost = false;
+        enemiesKilled = 0;
         
         currentActiveWaveManager = newWaveManager;
         currency = levelCurrency;
@@ -72,11 +77,12 @@ public class GameManager : MonoBehaviour
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
         inGameUI.ShakeHealthUI();
         
-        if (currentHp <= 0) LevelFailed();
+        if (currentHp <= 0 && gameLost == false) StartCoroutine(LevelFailedCo());
     }
 
     public void UpdateCurrency(int value)
     {
+        enemiesKilled++;
         currency += value;
         inGameUI.UpdateCurrencyUI(currency);
     }

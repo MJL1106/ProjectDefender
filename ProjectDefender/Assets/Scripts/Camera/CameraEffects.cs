@@ -150,4 +150,6 @@ public class CameraEffects : MonoBehaviour
 
         camController.transform.position = originalPosition;
     }
+
+    public Coroutine GetActiveCameraCo() => cameraCo;
 }
