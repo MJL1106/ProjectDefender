@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     private UI ui;
     
     private GridBuilder currentActiveGrid;
-    private string currentLevelName;
+    public string currentLevelName { get; private set; }
     
     private void Awake()
     {

@@ -13,6 +13,7 @@ public class WaveDetails
 
 public class WaveManager : MonoBehaviour
 {
+    private GameManager gameManager;
     private TileAnimator tileAnimator;
     private UIGame inGameUI;
     [SerializeField] private GridBuilder currentGrid;
@@ -38,6 +39,7 @@ public class WaveManager : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = FindFirstObjectByType<GameManager>();
         enemyPortals = new List<EnemyPortal>(FindObjectsByType<EnemyPortal>(FindObjectsSortMode.None));
         tileAnimator = FindFirstObjectByType<TileAnimator>();
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
@@ -66,7 +68,7 @@ public class WaveManager : MonoBehaviour
 
         if (HasNoMoreWaves())
         {
-            Debug.LogWarning("Level is completed");
+            gameManager.LevelCompleted();
             return;
         }
 

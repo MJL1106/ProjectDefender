@@ -20,6 +20,9 @@ public class UIGame : MonoBehaviour
     private Coroutine waveTimerMoveCo;
     private Vector3 waveTimerDefaultPosition;
 
+    [Header("Victory and Defeat")] [SerializeField]
+    private GameObject victoryUI;
+
     private void Awake()
     {
         animatorUI = GetComponentInParent<UIAnimator>();
@@ -46,6 +49,11 @@ public class UIGame : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F10)) ui.SwitchTo(pauseUI.gameObject);
+    }
+
+    public void EnableVictoryUI(bool enable)
+    {
+        if (victoryUI != null) victoryUI.SetActive(enable);
     }
 
     public void ShakeCurrencyUI()

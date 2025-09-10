@@ -2098,6 +2098,8 @@ MonoBehaviour:
   waveTimerText: {fileID: 1490396718}
   waveTimerOffset: 189.8
   waveTimerTextBlinkEffect: {fileID: 732677009}
+  waveTimer: {fileID: 0}
+  victoryUI: {fileID: 0}
 --- !u!1 &25617073
 GameObject:
   m_ObjectHideFlags: 0
@@ -68968,20 +68970,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31aaa69c0e4c114c9a87ea7fda7bbe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  extraObjectsToDelete:
-  - {fileID: 231532976}
-  - {fileID: 1913317769}
-  - {fileID: 1674286579}
-  - {fileID: 718979423}
-  - {fileID: 330585543}
-  - {fileID: 410087039}
-  - {fileID: 832575517}
-  - {fileID: 605182627}
-  - {fileID: 295904960}
-  - {fileID: 299441678}
-  - {fileID: 1122316687}
-  myMainGrid: {fileID: 1199274202421046181}
-  myWaveManager: {fileID: 687509787}
   towersUnlocked:
   - towerName: Crossbow
     unlocked: 1
@@ -68997,6 +68985,21 @@ MonoBehaviour:
     unlocked: 1
   - towerName: Just Fan
     unlocked: 0
+  levelCurrency: 1000
+  myMainGrid: {fileID: 1199274202421046181}
+  extraObjectsToDelete:
+  - {fileID: 231532976}
+  - {fileID: 1913317769}
+  - {fileID: 1674286579}
+  - {fileID: 718979423}
+  - {fileID: 330585543}
+  - {fileID: 410087039}
+  - {fileID: 832575517}
+  - {fileID: 605182627}
+  - {fileID: 295904960}
+  - {fileID: 299441678}
+  - {fileID: 1122316687}
+  myWaveManager: {fileID: 687509787}
 --- !u!4 &1105963833
 Transform:
   m_ObjectHideFlags: 0

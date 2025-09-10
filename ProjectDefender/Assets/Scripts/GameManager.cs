@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,10 +11,12 @@ public class GameManager : MonoBehaviour
 
     private UIGame inGameUI;
     private WaveManager currentActiveWaveManager;
+    private LevelManager levelManager;
 
     private void Awake()
     {
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
+        levelManager = FindFirstObjectByType<LevelManager>();
     }
 
     private void Start()
@@ -21,6 +24,21 @@ public class GameManager : MonoBehaviour
         currentHp = maxHp;
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
         inGameUI.UpdateCurrencyUI(currency);
+    }
+
+    public void LevelCompleted()
+    {
+        string currentLevelName = levelManager.currentLevelName;
+        int nextLevelIndex = SceneUtility.GetBuildIndexByScenePath(currentLevelName) + 1;
+
+        if (nextLevelIndex >= SceneManager.sceneCountInBuildSettings)
+        {
+            inGameUI.EnableVictoryUI(true);
+        }
+        else
+        {
+            levelManager.LoadLevel("Level_" + nextLevelIndex);
+        }
     }
 
     public void UpdateGameManager(int levelCurrency, WaveManager newWaveManager)
