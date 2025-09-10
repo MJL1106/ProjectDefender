@@ -47,15 +47,19 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LevelCompletedCo()
     {
-        PlayerPrefs.SetInt(levelManager.GetNextLevelName() + " unlocked", 1);
         cameraEffects.FocusOnCastle();
 
         yield return cameraEffects.GetActiveCameraCo();
 
-        if (levelManager.HasNoMoreLevels()) 
+        if (levelManager.HasNoMoreLevels())
+        { 
             inGameUI.EnableVictoryUI(true);
-        else 
+        }
+        else
+        {
             inGameUI.EnableLevelCompletedUI(true);
+            PlayerPrefs.SetInt(levelManager.GetNextLevelName() + " unlocked", 1);
+        }
     }
 
     public void UpdateGameManager(int levelCurrency, WaveManager newWaveManager)
