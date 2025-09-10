@@ -8,7 +8,11 @@ public class CameraEffects : MonoBehaviour
 {
     private CameraController camController;
     private Coroutine cameraCo;
+
+    [Header("Transition details")] [SerializeField]
+    private float transitionDuration = 3;
     
+    [Space]
     [SerializeField] private Vector3 inMenuPosition;
     [SerializeField] private Quaternion inMenuRotation;
     [Space]
@@ -48,7 +52,7 @@ public class CameraEffects : MonoBehaviour
     {
         if (cameraCo != null) StopCoroutine(cameraCo);
         
-        cameraCo = StartCoroutine(ChangePositionAndRotation(inMenuPosition, inMenuRotation));
+        cameraCo = StartCoroutine(ChangePositionAndRotation(inMenuPosition, inMenuRotation, transitionDuration));
         camController.AdjustPitchValue(inMenuRotation.eulerAngles.x);
     }
 
@@ -56,15 +60,17 @@ public class CameraEffects : MonoBehaviour
     {
         if (cameraCo != null) StopCoroutine(cameraCo);
         
-        cameraCo = StartCoroutine(ChangePositionAndRotation(inGamePosition, inGameRotation));
+        cameraCo = StartCoroutine(ChangePositionAndRotation(inGamePosition, inGameRotation, transitionDuration));
         camController.AdjustPitchValue(inGameRotation.eulerAngles.x);
+
+        StartCoroutine(EnableCameraControlsAfter(transitionDuration + .1f));
     }
 
     public void SwitchToLevelSelectView()
     {
         if (cameraCo != null) StopCoroutine(cameraCo);
         
-        cameraCo = StartCoroutine(ChangePositionAndRotation(levelSelectPosition, levelSelectRotation));
+        cameraCo = StartCoroutine(ChangePositionAndRotation(levelSelectPosition, levelSelectRotation, transitionDuration));
         camController.AdjustPitchValue(levelSelectRotation.eulerAngles.x);
     }
 
@@ -90,6 +96,11 @@ public class CameraEffects : MonoBehaviour
 
         transform.position = targetPosition;
         transform.rotation = targetRotation;
+    }
+
+    private IEnumerator EnableCameraControlsAfter(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         camController.EnableCameraControlls(true);
     }
 

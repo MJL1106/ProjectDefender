@@ -16,7 +16,6 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
     private Coroutine moveToDefaultCo;
 
     private bool canClick;
-    private bool canMove;
     private bool unlocked;
 
     private void Awake()
@@ -33,8 +32,13 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
 
         unlocked = PlayerPrefs.GetInt("Level_" + levelIndex + " unlocked", 0) == 1;
 
+        UpdateLevelButtonText();
+    }
+
+    private void UpdateLevelButtonText()
+    {
         if (unlocked == false) myText.text = "Locked";
-            else myText.text = "Level " + levelIndex;
+        else myText.text = "Level " + levelIndex;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -46,8 +50,7 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
             Debug.Log("Level locked!!!!");
             return;
         }
-
-        canMove = true;
+        
         transform.position = defaultPosition;
         levelManager.LoadLevelFromMenu("Level_" + levelIndex);
     }
@@ -56,14 +59,14 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
     
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (canMove == false) return;
+        if (tileAnimator.IsGridMoving()) return;
         
         MoveTileUp();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (canMove == false) return;
+        if (tileAnimator.IsGridMoving()) return;
 
         if (currentMoveCo != null)
         {
@@ -93,9 +96,5 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
         if (myText != null) myText.text = "Level " + levelIndex;
 
     }
-
-    private void OnEnable()
-    {
-        canMove = true;
-    }
+    
 }
