@@ -44,6 +44,8 @@ public class BuildManager : MonoBehaviour
    
    public void MakeBuildSlotNotAvailableIfNeeded(WaveManager waveManager, GridBuilder currentGrid)
    {
+      if (waveManager == null) return;
+      
       foreach (var wave in waveManager.GetLevelWaves())
       {
          if (wave.nextGrid == null) continue;

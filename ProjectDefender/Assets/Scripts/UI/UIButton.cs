@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+    private UI ui;
     private UIAnimator uiAnim;
     private RectTransform myRect;
 
@@ -14,6 +15,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     
     private void Awake()
     {
+        ui = GetComponentInParent<UI>();
         uiAnim = GetComponentInParent<UIAnimator>();
         myRect = GetComponent<RectTransform>();
     }
@@ -21,6 +23,8 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
+        
+        AudioManager.instance?.PlaySFX(ui.onHoverSFX);
         
         scaleCoroutine = StartCoroutine(uiAnim.ChangeScaleCo(myRect, showcaseScale, scaleUpDuration));
 
@@ -37,6 +41,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        AudioManager.instance?.PlaySFX(ui.onClickSFX);
         myRect.localScale = new Vector3(1, 1, 1);
     }
 }
