@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
         string currentLevelName = levelManager.currentLevelName;
         int nextLevelIndex = SceneUtility.GetBuildIndexByScenePath(currentLevelName) + 1;
 
+        string nextLevelName = "Level_" + nextLevelIndex;
+        PlayerPrefs.SetInt(nextLevelName + " unlocked", 1);
+
         if (nextLevelIndex >= SceneManager.sceneCountInBuildSettings)
         {
             inGameUI.EnableVictoryUI(true);

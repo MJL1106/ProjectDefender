@@ -7,12 +7,14 @@ public class LevelManager : MonoBehaviour
 {
     private TileAnimator tileAnimator;
     private UI ui;
+    private CameraEffects cameraEffects;
     
     private GridBuilder currentActiveGrid;
     public string currentLevelName { get; private set; }
     
     private void Awake()
     {
+        cameraEffects = FindFirstObjectByType<CameraEffects>();
         tileAnimator = FindFirstObjectByType<TileAnimator>();
         ui = FindFirstObjectByType<UI>();
     }
@@ -28,7 +30,10 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(string levelName) => StartCoroutine(LoadLevelCo(levelName));
     public void LoadLevelFromMenu(string levelName) => StartCoroutine(LoadLevelFromMenuCo(levelName));
 
-    public void LoadMainMenu() => StartCoroutine(LoadMainMenuCo());
+    public void LoadMainMenu()
+    {
+        StartCoroutine(LoadMainMenuCo());
+    }
 
     private IEnumerator LoadLevelCo(string levelName)
     {
@@ -45,6 +50,8 @@ public class LevelManager : MonoBehaviour
     {
         tileAnimator.ShowMainGrid(false);
         ui.EnableMainMenuUI(false);
+        
+        cameraEffects.SwitchToGameView();
 
         yield return tileAnimator.GetActiveCoroutine();
         
@@ -58,6 +65,8 @@ public class LevelManager : MonoBehaviour
         CleanUpScene();
         
         ui.EnableInGameUI(false);
+        
+        cameraEffects.SwitchToMenuView();
 
         yield return tileAnimator.GetActiveCoroutine();
         UnloadCurrentScene();
@@ -80,6 +89,12 @@ public class LevelManager : MonoBehaviour
 
     private void CleanUpScene()
     {
+       // WaveManager waveManager = FindFirstObjectByType<WaveManager>();
+       // if (waveManager != null)
+        //{
+        //    waveManager.DeactivateWaveManager();
+       // }
+        
         EliminateAllEnemies();
         EliminateAllTowers();
         

@@ -9,6 +9,7 @@ public class UILevelSelection : MonoBehaviour
 
         foreach (var btn in levelButtons)
         {
+            btn.CheckIfLevelUnlocked();
             btn.EnableCLickOnButton(canClick);
         }
     }

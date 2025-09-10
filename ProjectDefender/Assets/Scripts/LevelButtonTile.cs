@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,6 +7,7 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
 {
     private LevelManager levelManager;
     private TileAnimator tileAnimator;
+    private TextMeshPro myText => GetComponentInChildren<TextMeshPro>();
     
     [SerializeField] private int levelIndex;
 
@@ -15,19 +17,39 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
 
     private bool canClick;
     private bool canMove;
+    private bool unlocked;
 
     private void Awake()
     {
         tileAnimator = FindFirstObjectByType<TileAnimator>();
         levelManager = FindAnyObjectByType<LevelManager>();
         defaultPosition = transform.position;
+        CheckIfLevelUnlocked();
+    }
+
+    public void CheckIfLevelUnlocked()
+    {
+        if (levelIndex == 1) PlayerPrefs.SetInt("Level_1 unlocked", 1);
+
+        unlocked = PlayerPrefs.GetInt("Level_" + levelIndex + " unlocked", 0) == 1;
+
+        if (unlocked == false) myText.text = "Locked";
+            else myText.text = "Level " + levelIndex;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (canClick == false) return;
-        
-        Debug.Log("Loading level! - Level_" + levelIndex);
+
+        if (unlocked == false)
+        {
+            Debug.Log("Level locked!!!!");
+            return;
+        }
+
+        canMove = true;
+        transform.position = defaultPosition;
+        levelManager.LoadLevelFromMenu("Level_" + levelIndex);
     }
 
     public void EnableCLickOnButton(bool enable) => canClick = enable;
@@ -62,6 +84,14 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
     private void MoveToDefault()
     {
         moveToDefaultCo = StartCoroutine(tileAnimator.MoveTileCo(transform, defaultPosition));
+    }
+
+    private void OnValidate()
+    {
+        levelIndex = transform.GetSiblingIndex() + 1;
+
+        if (myText != null) myText.text = "Level " + levelIndex;
+
     }
 
     private void OnEnable()

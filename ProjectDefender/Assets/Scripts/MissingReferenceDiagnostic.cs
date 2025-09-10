@@ -152,7 +152,7 @@ public class MissingReferenceDiagnostic : EditorWindow
     void ScanScene()
     {
         results.Clear();
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         
         foreach (var go in allObjects)
         {
