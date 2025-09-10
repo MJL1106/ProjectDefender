@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour
         InvokeRepeating(nameof(PlayMusicIfNeeded), 0, 2);
     }
     
-    public void PlaySFX(AudioSource audioToPlay)
+    public void PlaySFX(AudioSource audioToPlay, bool randomPitch = false)
     {
         if (audioToPlay.clip == null)
         {
@@ -33,6 +33,7 @@ public class AudioManager : MonoBehaviour
         
         if (audioToPlay.isPlaying) audioToPlay.Stop();
 
+        audioToPlay.pitch = randomPitch ? Random.Range(.9f, 1.1f) : 1;
         audioToPlay.Play();
     }
 

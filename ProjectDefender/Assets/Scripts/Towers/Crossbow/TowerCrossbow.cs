@@ -37,6 +37,7 @@ public class TowerCrossbow : Tower
          
          visuals.PlayAttackVFX(gunPoint.position, hitInfo.point, enemyTarget);
          visuals.PlayerReloadVFX(attackCooldown);
+         AudioManager.instance.PlaySFX(attackSfx, true);
       }
    }
 }
