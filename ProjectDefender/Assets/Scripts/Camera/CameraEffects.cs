@@ -7,18 +7,31 @@ using Random = UnityEngine.Random;
 public class CameraEffects : MonoBehaviour
 {
     private CameraController camController;
+    private Coroutine cameraCo;
+
+    [Header("Transition details")] [SerializeField]
+    private float transitionDuration = 3;
     
+    [Space]
     [SerializeField] private Vector3 inMenuPosition;
     [SerializeField] private Quaternion inMenuRotation;
     [Space]
     [SerializeField] private Vector3 inGamePosition;
     [SerializeField] private Quaternion inGameRotation;
+    [Space] 
+    [SerializeField] private Vector3 levelSelectPosition;
+    [SerializeField] private Quaternion levelSelectRotation;
 
     [Header("ScreenShake Details")] 
     [Range(0.01f, .5f)]
     [SerializeField] private float shakeMagnitude;
     [Range(0.1f,3f)]
     [SerializeField] private float shakeDuration;
+
+    [Header("Castle Focus Details")] 
+    [SerializeField] private float focusOnCastleDuration = 2;
+    [SerializeField] private float heightOffset = 3;
+    [SerializeField] private float distanceToCastle = 7;
 
     private void Awake()
     {
@@ -33,6 +46,7 @@ public class CameraEffects : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.V)) ScreenShake(shakeDuration,shakeMagnitude);
+        if (Input.GetKeyDown(KeyCode.B)) FocusOnCastle();
     }
 
     public void ScreenShake(float newDuration, float newMagnitude)
@@ -40,16 +54,52 @@ public class CameraEffects : MonoBehaviour
         StartCoroutine(ScreenShakeVFX(newDuration, newMagnitude));
     }
 
+    public void FocusOnCastle()
+    {
+        Transform castle = FindFirstObjectByType<Castle>().transform;
+
+        if (castle == null)
+        {
+            Debug.Log("No Castle to focus on!");
+            return;
+        }
+
+        Vector3 directionToCastle = (castle.position - transform.position).normalized;
+        Vector3 targetPosition = castle.position - directionToCastle * distanceToCastle;
+        targetPosition.y = castle.position.y + heightOffset;
+
+        Quaternion targetRotation = Quaternion.LookRotation(castle.position - targetPosition);
+        
+        if (cameraCo != null) StopCoroutine(cameraCo);
+
+        cameraCo = StartCoroutine(ChangePositionAndRotation(targetPosition, targetRotation, focusOnCastleDuration));
+        StartCoroutine(EnableCameraControlsAfter(focusOnCastleDuration + .1f));
+    }
+
     public void SwitchToMenuView()
     {
-        StartCoroutine(ChangePositionAndRotation(inMenuPosition, inMenuRotation));
+        if (cameraCo != null) StopCoroutine(cameraCo);
+        
+        cameraCo = StartCoroutine(ChangePositionAndRotation(inMenuPosition, inMenuRotation, transitionDuration));
         camController.AdjustPitchValue(inMenuRotation.eulerAngles.x);
     }
 
     public void SwitchToGameView()
     {
-        StartCoroutine(ChangePositionAndRotation(inGamePosition, inGameRotation));
+        if (cameraCo != null) StopCoroutine(cameraCo);
+        
+        cameraCo = StartCoroutine(ChangePositionAndRotation(inGamePosition, inGameRotation, transitionDuration));
         camController.AdjustPitchValue(inGameRotation.eulerAngles.x);
+
+        StartCoroutine(EnableCameraControlsAfter(transitionDuration + .1f));
+    }
+
+    public void SwitchToLevelSelectView()
+    {
+        if (cameraCo != null) StopCoroutine(cameraCo);
+        
+        cameraCo = StartCoroutine(ChangePositionAndRotation(levelSelectPosition, levelSelectRotation, transitionDuration));
+        camController.AdjustPitchValue(levelSelectRotation.eulerAngles.x);
     }
 
     private IEnumerator ChangePositionAndRotation(Vector3 targetPosition, Quaternion targetRotation, float duration = 3,
@@ -74,6 +124,11 @@ public class CameraEffects : MonoBehaviour
 
         transform.position = targetPosition;
         transform.rotation = targetRotation;
+    }
+
+    private IEnumerator EnableCameraControlsAfter(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         camController.EnableCameraControlls(true);
     }
 
@@ -95,4 +150,6 @@ public class CameraEffects : MonoBehaviour
 
         camController.transform.position = originalPosition;
     }
+
+    public Coroutine GetActiveCameraCo() => cameraCo;
 }
