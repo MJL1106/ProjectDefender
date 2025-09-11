@@ -32,7 +32,11 @@ public class UI : MonoBehaviour
         
         SwitchTo(settingsUI.gameObject);
         SwitchTo(mainMenuUI.gameObject);
-        //SwitchTo(inGameUI.gameObject);
+
+        if (GameManager.instance.IsTestingLevel())
+        {
+            SwitchTo(inGameUI.gameObject);
+        }
     }
 
     public void SwitchTo(GameObject uiToEnable)

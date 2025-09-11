@@ -40,6 +40,12 @@ public class CameraEffects : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.instance.IsTestingLevel())
+        {
+            camController.EnableCameraControlls(true);
+            return;
+        }
+        
         SwitchToMenuView();
     }
 

@@ -41,6 +41,10 @@ public class LevelSetup : MonoBehaviour
             gameManager.UpdateGameManager(levelCurrency, myWaveManager);
             
             myWaveManager.ActivateWaveManager();
+        } 
+        else
+        {
+            yield return new WaitForEndOfFrame();
             UnlockAvailableTowers();
         }
     }

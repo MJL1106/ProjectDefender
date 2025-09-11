@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+    
     private UIGame inGameUI;
     private WaveManager currentActiveWaveManager;
     private LevelManager levelManager;
@@ -20,6 +22,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+        
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
         levelManager = FindFirstObjectByType<LevelManager>();
         cameraEffects = FindFirstObjectByType<CameraEffects>();
@@ -28,9 +32,18 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         currentHp = maxHp;
+
+        if (IsTestingLevel())
+        {
+            currency += 9999;
+            currentHp += 9999;
+        }
+        
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
         inGameUI.UpdateCurrencyUI(currency);
     }
+
+    public bool IsTestingLevel() => levelManager == null;
 
     public IEnumerator LevelFailedCo()
     {
