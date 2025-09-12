@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public enum EnemyType { Basic, Fast, Swarm, None}
+public enum EnemyType { Basic, Fast, Swarm, Heavy, None}
 
 public class Enemy : MonoBehaviour , IDamageable
 {
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour , IDamageable
     
     private float totalDistance;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         gameManager = FindFirstObjectByType<GameManager>();
         

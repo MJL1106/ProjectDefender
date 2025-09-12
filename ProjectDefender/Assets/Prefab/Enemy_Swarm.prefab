@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595a00b32a12786498ad577dde3e6964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visuals: {fileID: 0}
+  visuals: {fileID: 5268307786149904728}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64

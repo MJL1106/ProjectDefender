@@ -26,17 +26,32 @@ public class TowerCrossbow : Tower
          towerHead.forward = directionToEnemy;
 
          Enemy enemyTarget = null;
-         
+
+         EnemyShield enemyShield = hitInfo.collider.GetComponent<EnemyShield>();
          IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
 
-         if (damageable != null)
+         if (damageable != null && enemyShield == null)
          {
             damageable.TakeDamage(damage);
             enemyTarget = currentEnemy;
          }
-         
+
+         if (enemyShield)
+         {
+            damageable = enemyShield.GetComponent<IDamageable>();
+            damageable.TakeDamage(damage);
+         }
+
+         visuals.CreateOnHitVFX(hitInfo.point);
          visuals.PlayAttackVFX(gunPoint.position, hitInfo.point, enemyTarget);
          visuals.PlayerReloadVFX(attackCooldown);
+
+         if (AudioManager.instance == null)
+         {
+            Debug.Log("Audio Manager is null");
+            return;
+         }
+         
          AudioManager.instance.PlaySFX(attackSfx, true);
       }
    }

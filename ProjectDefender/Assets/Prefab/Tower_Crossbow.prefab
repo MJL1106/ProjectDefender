@@ -318,7 +318,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: becbb4dde857e67428161d08a1fdbac9, type: 2}
+  - {fileID: 2100000, guid: 2a830028a99d90641921ad1f74b0158c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1694,6 +1694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4c7ee3c30371a4ea13791401560384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHitVfx: {fileID: 8841847086697906496, guid: a29452d9913893746a295c9ccc7ff8f3, type: 3}
   attackVisuals: {fileID: 4556140443523618617}
   attackVisualDuration: 0.1
   meshRenderer: {fileID: 4998423245112082612}
