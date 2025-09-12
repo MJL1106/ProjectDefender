@@ -21,6 +21,7 @@ public class Tower : MonoBehaviour
 
     [SerializeField] protected float attackRange = 2.5f;
     [SerializeField] protected LayerMask whatIsEnemy;
+    [SerializeField] protected LayerMask whatIsTargetable;
 
     [Space] [Tooltip("Enabling this allows tower to change target between attacks")] [SerializeField]
     private bool dynamicTargetChange;
@@ -115,9 +116,15 @@ public class Tower : MonoBehaviour
         foreach (Collider enemy in enemiesAround)
         {
             Enemy newEnemy = enemy.GetComponent<Enemy>();
+
+            if (newEnemy == null) continue;
+            
             EnemyType newEnemyType = newEnemy.GetEnemyType();
 
-            if (newEnemyType == enemyPriorityType) priorityTargets.Add(newEnemy); else possibleTargets.Add(newEnemy);
+            if (newEnemyType == enemyPriorityType) 
+                priorityTargets.Add(newEnemy); 
+            else 
+                possibleTargets.Add(newEnemy);
         }
 
         if (priorityTargets.Count > 0) return GetMostAdvancedEnemy(priorityTargets);

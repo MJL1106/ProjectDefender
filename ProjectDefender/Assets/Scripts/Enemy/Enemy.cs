@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,6 +9,8 @@ public enum EnemyType { Basic, Fast, Swarm, Heavy, Stealth, None}
 
 public class Enemy : MonoBehaviour , IDamageable
 {
+    public EnemyVisuals visuals { get; private set; }
+    
     private GameManager gameManager;
     private EnemyPortal myPortal;
     private NavMeshAgent agent;
@@ -25,13 +28,21 @@ public class Enemy : MonoBehaviour , IDamageable
     
     private float totalDistance;
 
+    protected bool canBeHidden = true;
+    protected bool isHidden;
+    private Coroutine hideCo;
+    private int originalLayerIndex;
+
     protected virtual void Awake()
     {
-        gameManager = FindFirstObjectByType<GameManager>();
-        
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.avoidancePriority = Mathf.RoundToInt(agent.speed * 10);
+
+        visuals = GetComponent<EnemyVisuals>();
+        originalLayerIndex = gameObject.layer;
+        
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     protected virtual void Start()
@@ -61,6 +72,28 @@ public class Enemy : MonoBehaviour , IDamageable
         {
             agent.SetDestination(GetNextWaypoint());
         }
+    }
+
+    public void HideEnemy(float duration)
+    {
+        if (canBeHidden == false) return;
+        
+        if (hideCo != null) StopCoroutine(hideCo);
+
+        hideCo = StartCoroutine(HideEnemyCo(duration));
+    }
+
+    private IEnumerator HideEnemyCo(float duration)
+    {
+        gameObject.layer = LayerMask.NameToLayer("Untargetable");
+        visuals.MakeTransparent(true);
+        isHidden = true;
+
+        yield return new WaitForSeconds(duration);
+
+        gameObject.layer = originalLayerIndex;
+        visuals.MakeTransparent(false);
+        isHidden = false;
     }
 
     private bool ShouldChangeWaypoint()
