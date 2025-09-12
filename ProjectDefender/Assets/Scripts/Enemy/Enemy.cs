@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public enum EnemyType { Basic, Fast, None}
+public enum EnemyType { Basic, Fast, Swarm, None}
 
 public class Enemy : MonoBehaviour , IDamageable
 {

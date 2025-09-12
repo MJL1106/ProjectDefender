@@ -5,11 +5,16 @@ using UnityEngine.InputSystem.Android;
 
 public class EnemyVisuals : MonoBehaviour
 {
-    [SerializeField] private Transform visuals;
+    [SerializeField] protected Transform visuals;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float verticalRotationSpeed;
 
-    private void Update()
+    protected virtual void Start()
+    {
+        
+    }
+    
+    protected virtual void Update()
     {
         AlignWithSlope();
     }
