@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public enum EnemyType { Basic, Fast, Swarm, Heavy, None}
+public enum EnemyType { Basic, Fast, Swarm, Heavy, Stealth, None}
 
 public class Enemy : MonoBehaviour , IDamageable
 {
@@ -32,6 +32,11 @@ public class Enemy : MonoBehaviour , IDamageable
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.avoidancePriority = Mathf.RoundToInt(agent.speed * 10);
+    }
+
+    protected virtual void Start()
+    {
+        
     }
 
     public void SetupEnemy(List<Waypoint> newWaypoints, EnemyPortal myNewPortal)

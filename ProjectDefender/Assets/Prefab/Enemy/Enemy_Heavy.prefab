@@ -142,6 +142,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   verticalRotationSpeed: 5
+  transparentMat: {fileID: 2100000, guid: fde887d5f3ad8404b91c5f888b2450b8, type: 2}
 --- !u!114 &3677741801368193309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,7 +540,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4894468041344943160
 Transform:
   m_ObjectHideFlags: 0
