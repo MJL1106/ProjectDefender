@@ -22,23 +22,19 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Emission_blue
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 2100000, guid: 4836a6121d8ba6e439b147c5799f97ad, type: 2}
+  m_Parent: {fileID: 2100000, guid: 2a830028a99d90641921ad1f74b0158c, type: 2}
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
   - _EMISSION
-  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 3
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap:
-    RenderType: Transparent
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
-  - DepthOnly
-  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3

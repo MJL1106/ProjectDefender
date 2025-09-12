@@ -465,7 +465,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: becbb4dde857e67428161d08a1fdbac9, type: 2}
+  - {fileID: 2100000, guid: 2a830028a99d90641921ad1f74b0158c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -878,7 +878,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: becbb4dde857e67428161d08a1fdbac9, type: 2}
+  - {fileID: 2100000, guid: 2a830028a99d90641921ad1f74b0158c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1477,7 +1477,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 44faa696e85de134ab429819db0284e6, type: 2}
+  - {fileID: 2100000, guid: 2a830028a99d90641921ad1f74b0158c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1699,7 +1699,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 4998423245112082612}
   maxIntensity: 150
   startColor: {r: 0, g: 0, b: 0, a: 1}
-  endColor: {r: 0.047058824, g: 0.7607843, b: 0.7921569, a: 1}
+  endColor: {r: 1, g: 0.91456765, b: 0, a: 1}
   rotor: {fileID: 759261871073046163}
   rotorUnloaded: {fileID: 1597218285378485707}
   rotorLoaded: {fileID: 1436935360955514919}
