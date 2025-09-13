@@ -16,8 +16,8 @@ TagManager:
   - Road
   - Enemy
   - Untargetable
-  - 
-  - 
+  - FlyEnemy_Road
+  - FlyEnemy
   - 
   - 
   - 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,6 +10,11 @@ public class EnemyPortal : MonoBehaviour
     
     [SerializeField] private float spawnCooldown;
     private float spawnTimer;
+
+    [Space] 
+    [SerializeField] private ParticleSystem flyPortalVfx;
+
+    private Coroutine flyPortalVfxCo;
     
     [Space]
     
@@ -53,7 +59,27 @@ public class EnemyPortal : MonoBehaviour
         Enemy enemyScript = newEnemy.GetComponent<Enemy>();
         enemyScript.SetupEnemy(waypointList, this);
         
+        PlaceEnemyAtFlyPortalIfNeeded(newEnemy,enemyScript.GetEnemyType());
         activeEnemies.Add(newEnemy);
+    }
+
+    private void PlaceEnemyAtFlyPortalIfNeeded(GameObject newEnemy, EnemyType enemyType)
+    {
+        if (enemyType != EnemyType.Flying) return;
+
+        if (flyPortalVfxCo != null) StopCoroutine(flyPortalVfxCo);
+
+        flyPortalVfxCo = StartCoroutine(EnableFlyPortalVfxCo());
+        newEnemy.transform.position = flyPortalVfx.transform.position;
+    }
+
+    private IEnumerator EnableFlyPortalVfxCo()
+    {
+        flyPortalVfx.Play();
+
+        yield return new WaitForSeconds(2);
+        
+        flyPortalVfx.Stop();
     }
 
     private GameObject GetRandomEnemy()

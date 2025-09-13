@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public enum EnemyType { Basic, Fast, Swarm, Heavy, Stealth, None}
+public enum EnemyType { Basic, Fast, Swarm, Heavy, Stealth, Flying, None}
 
 public class Enemy : MonoBehaviour , IDamageable
 {
@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour , IDamageable
     
     private GameManager gameManager;
     private EnemyPortal myPortal;
-    private NavMeshAgent agent;
+    protected NavMeshAgent agent;
 
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
@@ -155,6 +155,13 @@ public class Enemy : MonoBehaviour , IDamageable
         currentWaypointIndex = nextWaypointIndex - 1;
 
         return targetPoint;
+    }
+
+    protected Vector3 GetFinalWaypoint()
+    {
+        if (myWaypoints.Count == 0) return transform.position;
+
+        return myWaypoints[myWaypoints.Count - 1].position;
     }
 
     public Vector3 CentrePoint()
