@@ -12,8 +12,9 @@ public class Enemy : MonoBehaviour , IDamageable
     public EnemyVisuals visuals { get; private set; }
     
     private GameManager gameManager;
-    private EnemyPortal myPortal;
+    protected EnemyPortal myPortal;
     protected NavMeshAgent agent;
+    protected Rigidbody rb;
 
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour , IDamageable
 
     protected virtual void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.avoidancePriority = Mathf.RoundToInt(agent.speed * 10);
@@ -63,7 +65,7 @@ public class Enemy : MonoBehaviour , IDamageable
         myPortal = myNewPortal;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         FaceTarget(agent.steeringTarget);
         
@@ -181,7 +183,7 @@ public class Enemy : MonoBehaviour , IDamageable
         if (healthPoints <= 0) Die();
     }
 
-    public void Die()
+    public virtual void Die()
     {
         myPortal.RemoveActiveEnemy(gameObject);
         gameManager.UpdateCurrency(1);

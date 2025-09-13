@@ -14,6 +14,7 @@ public class WaveDetails
     public int heavyEnemy;
     public int stealthEnemy;
     public int flyingEnemy;
+    public int flyingBossEnemy;
 }
 
 public class WaveManager : MonoBehaviour
@@ -42,6 +43,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject heavyEnemy;
     [SerializeField] private GameObject stealthEnemy;
     [SerializeField] private GameObject flyingEnemy;
+    [SerializeField] private GameObject flyingBossEnemy;
     
     private List<EnemyPortal> enemyPortals;
     private bool waveTimerEnabled;
@@ -295,10 +297,16 @@ public class WaveManager : MonoBehaviour
             newEnemyList.Add(stealthEnemy);
         }
         
-        // Add stealth enemy
+        // Add flying enemy
         for (int i = 0; i < levelWaves[waveIndex].flyingEnemy; i++)
         {
             newEnemyList.Add(flyingEnemy);
+        }
+        
+        // Add flying boss enemy
+        for (int i = 0; i < levelWaves[waveIndex].flyingBossEnemy; i++)
+        {
+            newEnemyList.Add(flyingBossEnemy);
         }
         
         return newEnemyList;
