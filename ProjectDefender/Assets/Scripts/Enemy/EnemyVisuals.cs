@@ -6,6 +6,10 @@ using UnityEngine.InputSystem.Android;
 
 public class EnemyVisuals : MonoBehaviour
 {
+    [SerializeField] private GameObject onDeathVfx;
+    [SerializeField] private float onDeathVfcScale = .5f;
+    
+    [Space]
     [SerializeField] protected Transform visuals;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float verticalRotationSpeed;
@@ -39,6 +43,13 @@ public class EnemyVisuals : MonoBehaviour
             Material materialToApply = transparent ? transparentMat : originalMat[i];
             myRenderers[i].material = materialToApply;
         }
+    }
+
+    public void CreateOnDeathVfx()
+    {
+        GameObject newDeathVfx =
+            Instantiate(onDeathVfx, transform.position + new Vector3(0, .15f, 0), Quaternion.identity);
+        newDeathVfx.transform.localScale = new Vector3(onDeathVfcScale, onDeathVfcScale, onDeathVfcScale);
     }
 
     protected void CollectDefaultMaterials()

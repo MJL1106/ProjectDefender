@@ -371,6 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595a00b32a12786498ad577dde3e6964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onDeathVfx: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   visuals: {fileID: 2232352621041289219}
   whatIsGround:
     serializedVersion: 2
