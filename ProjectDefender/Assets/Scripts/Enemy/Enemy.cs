@@ -23,9 +23,9 @@ public class Enemy : MonoBehaviour , IDamageable
     [Header("Movement")]
     [SerializeField] private float turnSpeed = 10;
     
-    [SerializeField] private List<Transform> myWaypoints;
-    private int nextWaypointIndex;
-    private int currentWaypointIndex;
+    [SerializeField] protected List<Transform> myWaypoints;
+    protected int nextWaypointIndex;
+    protected int currentWaypointIndex;
     
     private float totalDistance;
 
@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour , IDamageable
         // Check if the agent is close to current target point
         if (ShouldChangeWaypoint())
         {
-            agent.SetDestination(GetNextWaypoint());
+            ChangeWaypoint();
         }
     }
 
@@ -83,6 +83,11 @@ public class Enemy : MonoBehaviour , IDamageable
         if (hideCo != null) StopCoroutine(hideCo);
 
         hideCo = StartCoroutine(HideEnemyCo(duration));
+    }
+
+    protected virtual void ChangeWaypoint()
+    {
+        agent.SetDestination(GetNextWaypoint());
     }
 
     private IEnumerator HideEnemyCo(float duration)
@@ -98,7 +103,7 @@ public class Enemy : MonoBehaviour , IDamageable
         isHidden = false;
     }
 
-    private bool ShouldChangeWaypoint()
+    protected virtual bool ShouldChangeWaypoint()
     {
         if (nextWaypointIndex >= myWaypoints.Count) return false;
 
