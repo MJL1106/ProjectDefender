@@ -12533,6 +12533,14 @@ MonoBehaviour:
   healthPoints: 400
   turnSpeed: 10
   myWaypoints: []
+  empPrefab: {fileID: 8729951672839446541, guid: 0670a39573445de419e369d83477f2bd, type: 3}
+  whatIsTower:
+    serializedVersion: 2
+    m_Bits: 4096
+  towerCheckRadius: 4.5
+  empCooldown: 8
+  empEffectDuration: 6
+  empDuration: 5
 --- !u!114 &509521847327293486
 MonoBehaviour:
   m_ObjectHideFlags: 0

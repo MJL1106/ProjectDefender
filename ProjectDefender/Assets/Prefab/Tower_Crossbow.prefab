@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7391867795965119591}
   - component: {fileID: 932481290194007265}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: back_L_lineRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 606353449706686464}
   - component: {fileID: 6730059552880816911}
   - component: {fileID: 6846979065529405766}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_crossbow_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2491264134897857213}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: back_end_point_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3882089065342455835}
   - component: {fileID: 4556140443523618617}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: attack_visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 8426206886432740511}
   - component: {fileID: 3252433133592043842}
   - component: {fileID: 7252732663203197705}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_crossbow_emissionPart_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1428204734838162238}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_visuals_strings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -535,7 +535,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3147258123614191181}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: building_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -570,7 +570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3816234827863878913}
   - component: {fileID: 7691047474527346684}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: sfx_beam_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,7 +698,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 594537724045794292}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -730,7 +730,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1597218285378485707}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: rotor_position_unloaded
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -761,7 +761,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4675967544544072893}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: gun_point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -792,7 +792,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 479593232319612785}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: front_end_point_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -825,7 +825,7 @@ GameObject:
   - component: {fileID: 9073879298113497934}
   - component: {fileID: 1022104494297770998}
   - component: {fileID: 5993704104983360016}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Building_1_emission_blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -909,7 +909,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1565948913228397000}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: front_start_point_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -941,7 +941,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3560353450387947881}
   - component: {fileID: 682512783038462073}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: back_R_lineRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1079,7 +1079,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 379490954730347221}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: front_end_point_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1110,7 +1110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 91901761711027599}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: front_start_point_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1141,7 +1141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7325965472003300552}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_crossbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1178,7 +1178,7 @@ GameObject:
   - component: {fileID: 3972446835594134363}
   - component: {fileID: 821456414386444457}
   - component: {fileID: 131426755865353418}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_crossbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1263,7 +1263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7302181553945861574}
   - component: {fileID: 6874191785679764159}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: sfx_beam_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1391,7 +1391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3861601198960734657}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: back_end_point_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1424,7 +1424,7 @@ GameObject:
   - component: {fileID: 4020026348566622641}
   - component: {fileID: 2322014701385702680}
   - component: {fileID: 1800539385678593055}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Building_1_emission_white
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1510,7 +1510,7 @@ GameObject:
   - component: {fileID: 759261871073046163}
   - component: {fileID: 840374387184266204}
   - component: {fileID: 4303515401541825446}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_crossbow_head_rotor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1598,7 +1598,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1436935360955514919}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: rotor_position_loaded
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1631,7 +1631,9 @@ GameObject:
   - component: {fileID: 5495532987959624718}
   - component: {fileID: 2865555061224814411}
   - component: {fileID: 4105478440329888710}
-  m_Layer: 0
+  - component: {fileID: 6847584784879256389}
+  - component: {fileID: 5461758481332962963}
+  m_Layer: 12
   m_Name: Tower_Crossbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1724,6 +1726,54 @@ MonoBehaviour:
   - {fileID: 4036837844360065269}
   - {fileID: 932481290194007265}
   - {fileID: 682512783038462073}
+--- !u!54 &6847584784879256389
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748250119000925149}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &5461758481332962963
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748250119000925149}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.55, y: 0.55, z: 0.55}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!1 &6890458344997944324
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,7 +1783,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6641502596904990274}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: back_start_point_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1765,7 +1815,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2792459522626454375}
   - component: {fileID: 4036837844360065269}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: front_R_lineRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1903,7 +1953,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8761078237828979974}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: back_start_point_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1936,7 +1986,7 @@ GameObject:
   - component: {fileID: 1479656481942398994}
   - component: {fileID: 7148555514305717046}
   - component: {fileID: 4998423245112082612}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_crossbow_emissionPart_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2023,7 +2073,7 @@ GameObject:
   - component: {fileID: 1883890082452912856}
   - component: {fileID: 1939159201588924799}
   - component: {fileID: 2925808433225467618}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Building_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2130,7 +2180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6883731249829388888}
   - component: {fileID: 399284125838907244}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: front_L_lineRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

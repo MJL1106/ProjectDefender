@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
@@ -9,6 +10,10 @@ using Vector3 = UnityEngine.Vector3;
 public class Tower : MonoBehaviour
 {
     public Enemy currentEnemy;
+
+    protected bool towerActive = true;
+    protected Coroutine deactivatedTowerCo;
+    private GameObject currentEmpVfx;
 
     [SerializeField] protected float attackCooldown = 1f;
     protected float lastTimeAttacked;
@@ -23,8 +28,9 @@ public class Tower : MonoBehaviour
     [SerializeField] protected LayerMask whatIsEnemy;
     [SerializeField] protected LayerMask whatIsTargetable;
 
-    [Space] [Tooltip("Enabling this allows tower to change target between attacks")] [SerializeField]
-    private bool dynamicTargetChange;
+    [Space] 
+    [Tooltip("Enabling this allows tower to change target between attacks")] 
+    [SerializeField] private bool dynamicTargetChange;
     private float targetCheckInterval = .1f;
     private float lastTimeCheckedTarget;
 
@@ -38,6 +44,8 @@ public class Tower : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (towerActive == false) return;
+        
         UpdateTargetIfNeeded();
         
         if (currentEnemy == null)
@@ -51,6 +59,27 @@ public class Tower : MonoBehaviour
         if (Vector3.Distance(currentEnemy.CentrePoint(), transform.position) > attackRange) currentEnemy = null;
         
         RotateTowardsEnemy();
+    }
+
+    public void DeactivateTower(float duration, GameObject empVxPrefab)
+    {
+        if (deactivatedTowerCo != null) StopCoroutine(deactivatedTowerCo);
+        
+        if (currentEmpVfx != null) Destroy(currentEmpVfx);
+
+        currentEmpVfx = Instantiate(empVxPrefab, transform.position + new Vector3(0, .5f, 0), Quaternion.identity);
+        deactivatedTowerCo = StartCoroutine(DisableTowerCo(duration));
+    }
+
+    private IEnumerator DisableTowerCo(float duration)
+    {
+        towerActive = false;
+
+        yield return new WaitForSeconds(duration);
+
+        towerActive = true;
+        lastTimeAttacked = Time.time;
+        Destroy(currentEmpVfx);
     }
     
     public float GetAttackRange() => attackRange;
