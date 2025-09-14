@@ -1,37 +1,56 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public enum EnemyType { Basic, Fast, None}
+public enum EnemyType { Basic, Fast, Swarm, Heavy, Stealth, Flying, BossSpider, None}
 
 public class Enemy : MonoBehaviour , IDamageable
 {
+    public EnemyVisuals visuals { get; private set; }
+    
     private GameManager gameManager;
-    private EnemyPortal myPortal;
-    private NavMeshAgent agent;
+    protected EnemyPortal myPortal;
+    protected NavMeshAgent agent;
+    protected Rigidbody rb;
 
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
     public int healthPoints = 4;
+    protected bool isDead;
     
     [Header("Movement")]
     [SerializeField] private float turnSpeed = 10;
     
-    [SerializeField] private List<Transform> myWaypoints;
-    private int nextWaypointIndex;
-    private int currentWaypointIndex;
+    [SerializeField] protected List<Transform> myWaypoints;
+    protected int nextWaypointIndex;
+    protected int currentWaypointIndex;
     
     private float totalDistance;
 
-    private void Awake()
+    protected bool canBeHidden = true;
+    protected bool isHidden;
+    private Coroutine hideCo;
+    private int originalLayerIndex;
+
+    protected virtual void Awake()
     {
-        gameManager = FindFirstObjectByType<GameManager>();
-        
+        rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.avoidancePriority = Mathf.RoundToInt(agent.speed * 10);
+
+        visuals = GetComponent<EnemyVisuals>();
+        originalLayerIndex = gameObject.layer;
+        
+        gameManager = FindFirstObjectByType<GameManager>();
+    }
+
+    protected virtual void Start()
+    {
+        
     }
 
     public void SetupEnemy(List<Waypoint> newWaypoints, EnemyPortal myNewPortal)
@@ -47,18 +66,45 @@ public class Enemy : MonoBehaviour , IDamageable
         myPortal = myNewPortal;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         FaceTarget(agent.steeringTarget);
         
         // Check if the agent is close to current target point
         if (ShouldChangeWaypoint())
         {
-            agent.SetDestination(GetNextWaypoint());
+            ChangeWaypoint();
         }
     }
 
-    private bool ShouldChangeWaypoint()
+    public void HideEnemy(float duration)
+    {
+        if (canBeHidden == false) return;
+        
+        if (hideCo != null) StopCoroutine(hideCo);
+
+        hideCo = StartCoroutine(HideEnemyCo(duration));
+    }
+
+    protected virtual void ChangeWaypoint()
+    {
+        agent.SetDestination(GetNextWaypoint());
+    }
+
+    private IEnumerator HideEnemyCo(float duration)
+    {
+        gameObject.layer = LayerMask.NameToLayer("Untargetable");
+        visuals.MakeTransparent(true);
+        isHidden = true;
+
+        yield return new WaitForSeconds(duration);
+
+        gameObject.layer = originalLayerIndex;
+        visuals.MakeTransparent(false);
+        isHidden = false;
+    }
+
+    protected virtual bool ShouldChangeWaypoint()
     {
         if (nextWaypointIndex >= myWaypoints.Count) return false;
 
@@ -119,6 +165,13 @@ public class Enemy : MonoBehaviour , IDamageable
         return targetPoint;
     }
 
+    protected Vector3 GetFinalWaypoint()
+    {
+        if (myWaypoints.Count == 0) return transform.position;
+
+        return myWaypoints[myWaypoints.Count - 1].position;
+    }
+
     public Vector3 CentrePoint()
     {
         return centrePoint.position;
@@ -132,20 +185,26 @@ public class Enemy : MonoBehaviour , IDamageable
     public void TakeDamage(int damage)
     {
         healthPoints = healthPoints - damage;
-        
-        if (healthPoints <= 0) Die();
+
+        if (healthPoints <= 0 && isDead == false)
+        {
+            // isDead prevents Die() from being called twice.
+            isDead = true;
+            Die();
+        }
     }
 
-    public void Die()
+    public virtual void Die()
     {
-        myPortal.RemoveActiveEnemy(gameObject);
         gameManager.UpdateCurrency(1);
-        Destroy(gameObject);
+        DestroyEnemy();
     }
 
     public void DestroyEnemy()
     {
-        myPortal.RemoveActiveEnemy(gameObject);
+        visuals.CreateOnDeathVfx();
         Destroy(gameObject);
+        
+        if (myPortal != null) myPortal.RemoveActiveEnemy(gameObject);
     }
 }

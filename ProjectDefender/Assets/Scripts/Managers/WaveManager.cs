@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,6 +10,12 @@ public class WaveDetails
     public EnemyPortal[] newPortals;
     public int basicEnemy;
     public int fastEnemy;
+    public int swarmEnemy;
+    public int heavyEnemy;
+    public int stealthEnemy;
+    public int flyingEnemy;
+    public int flyingBossEnemy;
+    public int spiderBossEnemy;
 }
 
 public class WaveManager : MonoBehaviour
@@ -17,6 +24,8 @@ public class WaveManager : MonoBehaviour
     private TileAnimator tileAnimator;
     private UIGame inGameUI;
     [SerializeField] private GridBuilder currentGrid;
+    [SerializeField] private NavMeshSurface flyingNavSurface;
+    [SerializeField] private MeshCollider[] flyingNavColliders;
 
     [Header("Wave Details")]
     [SerializeField] private float timeBetweenWaves = 10;
@@ -31,6 +40,12 @@ public class WaveManager : MonoBehaviour
     [Header("Enemy Prefabs")]
     [SerializeField] private GameObject basicEnemy;
     [SerializeField] private GameObject fastEnemy;
+    [SerializeField] private GameObject swarmEnemy;
+    [SerializeField] private GameObject heavyEnemy;
+    [SerializeField] private GameObject stealthEnemy;
+    [SerializeField] private GameObject flyingEnemy;
+    [SerializeField] private GameObject flyingBossEnemy;
+    [SerializeField] private GameObject spiderBossEnemy;
     
     private List<EnemyPortal> enemyPortals;
     private bool waveTimerEnabled;
@@ -43,10 +58,17 @@ public class WaveManager : MonoBehaviour
         enemyPortals = new List<EnemyPortal>(FindObjectsByType<EnemyPortal>(FindObjectsSortMode.None));
         tileAnimator = FindFirstObjectByType<TileAnimator>();
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
+
+        flyingNavColliders = GetComponentsInChildren<MeshCollider>();
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            ActivateWaveManager();
+        }
+        
         if (gameBegan == false) return;
         
         HandleWaveTimer();
@@ -89,7 +111,7 @@ public class WaveManager : MonoBehaviour
     
     public void StartNewWave()
     {
-        currentGrid.UpdateNavMesh();
+        UpdateNavMeshes();
         GiveEnemiesToPortals();
         EnableWaveTimer(false);
         makingNextWave = false;
@@ -219,6 +241,23 @@ public class WaveManager : MonoBehaviour
             enemyPortals.Add(portal);
         }
     }
+
+    private void UpdateNavMeshes()
+    {
+        foreach (var myCollider in flyingNavColliders)
+        {
+            myCollider.enabled = true;
+        }
+        
+        flyingNavSurface.BuildNavMesh();
+        
+        foreach (var myCollider in flyingNavColliders)
+        {
+            myCollider.enabled = false;
+        }
+        
+        currentGrid.UpdateNavMesh();
+    }
     
     private List<GameObject> GetNewEnemies()
     {
@@ -242,10 +281,47 @@ public class WaveManager : MonoBehaviour
             newEnemyList.Add(fastEnemy);
         }
         
+        // Add swarm enemy
+        for (int i = 0; i < levelWaves[waveIndex].swarmEnemy; i++)
+        {
+            newEnemyList.Add(swarmEnemy);
+        }
+        
+        // Add heavy enemy
+        for (int i = 0; i < levelWaves[waveIndex].heavyEnemy; i++)
+        {
+            newEnemyList.Add(heavyEnemy);
+        }
+        
+        // Add stealth enemy
+        for (int i = 0; i < levelWaves[waveIndex].stealthEnemy; i++)
+        {
+            newEnemyList.Add(stealthEnemy);
+        }
+        
+        // Add flying enemy
+        for (int i = 0; i < levelWaves[waveIndex].flyingEnemy; i++)
+        {
+            newEnemyList.Add(flyingEnemy);
+        }
+        
+        // Add flying boss enemy
+        for (int i = 0; i < levelWaves[waveIndex].flyingBossEnemy; i++)
+        {
+            newEnemyList.Add(flyingBossEnemy);
+        }
+        
+        // Add spider boss enemy
+        for (int i = 0; i < levelWaves[waveIndex].spiderBossEnemy; i++)
+        {
+            newEnemyList.Add(spiderBossEnemy);
+        }
+        
         return newEnemyList;
     }
     
     public WaveDetails[] GetLevelWaves() => levelWaves;
+    
 
     private bool AllEnemiesDefeated()
     {

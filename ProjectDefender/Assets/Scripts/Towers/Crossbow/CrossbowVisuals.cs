@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class CrossbowVisuals : MonoBehaviour
 {
    private Enemy myEnemy;
 
+   [Header("Attack Visuals")] 
+   [SerializeField] private GameObject onHitVfx;
    [SerializeField] private LineRenderer attackVisuals;
    [SerializeField] private float attackVisualDuration = .1f;
 
@@ -75,6 +78,12 @@ private void Awake()
       UpdateStrings();
       
       UpdateAttackVisualsIfNeeded();
+   }
+
+   public void CreateOnHitVFX(Vector3 hitPoint)
+   {
+      GameObject newVfx = Instantiate(onHitVfx, hitPoint, Random.rotation);
+      Destroy(newVfx, 1);
    }
 
    private void UpdateAttackVisualsIfNeeded()
