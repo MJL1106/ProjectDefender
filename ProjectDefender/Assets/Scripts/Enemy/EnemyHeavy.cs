@@ -14,10 +14,25 @@ public class EnemyHeavy : Enemy
     
     private void EnableShieldIfNeeded()
     {
-        if (shieldObject != null)
+        if (shieldObject != null && shieldAmount > 0)
         {
             shieldObject.gameObject.SetActive(true);
-            shieldObject.SetupShield(shieldAmount);
         }
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        if (shieldAmount > 0)
+        {
+            shieldAmount -= damage;
+            shieldObject.ActivateShieldImpact();
+
+            if (shieldAmount <= 0) shieldObject.gameObject.SetActive(false);
+        }
+        else
+        {
+            base.TakeDamage(damage);
+        }
+        
     }
 }

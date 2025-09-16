@@ -64669,6 +64669,18 @@ PrefabInstance:
       propertyPath: currentGrid
       value: 
       objectReference: {fileID: 1199274202421046181}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].fastEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].basicEnemy
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].heavyEnemy
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

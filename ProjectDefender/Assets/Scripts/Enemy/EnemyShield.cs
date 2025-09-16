@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class EnemyShield : MonoBehaviour, IDamageable
+public class EnemyShield : MonoBehaviour
 {
-    [SerializeField] private float currentShieldAmount;
 
     [Header("Impact Details")] [SerializeField]
     private Material shieldMaterial;
@@ -23,21 +22,8 @@ public class EnemyShield : MonoBehaviour, IDamageable
     {
         defaultScale = transform.localScale.x;
     }
-
-    public void SetupShield(int shieldAmount)
-    {
-        currentShieldAmount = shieldAmount;
-    }
     
-    public void TakeDamage(int damage)
-    {
-        currentShieldAmount -= damage;
-        ActivateShieldImpact();
-        
-        if (currentShieldAmount <= 0) gameObject.SetActive(false);
-    }
-
-    private void ActivateShieldImpact()
+    public void ActivateShieldImpact()
     {
         if (currentCo != null) StopCoroutine(currentCo);
 

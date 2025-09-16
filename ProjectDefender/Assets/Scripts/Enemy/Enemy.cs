@@ -182,7 +182,7 @@ public class Enemy : MonoBehaviour , IDamageable
         return enemyType;
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         healthPoints = healthPoints - damage;
 
