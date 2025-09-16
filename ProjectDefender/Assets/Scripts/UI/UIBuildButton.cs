@@ -68,7 +68,8 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             CreateTowerPreview();
         }
 
-        Vector3 previewPosition = slotToUse.GetBuildPosition(1);
+        Vector3 previewPosition = slotToUse.GetBuildPosition(1f);
+        
         towerPreview.gameObject.SetActive(select);
         towerPreview.ShowPreview(select, previewPosition);
         onHoverEffect.ShowCaseButton(select);

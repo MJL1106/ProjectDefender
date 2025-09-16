@@ -1672,9 +1672,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentEnemy: {fileID: 0}
+  dynamicTargetChange: 0
   attackCooldown: 3
   enemyPriorityType: 1
   towerHead: {fileID: 606353449706686464}
+  gunPoint: {fileID: 4675967544544072893}
   rotationSpeed: 10
   attackRange: 4
   whatIsEnemy:
@@ -1683,9 +1685,7 @@ MonoBehaviour:
   whatIsTargetable:
     serializedVersion: 2
     m_Bits: 129
-  dynamicTargetChange: 0
   attackSfx: {fileID: 7691047474527346684}
-  gunPoint: {fileID: 4675967544544072893}
   damage: 10
 --- !u!114 &4105478440329888710
 MonoBehaviour:
@@ -1772,7 +1772,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.55, y: 0.55, z: 0.55}
+  m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!1 &6890458344997944324
 GameObject:
