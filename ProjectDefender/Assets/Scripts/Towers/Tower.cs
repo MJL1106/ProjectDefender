@@ -104,7 +104,7 @@ public class Tower : MonoBehaviour
         lastTimeAttacked = Time.time;
     }
 
-    protected bool CanAttack()
+    protected virtual bool CanAttack()
     {
         return Time.time > lastTimeAttacked + attackCooldown && currentEnemy != null;
     }
@@ -187,4 +187,6 @@ public class Tower : MonoBehaviour
     public float GetAttackRange() => attackRange;
 
     public float GetAttackRadius() => attackRange;
+
+    public float GetAttackCooldown() => attackCooldown;
 }

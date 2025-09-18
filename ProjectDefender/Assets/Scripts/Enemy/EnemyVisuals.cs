@@ -31,9 +31,6 @@ public class EnemyVisuals : MonoBehaviour
     protected virtual void Update()
     {
         AlignWithSlope();
-
-        if (Input.GetKeyDown(KeyCode.X)) MakeTransparent(true);
-        if (Input.GetKeyDown(KeyCode.Z)) MakeTransparent(false);
     }
 
     public void MakeTransparent(bool transparent)

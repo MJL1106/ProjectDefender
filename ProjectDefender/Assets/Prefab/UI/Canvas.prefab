@@ -19474,6 +19474,10 @@ PrefabInstance:
       propertyPath: towerName
       value: Hammer
       objectReference: {fileID: 0}
+    - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: towerToBuild
+      value: 
+      objectReference: {fileID: 5609658688902976572, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
     - target: {fileID: 6439293940166785915, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: selectedY
       value: 135

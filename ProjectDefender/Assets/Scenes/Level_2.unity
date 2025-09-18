@@ -4797,67 +4797,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 1, z: 1}
   m_Center: {x: 0.25, y: 0, z: 0}
---- !u!1001 &201959719
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 15543344571556970, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_Name
-      value: Tower_Cannon
-      objectReference: {fileID: 0}
-    - target: {fileID: 15543344571556970, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.0390706
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 7.1343975
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669034152318862677, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f0c29c67453d21e4ba954bf7df4c2ebf, type: 3}
 --- !u!1 &204566461
 GameObject:
   m_ObjectHideFlags: 0
@@ -18836,7 +18775,7 @@ PrefabInstance:
       objectReference: {fileID: 687509787}
     - target: {fileID: -8345537198799329102, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
       propertyPath: spawnCooldown
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3980865510223320822, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -32765,7 +32704,7 @@ MonoBehaviour:
   - towerName: Rapid Fire Gun
     unlocked: 1
   - towerName: Hammer
-    unlocked: 0
+    unlocked: 1
   - towerName: Spider Nest
     unlocked: 0
   - towerName: Anti-air Harpoon
@@ -34259,7 +34198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9121349082536899569, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -64328,7 +64267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a09ae8c3cb5190243b58f57349c3b02e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &2564305173736653333
+--- !u!1001 &1541628980519122564
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -64336,59 +64275,59 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7609871674041638479, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_Name
-      value: Tower_MachineGun
-      objectReference: {fileID: 0}
-    - target: {fileID: 7609871674041638479, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.0390706
+      value: 1.86
       objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.1343975
+      value: 7.46
       objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+    - target: {fileID: 419928056177822335, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5609658688902976572, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
+      propertyPath: m_Name
+      value: Tower_Hammer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5609658688902976572, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 2a0847b8a02641a4a9bfe27f1b7a4e64, type: 3}
 --- !u!1001 &4043099911846862224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64447,7 +64386,7 @@ PrefabInstance:
       objectReference: {fileID: 1199274202421046181}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].fastEnemy
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].basicEnemy
@@ -64463,7 +64402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].spiderBossEnemy
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -64492,5 +64431,4 @@ SceneRoots:
   - {fileID: 1122316690}
   - {fileID: 342123764}
   - {fileID: 1356219889}
-  - {fileID: 201959719}
-  - {fileID: 2564305173736653333}
+  - {fileID: 1541628980519122564}

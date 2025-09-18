@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour , IDamageable
 {
     public EnemyVisuals visuals { get; private set; }
     
-    private GameManager gameManager;
+    protected GameManager gameManager;
     protected EnemyPortal myPortal;
     protected NavMeshAgent agent;
     protected Rigidbody rb;
@@ -28,8 +28,9 @@ public class Enemy : MonoBehaviour , IDamageable
     protected int nextWaypointIndex;
     protected int currentWaypointIndex;
     
-    private float totalDistance;
-
+    protected float totalDistance;
+    protected float originalSpeed;
+    
     protected bool canBeHidden = true;
     protected bool isHidden;
     private Coroutine hideCo;
@@ -46,6 +47,7 @@ public class Enemy : MonoBehaviour , IDamageable
         originalLayerIndex = gameObject.layer;
         
         gameManager = FindFirstObjectByType<GameManager>();
+        originalSpeed = agent.speed;
     }
 
     protected virtual void Start()
@@ -75,6 +77,21 @@ public class Enemy : MonoBehaviour , IDamageable
         {
             ChangeWaypoint();
         }
+    }
+
+    public void SlowEnemy(float slowMultiplier, float duration)
+    {
+        StartCoroutine(SlowEnemyCo(slowMultiplier, duration));
+    }
+    
+    private IEnumerator SlowEnemyCo(float slowMultiplier, float duration)
+    {
+        agent.speed = originalSpeed;
+        agent.speed = agent.speed * slowMultiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        agent.speed = originalSpeed;
     }
 
     public void HideEnemy(float duration)
