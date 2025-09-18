@@ -8,4 +8,9 @@ public class EnemyFlying : Enemy
 
         agent.SetDestination(GetFinalWaypoint());
     }
+
+    public override float DistanceToFinishLine()
+    {
+        return Vector3.Distance(transform.position, GetFinalWaypoint());
+    }
 }

@@ -19,6 +19,7 @@ public class TowerSpiderNest : Tower
     
     private GameObject[] activeSpider;
     private int spiderIndex;
+    private Vector3 spiderPointOffset = new Vector3(0, -.17f, 0);
 
     protected override void Awake()
     {
@@ -56,7 +57,7 @@ public class TowerSpiderNest : Tower
         activeSpider[spiderIndex].GetComponent<ProjectileSpiderNest>().SetupSpider(damage);
 
         yield return ChangeScaleCo(currentWeb, .1f, reloadTime);
-        activeSpider[spiderIndex] = Instantiate(spiderPrefab, currentAttachPoint.position, Quaternion.identity, currentAttachPoint);
+        activeSpider[spiderIndex] = Instantiate(spiderPrefab, currentAttachPoint.position + spiderPointOffset, Quaternion.identity, currentAttachPoint);
 
         spiderIndex = (spiderIndex + 1) % attachPoint.Length;
     }
@@ -76,7 +77,7 @@ public class TowerSpiderNest : Tower
         for (int i = 0; i < activeSpider.Length; i++)
         {
             GameObject newSpider =
-                Instantiate(spiderPrefab, attachPoint[i].position, Quaternion.identity, attachPoint[i]);
+                Instantiate(spiderPrefab, attachPoint[i].position + spiderPointOffset, Quaternion.identity, attachPoint[i]);
             activeSpider[i] = newSpider;
         }
     }

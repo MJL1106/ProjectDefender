@@ -116,6 +116,7 @@ public class Tower : MonoBehaviour
     protected virtual void HandleRotation()
     {
         RotateTowardsEnemy();
+        RotateBodyTowardsEnemy();
     }
     
     protected virtual void RotateTowardsEnemy()
@@ -130,6 +131,17 @@ public class Tower : MonoBehaviour
         Vector3 rotation = Quaternion.Lerp(towerHead.rotation, lookRotation, rotationSpeed * Time.deltaTime).eulerAngles;
 
         towerHead.rotation = Quaternion.Euler(rotation);
+    }
+    
+    protected void RotateBodyTowardsEnemy()
+    {
+        if (towerBody == null || currentEnemy == null) return;
+
+        Vector3 directionToEnemy = DirectionToEnemyFrom(towerBody);
+        directionToEnemy.y = 0;
+
+        Quaternion lookRotation = Quaternion.LookRotation(directionToEnemy);
+        towerBody.rotation = Quaternion.Slerp(towerBody.rotation, lookRotation, rotationSpeed * Time.deltaTime);
     }
 
     protected virtual Enemy FindEnemyWithinRange()

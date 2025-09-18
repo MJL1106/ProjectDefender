@@ -136,7 +136,7 @@ public class Enemy : MonoBehaviour , IDamageable
         return distanceBetweenPoints > distanceToNextWaypoint;
     }
 
-    public float DistanceToFinishLine()
+    public virtual float DistanceToFinishLine()
     {
         return totalDistance + agent.remainingDistance;
     }
