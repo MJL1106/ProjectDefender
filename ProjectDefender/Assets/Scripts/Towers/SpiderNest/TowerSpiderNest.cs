@@ -6,6 +6,7 @@ public class TowerSpiderNest : Tower
 {
     [Header("Spider nest details")] 
     [SerializeField] private GameObject spiderPrefab;
+    [SerializeField] private float damage;
     
     [Range(0,1)]
     [SerializeField] private float attackTimeMultiplier = .4f;
@@ -35,7 +36,7 @@ public class TowerSpiderNest : Tower
 
     protected override bool CanAttack()
     {
-        return Time.time > lastTimeAttacked + attackCooldown;
+        return Time.time > lastTimeAttacked + attackCooldown; //&& AtLeastOneEnemyAround();
     }
 
     protected override void Attack()
@@ -52,7 +53,7 @@ public class TowerSpiderNest : Tower
         float reloadTime = (attackCooldown / 4) * reloadTimeMultiplier;
         
         yield return ChangeScaleCo(currentWeb, 1, attackTime);
-        activeSpider[spiderIndex].GetComponent<ProjectileSpiderNest>().SetupSpider();
+        activeSpider[spiderIndex].GetComponent<ProjectileSpiderNest>().SetupSpider(damage);
 
         yield return ChangeScaleCo(currentWeb, .1f, reloadTime);
         activeSpider[spiderIndex] = Instantiate(spiderPrefab, currentAttachPoint.position, Quaternion.identity, currentAttachPoint);

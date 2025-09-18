@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5900072009398422433}
   - component: {fileID: 5702514306721811448}
   - component: {fileID: 2425144455184316830}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy_emission_red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 7887241134524729525}
   - component: {fileID: 3861761645483869499}
   - component: {fileID: 5412180892858528686}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy_wheels_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 2274051624815924906}
   - component: {fileID: 8334850729720028283}
   - component: {fileID: 5753855064381827877}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 1523387139650403449}
   - component: {fileID: 800226937421613779}
   - component: {fileID: 6657128549408047524}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy_wheels_front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -659,7 +659,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5168312199707512747}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

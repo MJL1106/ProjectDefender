@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 8383614417452229727}
   - component: {fileID: 3419231603519409153}
   - component: {fileID: 4350203201282484875}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: building_2_emission_red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8718401659596946930}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: gun_point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5408286713936842292}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: building_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 1375531460831426795}
   - component: {fileID: 2698432683575176026}
   - component: {fileID: 3966226333218592700}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: building_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 4457016557704894833}
   - component: {fileID: 4952629268864998074}
   - component: {fileID: 1968707591554977877}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5269,7 +5269,7 @@ GameObject:
   - component: {fileID: 2445627955181176991}
   - component: {fileID: 1266563347704111102}
   - component: {fileID: 6653506273033791889}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: building_2_emission_orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5355,7 +5355,7 @@ GameObject:
   - component: {fileID: 358732637149392967}
   - component: {fileID: 1412505437851908422}
   - component: {fileID: 1521734464600121666}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_cannon_emissionPart_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5439,7 +5439,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4336508773536909561}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5475,7 +5475,7 @@ GameObject:
   - component: {fileID: 1751577309290388024}
   - component: {fileID: 7927599005953314156}
   - component: {fileID: 4748005997888995026}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: building_2_emission_white
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5561,7 +5561,7 @@ GameObject:
   - component: {fileID: 8094011219653325268}
   - component: {fileID: 4453331072288063869}
   - component: {fileID: 1976036615921103037}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_cannon_base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5648,7 +5648,7 @@ GameObject:
   - component: {fileID: 2426614526441212482}
   - component: {fileID: 2916664085537981515}
   - component: {fileID: 1318933810950833537}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_cannon_emissionPart_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5734,7 +5734,7 @@ GameObject:
   - component: {fileID: 5273807859883357}
   - component: {fileID: 3137434720841447926}
   - component: {fileID: 7807127382941005022}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_cannon_stand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5821,7 +5821,7 @@ GameObject:
   - component: {fileID: 5591178338544875656}
   - component: {fileID: 9005131269454984309}
   - component: {fileID: 6096867640847391218}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: OnAttack_Smoke_fx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10756,7 +10756,7 @@ GameObject:
   - component: {fileID: 8556212407135167019}
   - component: {fileID: 4553102508822516587}
   - component: {fileID: 6396753825584738623}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_cannon_cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

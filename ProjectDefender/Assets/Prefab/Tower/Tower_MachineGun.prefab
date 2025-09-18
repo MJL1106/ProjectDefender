@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8916387518249984079}
   - component: {fileID: 6539462382436686387}
   - component: {fileID: 3926775062961241477}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_1_emission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 6552027915142733535}
   - component: {fileID: 1683407946850654641}
   - component: {fileID: 9012655600285215647}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 6430552890330371952}
   - component: {fileID: 2992176713684223847}
   - component: {fileID: 1917927116920432633}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5086,7 +5086,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2684249347130993131}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: gunPoint_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5120,7 +5120,7 @@ GameObject:
   - component: {fileID: 6202872458062401893}
   - component: {fileID: 7441664769953785852}
   - component: {fileID: 4644442246880635087}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: OnHit_machinegun_Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10055,7 +10055,7 @@ GameObject:
   - component: {fileID: 2490393519549529385}
   - component: {fileID: 6293031734048344793}
   - component: {fileID: 8312495916326045641}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10143,7 +10143,7 @@ GameObject:
   - component: {fileID: 2150925953893082144}
   - component: {fileID: 5712262517962598435}
   - component: {fileID: 1695280561882544196}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: building_3_emission_white
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10229,7 +10229,7 @@ GameObject:
   - component: {fileID: 7811851147403125739}
   - component: {fileID: 5633036566721059039}
   - component: {fileID: 2942852451276459516}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10317,7 +10317,7 @@ GameObject:
   - component: {fileID: 5365390671201600320}
   - component: {fileID: 6811408184523080607}
   - component: {fileID: 3291733317680111733}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10405,7 +10405,7 @@ GameObject:
   - component: {fileID: 1830497096194203886}
   - component: {fileID: 3624192922437503755}
   - component: {fileID: 8918147036537347516}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_emission_part_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10489,7 +10489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7806676876037874069}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: gunPoint_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10522,7 +10522,7 @@ GameObject:
   - component: {fileID: 5371205407211321645}
   - component: {fileID: 6910784781933961224}
   - component: {fileID: 8511130004735107546}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_stand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10607,7 +10607,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5283482578586279140}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: gunPoint_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10640,7 +10640,7 @@ GameObject:
   - component: {fileID: 2356956765044217006}
   - component: {fileID: 1136524857766420418}
   - component: {fileID: 2672188564202142271}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_5_emission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10724,7 +10724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5623662357522730654}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: gunPoint_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10757,7 +10757,7 @@ GameObject:
   - component: {fileID: 2170225898894060286}
   - component: {fileID: 8789046367250710838}
   - component: {fileID: 2710200639102330440}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_emission_part_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10843,7 +10843,7 @@ GameObject:
   - component: {fileID: 6954510782032821501}
   - component: {fileID: 485702651751189344}
   - component: {fileID: 8319580199826623451}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10929,7 +10929,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 330417177924612910}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: gunPoint_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10962,7 +10962,7 @@ GameObject:
   - component: {fileID: 6637780449501096300}
   - component: {fileID: 6105826450923460908}
   - component: {fileID: 3951934473258932233}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: building_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11048,7 +11048,7 @@ GameObject:
   - component: {fileID: 5939326661606972157}
   - component: {fileID: 8303953570762530559}
   - component: {fileID: 8622433375559300482}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_4_emission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11132,7 +11132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2206075178450148605}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: building_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11165,7 +11165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1195784371958701086}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machinegun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11200,7 +11200,7 @@ GameObject:
   - component: {fileID: 353502312291224627}
   - component: {fileID: 8217871975233936411}
   - component: {fileID: 5659655820422839117}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_3_emission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11286,7 +11286,7 @@ GameObject:
   - component: {fileID: 1045443644085857174}
   - component: {fileID: 8013616583307026381}
   - component: {fileID: 713712749811824263}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11519,7 +11519,7 @@ GameObject:
   - component: {fileID: 5039226978637547803}
   - component: {fileID: 5549319208978966193}
   - component: {fileID: 8565001025036855708}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11607,7 +11607,7 @@ GameObject:
   - component: {fileID: 6823411917615232364}
   - component: {fileID: 2871774171786291245}
   - component: {fileID: 834086908449355156}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_6_emission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11691,7 +11691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5818922557904510937}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: gunPoint_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11724,7 +11724,7 @@ GameObject:
   - component: {fileID: 1429528173020154315}
   - component: {fileID: 7984123562975009787}
   - component: {fileID: 838020127029061555}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_machineGun_barrel_2_emission
   m_TagString: Untagged
   m_Icon: {fileID: 0}

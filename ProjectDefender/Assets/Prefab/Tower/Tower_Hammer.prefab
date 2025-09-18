@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1361634775205968104}
   - component: {fileID: 1551588865344317685}
   - component: {fileID: 967183715177408011}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_hammer_gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4189385762535904691}
   - component: {fileID: 4749822344383365954}
   - component: {fileID: 624377504808043811}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: onStomp_fx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5049,7 +5049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 540740162391308695}
   - component: {fileID: 6786299163810995135}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5147,7 +5147,7 @@ GameObject:
   - component: {fileID: 2795504361677001722}
   - component: {fileID: 2794558883485489977}
   - component: {fileID: 7612166959176697993}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Lines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9942,7 +9942,7 @@ GameObject:
   - component: {fileID: 4123991299073841185}
   - component: {fileID: 612759641429873286}
   - component: {fileID: 6568186717275168848}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ripple_fx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14854,7 +14854,7 @@ GameObject:
   - component: {fileID: 6817109167970653175}
   - component: {fileID: 588395101301320374}
   - component: {fileID: 3448690160555259850}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_hammer_emission_orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14940,7 +14940,7 @@ GameObject:
   - component: {fileID: 430386882562418012}
   - component: {fileID: 6675592580905982814}
   - component: {fileID: 3441383666941588631}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_hammer_hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15026,7 +15026,7 @@ GameObject:
   - component: {fileID: 529323542484279011}
   - component: {fileID: 8484344591894937306}
   - component: {fileID: 917407158208134721}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19929,7 +19929,7 @@ GameObject:
   - component: {fileID: 7870433381969647991}
   - component: {fileID: 3109181179887651808}
   - component: {fileID: 9204310294423719699}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Impact small
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24679,7 +24679,7 @@ GameObject:
   - component: {fileID: 5910866854644475388}
   - component: {fileID: 48058322205464331}
   - component: {fileID: 8725456833091247897}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_hammer_holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24765,7 +24765,7 @@ GameObject:
   - component: {fileID: 5389180425455586924}
   - component: {fileID: 2633533947137939213}
   - component: {fileID: 7277770317900529878}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29560,7 +29560,7 @@ GameObject:
   - component: {fileID: 688955137584079462}
   - component: {fileID: 3146698662936079182}
   - component: {fileID: 7436401738793978729}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_hammer_handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29647,7 +29647,7 @@ GameObject:
   - component: {fileID: 8253272839307696110}
   - component: {fileID: 3512329434286701925}
   - component: {fileID: 6261953245797740441}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_hammer_wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29886,7 +29886,7 @@ GameObject:
   - component: {fileID: 3600917144762770598}
   - component: {fileID: 3414551456458790057}
   - component: {fileID: 2034675464457641595}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34607,7 +34607,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3479460149503682398}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34648,7 +34648,7 @@ GameObject:
   - component: {fileID: 81576876757576230}
   - component: {fileID: 7473217393446092017}
   - component: {fileID: 7943361623127387892}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_hammer_wire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34734,7 +34734,7 @@ GameObject:
   - component: {fileID: 8817426449244500769}
   - component: {fileID: 864935458133564810}
   - component: {fileID: 8911508814251097442}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: tower_hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

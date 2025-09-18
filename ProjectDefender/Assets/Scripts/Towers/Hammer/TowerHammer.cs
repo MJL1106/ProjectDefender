@@ -60,9 +60,5 @@ public class TowerHammer : Tower
         return Time.time > lastTimeAttacked + attackCooldown && AtLeastOneEnemyAround();
     }
 
-    private bool AtLeastOneEnemyAround()
-    {
-        Collider[] enemyColliders = Physics.OverlapSphere(transform.position, attackRange, whatIsEnemy);
-        return enemyColliders.Length > 0;
-    }
+
 }
