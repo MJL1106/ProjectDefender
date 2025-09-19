@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TowerHarpoon : Tower
 {
+    private HarpoonVisuals harpoonVisuals;
+    
     [Header("Harpoon Details")] 
     [SerializeField] private GameObject projectilePrefab;
 
@@ -25,6 +27,7 @@ public class TowerHarpoon : Tower
     {
         base.Awake();
         CreateNewProjectile();
+        harpoonVisuals = GetComponent<HarpoonVisuals>();
     }
 
     protected override void Attack()
@@ -34,8 +37,10 @@ public class TowerHarpoon : Tower
         if (Physics.Raycast(gunPoint.position, gunPoint.forward, out RaycastHit hitInfo, Mathf.Infinity,
                 whatIsTargetable))
         {
+            currentEnemy = hitInfo.collider.GetComponent<Enemy>();
             busyWithAttack = true;
             currentProjectile.SetupProjectile(currentEnemy, projectileSpeed,this);
+            harpoonVisuals.EnableChainVisuals(true, currentProjectile.GetConnectionPoint());
         }
     }
 
@@ -71,6 +76,7 @@ public class TowerHarpoon : Tower
         currentEnemy = null;
         lastTimeAttacked = Time.time;
         busyWithAttack = false;
+        harpoonVisuals.EnableChainVisuals(false);
         CreateNewProjectile();
     }
 

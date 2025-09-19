@@ -7,6 +7,8 @@ public class ProjectileHarpoon : MonoBehaviour
     private bool isAttached;
     private float speed;
     private Enemy enemy;
+    
+    [SerializeField] private Transform connectionPoint;
 
     private void Update()
     {
@@ -36,4 +38,12 @@ public class ProjectileHarpoon : MonoBehaviour
         enemy = newEnemy;
         myTower = newTower;
     }
+
+    public Transform GetConnectionPoint()
+    {
+        if (connectionPoint == null) return transform;
+
+        return connectionPoint;
+    }
+
 }
