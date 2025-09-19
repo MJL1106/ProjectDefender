@@ -16,6 +16,7 @@ public class ProjectileHarpoonLink : MonoBehaviour
         vfx = GetComponentInChildren<ParticleSystem>();
         
         EnableLink(false, transform.position);
+        EnableVFX(false);
     }
 
     public void EnableLink(bool enable, Vector3 newPosition)

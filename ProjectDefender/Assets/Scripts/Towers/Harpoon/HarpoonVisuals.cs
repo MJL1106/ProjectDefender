@@ -15,6 +15,12 @@ public class HarpoonVisuals : MonoBehaviour
 
     private List<ProjectileHarpoonLink> links = new List<ProjectileHarpoonLink>();
 
+    [Space] 
+    [SerializeField] private GameObject onElectrifyVfx;
+
+    [SerializeField] private Vector3 vfxOffset;
+    private GameObject currentVfx;
+
     private void Start()
     {
         InitializeLinks();
@@ -27,11 +33,25 @@ public class HarpoonVisuals : MonoBehaviour
         ActivateLinksIfNeeded();
     }
 
+    public void CreateElectrifyVFX(Transform targetTransform)
+    {
+        currentVfx = Instantiate(onElectrifyVfx, targetTransform.position + vfxOffset, Quaternion.identity, targetTransform);
+    }
+
+    public void DestroyElectrifyVFX()
+    {
+        if (currentVfx != null) Destroy(currentVfx);
+    }
+
     public void EnableChainVisuals(bool enable, Transform newEndPoint = null)
     {
         if (enable) endPoint = newEndPoint;
 
-        if (enable == false) endPoint = startPoint;
+        if (enable == false)
+        {
+            endPoint = startPoint;
+            DestroyElectrifyVFX();
+        }
     }
     private void ActivateLinksIfNeeded()
     {

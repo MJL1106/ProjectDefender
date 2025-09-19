@@ -19013,7 +19013,7 @@ PrefabInstance:
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerToBuild
       value: 
-      objectReference: {fileID: 6748250119000925149, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
+      objectReference: {fileID: 1231896078262622604, guid: fd02c7fed1873eb4487bf59073fb2271, type: 3}
     - target: {fileID: 6439293940166785915, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: selectedY
       value: 135
@@ -19326,6 +19326,10 @@ PrefabInstance:
       propertyPath: towerName
       value: Spider Nest
       objectReference: {fileID: 0}
+    - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: towerToBuild
+      value: 
+      objectReference: {fileID: 1593701796951960735, guid: fd4775f30ba920f4898d66d379e93b8a, type: 3}
     - target: {fileID: 6439293940166785915, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: selectedY
       value: 135

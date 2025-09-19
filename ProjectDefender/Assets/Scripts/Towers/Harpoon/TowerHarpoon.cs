@@ -20,6 +20,7 @@ public class TowerHarpoon : Tower
     [Range(0f, 1f)] 
     [SerializeField] private float slowEffect = .7f;
 
+    private bool reachedTarget;
     private bool busyWithAttack;
     private Coroutine damageOverTimeCo;
 
@@ -41,12 +42,18 @@ public class TowerHarpoon : Tower
             busyWithAttack = true;
             currentProjectile.SetupProjectile(currentEnemy, projectileSpeed,this);
             harpoonVisuals.EnableChainVisuals(true, currentProjectile.GetConnectionPoint());
+            
+            Invoke(nameof(ResetAttackIfMissed),1);
         }
     }
 
     public void ActivateAttack()
     {
+        reachedTarget = true;
+        
+        currentEnemy.GetComponent<EnemyFlying>().AddObservingTower(this);
         currentEnemy.SlowEnemy(slowEffect, overTimeEffectDuration);
+        harpoonVisuals.CreateElectrifyVFX(currentEnemy.transform);
 
         IDamageable damageable = currentEnemy.GetComponent<IDamageable>();
         damageable?.TakeDamage(initialDamage);
@@ -73,9 +80,11 @@ public class TowerHarpoon : Tower
     {
         if (damageOverTimeCo != null) StopCoroutine(damageOverTimeCo);
         
+        busyWithAttack = false;
+        reachedTarget = false;
+        
         currentEnemy = null;
         lastTimeAttacked = Time.time;
-        busyWithAttack = false;
         harpoonVisuals.EnableChainVisuals(false);
         CreateNewProjectile();
     }
@@ -91,6 +100,14 @@ public class TowerHarpoon : Tower
             projectileDefaultPosition.rotation, towerHead);
 
         currentProjectile = newProjectile.GetComponent<ProjectileHarpoon>();
+    }
+
+    private void ResetAttackIfMissed()
+    {
+        if (reachedTarget == true) return;
+        
+        Destroy(currentProjectile.gameObject);
+        ResetAttack();
     }
 
     protected override bool CanAttack()
