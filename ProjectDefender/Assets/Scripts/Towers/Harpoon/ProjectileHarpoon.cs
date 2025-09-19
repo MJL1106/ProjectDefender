@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ProjectileHarpoon : MonoBehaviour
 {
+    private TowerHarpoon myTower;
     private bool isAttached;
     private float speed;
     private Enemy enemy;
@@ -26,11 +27,13 @@ public class ProjectileHarpoon : MonoBehaviour
     {
         isAttached = true;
         transform.parent = enemy.transform;
+        myTower.ActivateAttack();
     }
 
-    public void SetupProjectile(Enemy newEnemy, float newSpeed)
+    public void SetupProjectile(Enemy newEnemy, float newSpeed, TowerHarpoon newTower)
     {
         speed = newSpeed;
         enemy = newEnemy;
+        myTower = newTower;
     }
 }

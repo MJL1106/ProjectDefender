@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour , IDamageable
 
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
-    public int healthPoints = 4;
+    public float healthPoints = 4;
     protected bool isDead;
     
     [Header("Movement")]
@@ -199,7 +199,7 @@ public class Enemy : MonoBehaviour , IDamageable
         return enemyType;
     }
 
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(float damage)
     {
         healthPoints = healthPoints - damage;
 
@@ -217,7 +217,7 @@ public class Enemy : MonoBehaviour , IDamageable
         DestroyEnemy();
     }
 
-    public void DestroyEnemy()
+    public virtual void DestroyEnemy()
     {
         visuals.CreateOnDeathVfx();
         Destroy(gameObject);

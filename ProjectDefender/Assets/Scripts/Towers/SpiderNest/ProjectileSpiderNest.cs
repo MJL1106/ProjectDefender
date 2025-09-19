@@ -65,8 +65,7 @@ public class ProjectileSpiderNest : MonoBehaviour
 
             if (damageable != null)
             {
-                int newDamage = Mathf.RoundToInt(damage);
-                damageable.TakeDamage(newDamage);
+                damageable.TakeDamage(damage);
             }
         }
     }

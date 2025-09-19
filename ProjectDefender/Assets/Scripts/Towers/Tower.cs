@@ -58,7 +58,7 @@ public class Tower : MonoBehaviour
         if (CanAttack()) Attack();
     }
 
-    private void LooseTargetIfNeeded()
+    protected virtual void LooseTargetIfNeeded()
     {
         if (currentEnemy == null) return;
         
