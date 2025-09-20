@@ -73,7 +73,7 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         towerPreview.gameObject.SetActive(select);
         towerPreview.ShowPreview(select, previewPosition);
         onHoverEffect.ShowCaseButton(select);
-        buildButtonsHolder.SetLastSelected(this);
+        buildButtonsHolder.SetLastSelected(this, towerPreview.transform);
     }
 
     public void UnlockTowerIfNeeded(string towerNameToCheck, bool unlockStatus)
@@ -92,7 +92,7 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void ConfirmTowerBuild()
     {
-        buildManager.BuildTower(towerToBuild, towerPrice);
+        buildManager.BuildTower(towerToBuild, towerPrice, towerPreview.transform);
     }
     
     public void OnPointerEnter(PointerEventData eventData)

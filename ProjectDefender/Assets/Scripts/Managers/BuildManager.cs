@@ -56,7 +56,7 @@ public class BuildManager : MonoBehaviour
       gameManager = GameManager.instance;
    }
 
-   public void BuildTower(GameObject towerToBuild, int towerPrice)
+   public void BuildTower(GameObject towerToBuild, int towerPrice, Transform newPreviewTower)
    {
       if (gameManager.HasEnoughCurrency(towerPrice) == false)
       {
@@ -74,18 +74,20 @@ public class BuildManager : MonoBehaviour
       {
          return;
       }
-        
+
+      Transform previewTower = newPreviewTower;
       BuildSlot slotToUse = GetSelectedSlot();
       CancelBuildAction();
         
       slotToUse.SnapToDefaultPosition();
       slotToUse.SetSlotAvailableTo(false);
         
-      ui.BuildButtonsHolderUI.SetLastSelected(null);
+      ui.BuildButtonsHolderUI.SetLastSelected(null, null);
         
       cameraEffects.ScreenShake(camShakeDuration, camShakeMagnitude);
 
       GameObject newTower = Instantiate(towerToBuild,slotToUse.GetBuildPosition(towerCentreY), Quaternion.identity);
+      newTower.transform.rotation = previewTower.rotation;
    }
 
    public void MouseOverUI(bool isOverUI) => isMouseOverUI = isOverUI;

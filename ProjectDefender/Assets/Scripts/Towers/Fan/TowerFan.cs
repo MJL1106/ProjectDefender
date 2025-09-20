@@ -21,7 +21,7 @@ public class TowerFan : Tower
     {
         foreach (var enemy in enemiesToReveal)
         {
-            enemy.DisableHide(revealDuration);
+            if (enemy != null) enemy.DisableHide(revealDuration);
         }
     }
 
