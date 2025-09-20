@@ -19170,6 +19170,10 @@ PrefabInstance:
       propertyPath: towerName
       value: Just Fan
       objectReference: {fileID: 0}
+    - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: towerToBuild
+      value: 
+      objectReference: {fileID: 904390951718018267, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
     - target: {fileID: 6439293940166785915, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: selectedY
       value: 135

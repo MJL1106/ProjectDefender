@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour , IDamageable
     protected bool canBeHidden = true;
     protected bool isHidden;
     private Coroutine hideCo;
+    private Coroutine disableHideCo;
     private int originalLayerIndex;
 
     protected virtual void Awake()
@@ -94,6 +95,20 @@ public class Enemy : MonoBehaviour , IDamageable
         agent.speed = originalSpeed;
     }
 
+    public void DisableHide(float duration)
+    {
+        if (disableHideCo != null) StopCoroutine(disableHideCo);
+
+        disableHideCo = StartCoroutine(DisableHideCo(duration));
+    }
+
+    protected virtual IEnumerator DisableHideCo(float duration)
+    {
+        canBeHidden = false;
+        yield return new WaitForSeconds(duration);
+        canBeHidden = true;
+    }
+
     public void HideEnemy(float duration)
     {
         if (canBeHidden == false) return;
@@ -102,12 +117,6 @@ public class Enemy : MonoBehaviour , IDamageable
 
         hideCo = StartCoroutine(HideEnemyCo(duration));
     }
-
-    protected virtual void ChangeWaypoint()
-    {
-        agent.SetDestination(GetNextWaypoint());
-    }
-
     private IEnumerator HideEnemyCo(float duration)
     {
         gameObject.layer = LayerMask.NameToLayer("Untargetable");
@@ -120,6 +129,12 @@ public class Enemy : MonoBehaviour , IDamageable
         visuals.MakeTransparent(false);
         isHidden = false;
     }
+
+    protected virtual void ChangeWaypoint()
+    {
+        agent.SetDestination(GetNextWaypoint());
+    }
+
 
     protected virtual bool ShouldChangeWaypoint()
     {
