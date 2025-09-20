@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 7625356309920796652}
   - component: {fileID: 7629010516889078561}
   - component: {fileID: 7665987662550687270}
+  - component: {fileID: 3067400140985164832}
   m_Layer: 12
   m_Name: Tower_Harpoon
   m_TagString: Untagged
@@ -153,6 +154,7 @@ MonoBehaviour:
   whatIsTargetable:
     serializedVersion: 2
     m_Bits: 1024
+  towerAttacksForward: 0
   attackSfx: {fileID: 0}
   projectilePrefab: {fileID: 7710917892564352953, guid: 6e8e655e19af0784f89ba44946eef03f, type: 3}
   projectileDefaultPosition: {fileID: 9148707866004476194}
@@ -229,6 +231,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 0.2, z: 0}
+--- !u!208 &3067400140985164832
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231896078262622604}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.425, y: 1, z: 0.425}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2036180452538528041
 GameObject:
   m_ObjectHideFlags: 0

@@ -30631,7 +30631,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4161
+    m_Bits: 65
   m_UseGeometry: 0
   m_DefaultArea: 4
   m_GenerateLinks: 0
