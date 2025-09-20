@@ -11,14 +11,14 @@ public class Enemy : MonoBehaviour , IDamageable
 {
     public EnemyVisuals visuals { get; private set; }
     
-    private GameManager gameManager;
+    protected GameManager gameManager;
     protected EnemyPortal myPortal;
     protected NavMeshAgent agent;
     protected Rigidbody rb;
 
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
-    public int healthPoints = 4;
+    public float healthPoints = 4;
     protected bool isDead;
     
     [Header("Movement")]
@@ -28,11 +28,13 @@ public class Enemy : MonoBehaviour , IDamageable
     protected int nextWaypointIndex;
     protected int currentWaypointIndex;
     
-    private float totalDistance;
-
+    protected float totalDistance;
+    protected float originalSpeed;
+    
     protected bool canBeHidden = true;
     protected bool isHidden;
     private Coroutine hideCo;
+    private Coroutine disableHideCo;
     private int originalLayerIndex;
 
     protected virtual void Awake()
@@ -46,6 +48,7 @@ public class Enemy : MonoBehaviour , IDamageable
         originalLayerIndex = gameObject.layer;
         
         gameManager = FindFirstObjectByType<GameManager>();
+        originalSpeed = agent.speed;
     }
 
     protected virtual void Start()
@@ -77,6 +80,35 @@ public class Enemy : MonoBehaviour , IDamageable
         }
     }
 
+    public void SlowEnemy(float slowMultiplier, float duration)
+    {
+        StartCoroutine(SlowEnemyCo(slowMultiplier, duration));
+    }
+    
+    private IEnumerator SlowEnemyCo(float slowMultiplier, float duration)
+    {
+        agent.speed = originalSpeed;
+        agent.speed = agent.speed * slowMultiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        agent.speed = originalSpeed;
+    }
+
+    public void DisableHide(float duration)
+    {
+        if (disableHideCo != null) StopCoroutine(disableHideCo);
+
+        disableHideCo = StartCoroutine(DisableHideCo(duration));
+    }
+
+    protected virtual IEnumerator DisableHideCo(float duration)
+    {
+        canBeHidden = false;
+        yield return new WaitForSeconds(duration);
+        canBeHidden = true;
+    }
+
     public void HideEnemy(float duration)
     {
         if (canBeHidden == false) return;
@@ -85,12 +117,6 @@ public class Enemy : MonoBehaviour , IDamageable
 
         hideCo = StartCoroutine(HideEnemyCo(duration));
     }
-
-    protected virtual void ChangeWaypoint()
-    {
-        agent.SetDestination(GetNextWaypoint());
-    }
-
     private IEnumerator HideEnemyCo(float duration)
     {
         gameObject.layer = LayerMask.NameToLayer("Untargetable");
@@ -103,6 +129,12 @@ public class Enemy : MonoBehaviour , IDamageable
         visuals.MakeTransparent(false);
         isHidden = false;
     }
+
+    protected virtual void ChangeWaypoint()
+    {
+        agent.SetDestination(GetNextWaypoint());
+    }
+
 
     protected virtual bool ShouldChangeWaypoint()
     {
@@ -119,7 +151,7 @@ public class Enemy : MonoBehaviour , IDamageable
         return distanceBetweenPoints > distanceToNextWaypoint;
     }
 
-    public float DistanceToFinishLine()
+    public virtual float DistanceToFinishLine()
     {
         return totalDistance + agent.remainingDistance;
     }
@@ -182,7 +214,7 @@ public class Enemy : MonoBehaviour , IDamageable
         return enemyType;
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(float damage)
     {
         healthPoints = healthPoints - damage;
 
@@ -200,7 +232,7 @@ public class Enemy : MonoBehaviour , IDamageable
         DestroyEnemy();
     }
 
-    public void DestroyEnemy()
+    public virtual void DestroyEnemy()
     {
         visuals.CreateOnDeathVfx();
         Destroy(gameObject);

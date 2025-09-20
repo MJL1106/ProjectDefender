@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5900072009398422433}
   - component: {fileID: 5702514306721811448}
   - component: {fileID: 2425144455184316830}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy_emission_red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onDeathVfx: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
+  onDeathVfcScale: 0.5
   visuals: {fileID: 5168312199707512747}
   whatIsGround:
     serializedVersion: 2
@@ -245,7 +246,7 @@ GameObject:
   - component: {fileID: 7887241134524729525}
   - component: {fileID: 3861761645483869499}
   - component: {fileID: 5412180892858528686}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy_wheels_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +346,7 @@ GameObject:
   - component: {fileID: 2274051624815924906}
   - component: {fileID: 8334850729720028283}
   - component: {fileID: 5753855064381827877}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +434,7 @@ GameObject:
   - component: {fileID: 1523387139650403449}
   - component: {fileID: 800226937421613779}
   - component: {fileID: 6657128549408047524}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy_wheels_front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -535,7 +536,7 @@ GameObject:
   - component: {fileID: 7342194387142803876}
   - component: {fileID: 247677926410369559}
   - component: {fileID: 5077526734024857698}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -569,7 +570,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a549450ac5f468d418b959e2e2ad8906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentShieldAmount: 0
   shieldMaterial: {fileID: 2100000, guid: 32a76832b79e84347ad9df08b12709c3, type: 2}
   defaultShieldGlow: 1
   impactShieldGlow: 5
@@ -659,7 +659,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5168312199707512747}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: heavy_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

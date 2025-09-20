@@ -778,7 +778,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6028690439968568079}
         m_TargetAssemblyTypeName: UIBuildButton, Assembly-CSharp
-        m_MethodName: BuildTower
+        m_MethodName: ConfirmTowerBuild
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -803,6 +803,5 @@ MonoBehaviour:
   towerName: Crossbow
   towerPrice: 50
   towerToBuild: {fileID: 6748250119000925149, guid: 8e0e97a63077661478c5d7b16e9d42e1, type: 3}
-  towerCentreY: 0.5
   towerNameText: {fileID: 5810272529766149009}
   towerPriceText: {fileID: 1483223718029093709}

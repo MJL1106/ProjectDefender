@@ -17,7 +17,6 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [FormerlySerializedAs("price")] [SerializeField] private int towerPrice = 50;
     [Space]
     [SerializeField] private GameObject towerToBuild;
-    [SerializeField] private float towerCentreY = .5f;
     
     [Header("Text Components")]
     [SerializeField] private TextMeshProUGUI towerNameText;
@@ -48,7 +47,8 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         GameObject newPreview = Instantiate(towerToBuild, Vector3.zero, Quaternion.identity);
         
         towerPreview = newPreview.AddComponent<TowerPreview>();
-        towerPreview.gameObject.SetActive(false);
+        towerPreview.SetupTowerPreview(newPreview);
+        towerPreview.transform.parent = buildManager.transform;
     }
 
     public void SelectButton(bool select)
@@ -68,11 +68,12 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             CreateTowerPreview();
         }
 
-        Vector3 previewPosition = slotToUse.GetBuildPosition(1);
+        Vector3 previewPosition = slotToUse.GetBuildPosition(1f);
+        
         towerPreview.gameObject.SetActive(select);
         towerPreview.ShowPreview(select, previewPosition);
         onHoverEffect.ShowCaseButton(select);
-        buildButtonsHolder.SetLastSelected(this);
+        buildButtonsHolder.SetLastSelected(this, towerPreview.transform);
     }
 
     public void UnlockTowerIfNeeded(string towerNameToCheck, bool unlockStatus)
@@ -89,36 +90,9 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
     }
 
-    public void BuildTower()
+    public void ConfirmTowerBuild()
     {
-        if (gameManager.HasEnoughCurrency(towerPrice) == false)
-        {
-            ui.inGameUI.ShakeCurrencyUI();
-            return;
-        }
-        
-        if (towerToBuild == null)
-        {
-            Debug.LogWarning("YOu did not assign a tower to this button!");
-            return;
-        }
-
-        if (ui.BuildButtonsHolderUI.GetLastSelected() == null)
-        {
-            return;
-        }
-        
-        BuildSlot slotToUse = buildManager.GetSelectedSlot();
-        buildManager.CancelBuildAction();
-        
-        slotToUse.SnapToDefaultPosition();
-        slotToUse.SetSlotAvailableTo(false);
-        
-        ui.BuildButtonsHolderUI.SetLastSelected(null);
-        
-        cameraEffects.ScreenShake(.15f, .02f);
-
-        GameObject newTower = Instantiate(towerToBuild,slotToUse.GetBuildPosition(towerCentreY), Quaternion.identity);
+        buildManager.BuildTower(towerToBuild, towerPrice, towerPreview.transform);
     }
     
     public void OnPointerEnter(PointerEventData eventData)

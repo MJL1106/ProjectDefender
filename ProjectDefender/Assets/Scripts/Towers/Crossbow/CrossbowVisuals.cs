@@ -6,12 +6,11 @@ using Random = UnityEngine.Random;
 
 public class CrossbowVisuals : MonoBehaviour
 {
-   private Enemy myEnemy;
-
    [Header("Attack Visuals")] 
    [SerializeField] private GameObject onHitVfx;
    [SerializeField] private LineRenderer attackVisuals;
    [SerializeField] private float attackVisualDuration = .1f;
+   private Vector3 hitPoint;
 
    [Header("Glowing Visuals")] [SerializeField]
    private MeshRenderer meshRenderer;
@@ -88,7 +87,7 @@ private void Awake()
 
    private void UpdateAttackVisualsIfNeeded()
    {
-      if (attackVisuals.enabled && myEnemy != null) attackVisuals.SetPosition(1, myEnemy.CentrePoint());
+      if (attackVisuals.enabled && hitPoint != Vector3.zero) attackVisuals.SetPosition(1, hitPoint);
    }
 
    private void UpdateStrings()
@@ -114,14 +113,14 @@ private void Awake()
       StartCoroutine(UpdateRotorPosition(newDuration));
    }
 
-   public void PlayAttackVFX(Vector3 startPoint, Vector3 endPoint, Enemy newEnemy)
+   public void PlayAttackVFX(Vector3 startPoint, Vector3 endPoint)
    {
-      StartCoroutine(VFXCoroutine(startPoint, endPoint, newEnemy));
+      StartCoroutine(VFXCoroutine(startPoint, endPoint));
    }
 
-   private IEnumerator VFXCoroutine(Vector3 startPoint, Vector3 endPoint, Enemy newEnemy)
+   private IEnumerator VFXCoroutine(Vector3 startPoint, Vector3 endPoint)
    {
-      myEnemy = newEnemy;
+      hitPoint = endPoint;
       
       attackVisuals.enabled = true;
       attackVisuals.SetPosition(0, startPoint);

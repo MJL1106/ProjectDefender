@@ -13,24 +13,26 @@ public class Tower : MonoBehaviour
 
     protected bool towerActive = true;
     protected Coroutine deactivatedTowerCo;
-    private GameObject currentEmpVfx;
+    protected GameObject currentEmpVfx;
 
+    [Tooltip("Enabling this allows tower to change target between attacks")] 
+    [SerializeField] private bool dynamicTargetChange;
     [SerializeField] protected float attackCooldown = 1f;
     protected float lastTimeAttacked;
 
     [Header("Tower Setup")] 
     [SerializeField] protected EnemyType enemyPriorityType = EnemyType.None;
     [SerializeField] protected Transform towerHead;
+    [SerializeField] protected Transform towerBody;
+    [SerializeField] protected Transform gunPoint;
     [SerializeField] protected float rotationSpeed = 10f;
-    private bool canRotate;
 
     [SerializeField] protected float attackRange = 2.5f;
     [SerializeField] protected LayerMask whatIsEnemy;
     [SerializeField] protected LayerMask whatIsTargetable;
+    public bool towerAttacksForward;
 
     [Space] 
-    [Tooltip("Enabling this allows tower to change target between attacks")] 
-    [SerializeField] private bool dynamicTargetChange;
     private float targetCheckInterval = .1f;
     private float lastTimeCheckedTarget;
 
@@ -39,26 +41,29 @@ public class Tower : MonoBehaviour
 
     protected virtual void Awake()
     {
-        EnableRotation(true);
+    }
+
+    protected void Start()
+    {
+        GameManager.instance.currentActiveWaveManager.UpdateDroneNavMesh();
     }
 
     protected virtual void Update()
     {
         if (towerActive == false) return;
         
+        LooseTargetIfNeeded();
         UpdateTargetIfNeeded();
+        HandleRotation();
         
-        if (currentEnemy == null)
-        {
-            currentEnemy = FindEnemyWithinRange();
-            return;
-        }
-
         if (CanAttack()) Attack();
+    }
 
-        if (Vector3.Distance(currentEnemy.CentrePoint(), transform.position) > attackRange) currentEnemy = null;
+    protected virtual void LooseTargetIfNeeded()
+    {
+        if (currentEnemy == null) return;
         
-        RotateTowardsEnemy();
+        if (Vector3.Distance(currentEnemy.CentrePoint(), transform.position) > attackRange) currentEnemy = null;
     }
 
     public void DeactivateTower(float duration, GameObject empVxPrefab)
@@ -68,10 +73,10 @@ public class Tower : MonoBehaviour
         if (currentEmpVfx != null) Destroy(currentEmpVfx);
 
         currentEmpVfx = Instantiate(empVxPrefab, transform.position + new Vector3(0, .5f, 0), Quaternion.identity);
-        deactivatedTowerCo = StartCoroutine(DisableTowerCo(duration));
+        deactivatedTowerCo = StartCoroutine(DeactivateTowerCo(duration));
     }
 
-    private IEnumerator DisableTowerCo(float duration)
+    private IEnumerator DeactivateTowerCo(float duration)
     {
         towerActive = false;
 
@@ -82,12 +87,14 @@ public class Tower : MonoBehaviour
         Destroy(currentEmpVfx);
     }
     
-    public float GetAttackRange() => attackRange;
-
-    public float GetAttackRadius() => attackRange;
-
     private void UpdateTargetIfNeeded()
     {
+        if (currentEnemy == null)
+        {
+            currentEnemy = FindEnemyWithinRange();
+            return;
+        }
+        
         if (dynamicTargetChange == false) return;
 
         if (Time.time > lastTimeCheckedTarget + targetCheckInterval)
@@ -99,32 +106,23 @@ public class Tower : MonoBehaviour
 
     protected virtual void Attack()
     {
-        
+        lastTimeAttacked = Time.time;
     }
 
-    protected bool CanAttack()
+    protected virtual bool CanAttack()
     {
-        if (currentEnemy == null) return false;
-        
-        if (Time.time > lastTimeAttacked + attackCooldown)
-        {
-            lastTimeAttacked = Time.time;
-            return true;
-        }
-
-        return false;
+        return Time.time > lastTimeAttacked + attackCooldown && currentEnemy != null;
     }
 
-    public void EnableRotation(bool enable)
+    protected virtual void HandleRotation()
     {
-        canRotate = enable;
+        RotateTowardsEnemy();
+        RotateBodyTowardsEnemy();
     }
-
+    
     protected virtual void RotateTowardsEnemy()
     {
-        if (!canRotate) return;
-        
-        if (currentEnemy == null) return;
+        if (currentEnemy == null || towerHead == null) return;
 
         Vector3 directionToEnemy = DirectionToEnemyFrom(towerHead);
 
@@ -135,8 +133,19 @@ public class Tower : MonoBehaviour
 
         towerHead.rotation = Quaternion.Euler(rotation);
     }
+    
+    protected void RotateBodyTowardsEnemy()
+    {
+        if (towerBody == null || currentEnemy == null) return;
 
-    protected Enemy FindEnemyWithinRange()
+        Vector3 directionToEnemy = DirectionToEnemyFrom(towerBody);
+        directionToEnemy.y = 0;
+
+        Quaternion lookRotation = Quaternion.LookRotation(directionToEnemy);
+        towerBody.rotation = Quaternion.Slerp(towerBody.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    protected virtual Enemy FindEnemyWithinRange()
     {
         List<Enemy> priorityTargets = new List<Enemy>();
         List<Enemy> possibleTargets = new List<Enemy>();
@@ -186,9 +195,21 @@ public class Tower : MonoBehaviour
     {
         return (currentEnemy.CentrePoint() - startPoint.position).normalized;
     }
+    
+    protected bool AtLeastOneEnemyAround()
+    {
+        Collider[] enemyColliders = Physics.OverlapSphere(transform.position, attackRange, whatIsEnemy);
+        return enemyColliders.Length > 0;
+    }
 
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+    
+    public float GetAttackRange() => attackRange;
+
+    public float GetAttackRadius() => attackRange;
+
+    public float GetAttackCooldown() => attackCooldown;
 }

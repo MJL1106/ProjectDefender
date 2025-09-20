@@ -19,6 +19,8 @@ public class UIBuildButtonsHolder : MonoBehaviour
     private List<UIBuildButton> unlockedBuildButtons;
     private UIBuildButton lastSelectedButton;
 
+    private Transform previewTower;
+    
     private void Awake()
     {
         uiAnim = GetComponentInParent<UIAnimator>();
@@ -44,10 +46,25 @@ public class UIBuildButtonsHolder : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && lastSelectedButton != null)
+        if (lastSelectedButton != null)
         {
-            lastSelectedButton.BuildTower();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                lastSelectedButton.ConfirmTowerBuild();
+                previewTower = null;
+            }
+          
+          if (Input.GetKeyDown(KeyCode.Q)) RotateTarget(previewTower, -90);
+          if (Input.GetKeyDown(KeyCode.E)) RotateTarget(previewTower, 90);
         }
+    }
+
+    private void RotateTarget(Transform target, float angle)
+    {
+        if (target == null) return;
+        
+        target.Rotate(0, angle,0);
+        target.GetComponent<ForwardAttackDisplay>()?.UpdateLines();
     }
 
     public void SelectNewButton(int buttonIndex)
@@ -72,8 +89,12 @@ public class UIBuildButtonsHolder : MonoBehaviour
     public List<UIBuildButton> GetUnlockedBuildButtons() => unlockedBuildButtons;
     
     public UIBuildButton GetLastSelected() => lastSelectedButton;
-    
-    public void SetLastSelected(UIBuildButton newLastSelected) => lastSelectedButton = newLastSelected;
+
+    public void SetLastSelected(UIBuildButton newLastSelected, Transform newPreview)
+    {
+        lastSelectedButton = newLastSelected;
+        previewTower = newPreview;
+    }
 
     public void UpdateUnlockedBuildButtons()
     {

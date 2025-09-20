@@ -12,4 +12,9 @@ public class RotateObject : MonoBehaviour
     float newRotationSpeed = rotationSpeed * 100;
     transform.Rotate(rotationVector * newRotationSpeed * Time.deltaTime);
   }
+
+  public void AdjustRotationSpeed(float newSpeed)
+  {
+    rotationSpeed = newSpeed;
+  }
 }

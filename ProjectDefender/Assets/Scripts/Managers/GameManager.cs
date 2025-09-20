@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     
     private UIGame inGameUI;
-    private WaveManager currentActiveWaveManager;
+    public WaveManager currentActiveWaveManager;
     private LevelManager levelManager;
     private CameraEffects cameraEffects;
     
