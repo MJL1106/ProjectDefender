@@ -19926,6 +19926,9 @@ MonoBehaviour:
     m_Bits: 1
   attackRadiusMat: {fileID: 2100000, guid: b1236d3963a71714487c1747287b2ec8, type: 2}
   buildPreviewMat: {fileID: 2100000, guid: 4836a6121d8ba6e439b147c5799f97ad, type: 2}
+  towerCentreY: 0.5
+  camShakeDuration: 0.2
+  camShakeMagnitude: 0.2
 --- !u!4 &718979425
 Transform:
   m_ObjectHideFlags: 0
@@ -64351,6 +64354,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 102495145008133369, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
+      propertyPath: m_Positions.Array.data[0].z
+      value: 11.680003
+      objectReference: {fileID: 0}
+    - target: {fileID: 102495145008133369, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
+      propertyPath: m_Positions.Array.data[1].x
+      value: 4.310053
+      objectReference: {fileID: 0}
+    - target: {fileID: 102495145008133369, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
+      propertyPath: m_Positions.Array.data[1].z
+      value: 2.6800032
+      objectReference: {fileID: 0}
     - target: {fileID: 904390951718018267, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
       propertyPath: m_Name
       value: Tower_Fan
@@ -64394,6 +64409,22 @@ PrefabInstance:
     - target: {fileID: 6202267389754593942, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599392233297371354, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
+      propertyPath: towerAttacksForward
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915244545659456452, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
+      propertyPath: m_Positions.Array.data[0].z
+      value: 11.679997
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915244545659456452, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
+      propertyPath: m_Positions.Array.data[1].x
+      value: 3.4700532
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915244545659456452, guid: 922b8558dc4acd5419849d4dc768460e, type: 3}
+      propertyPath: m_Positions.Array.data[1].z
+      value: 2.6799974
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

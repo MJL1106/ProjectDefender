@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,4 +27,11 @@ public class TowerFan : Tower
 
     public void AddEnemyToReveal(Enemy enemy) => enemiesToReveal.Add(enemy);
     public void RemoveEnemyToReveal(Enemy enemy) => enemiesToReveal.Remove(enemy);
+
+    private void OnValidate()
+    {
+        ForwardAttackDisplay display = GetComponent<ForwardAttackDisplay>();
+        
+        if (display != null) display.CreateLines(true, attackRange);
+    }
 }

@@ -10,18 +10,27 @@ public class BuildManager : MonoBehaviour
 
    public WaveManager waveManager;
    public GridBuilder currentGrid;
+   private GameManager gameManager;
+   private CameraEffects cameraEffects;
 
    [SerializeField] private LayerMask whatToIgnore;
    
    [Header("Build Materials")]
    [SerializeField] private Material attackRadiusMat;
    [SerializeField] private Material buildPreviewMat;
+   
+   [Header("Build Details")]
+   [SerializeField] private float towerCentreY = .5f;
+   [SerializeField] private float camShakeDuration = .02f;
+   [SerializeField] private float camShakeMagnitude = .15f;
+   
 
    private bool isMouseOverUI;
    
    private void Awake()
    {
       ui = FindFirstObjectByType<UI>();
+      cameraEffects = FindFirstObjectByType<CameraEffects>();
       
       MakeBuildSlotNotAvailableIfNeeded(waveManager,currentGrid);
    }
@@ -40,6 +49,43 @@ public class BuildManager : MonoBehaviour
          }
       }
 
+   }
+
+   private void Start()
+   {
+      gameManager = GameManager.instance;
+   }
+
+   public void BuildTower(GameObject towerToBuild, int towerPrice)
+   {
+      if (gameManager.HasEnoughCurrency(towerPrice) == false)
+      {
+         ui.inGameUI.ShakeCurrencyUI();
+         return;
+      }
+        
+      if (towerToBuild == null)
+      {
+         Debug.LogWarning("YOu did not assign a tower to this button!");
+         return;
+      }
+
+      if (ui.BuildButtonsHolderUI.GetLastSelected() == null)
+      {
+         return;
+      }
+        
+      BuildSlot slotToUse = GetSelectedSlot();
+      CancelBuildAction();
+        
+      slotToUse.SnapToDefaultPosition();
+      slotToUse.SetSlotAvailableTo(false);
+        
+      ui.BuildButtonsHolderUI.SetLastSelected(null);
+        
+      cameraEffects.ScreenShake(camShakeDuration, camShakeMagnitude);
+
+      GameObject newTower = Instantiate(towerToBuild,slotToUse.GetBuildPosition(towerCentreY), Quaternion.identity);
    }
 
    public void MouseOverUI(bool isOverUI) => isMouseOverUI = isOverUI;

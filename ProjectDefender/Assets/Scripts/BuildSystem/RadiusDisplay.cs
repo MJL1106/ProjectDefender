@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
 
-public class TowerAttackRadiusDisplay : MonoBehaviour
+public class RadiusDisplay : MonoBehaviour
 {
     private LineRenderer lineRenderer;
 
