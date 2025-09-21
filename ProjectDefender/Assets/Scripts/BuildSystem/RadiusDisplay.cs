@@ -19,6 +19,7 @@ public class RadiusDisplay : MonoBehaviour
         lineRenderer.startWidth = lineWidth;
         lineRenderer.endWidth = lineWidth;
         lineRenderer.material = FindFirstObjectByType<BuildManager>().GetAttackRadiusMat();
+        lineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
     }
     
     public void CreateCircle(bool showCircle, float radius = 0)

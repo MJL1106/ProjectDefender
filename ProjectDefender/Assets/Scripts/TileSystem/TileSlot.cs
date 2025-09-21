@@ -27,6 +27,7 @@ public class TileSlot : MonoBehaviour
         UpdateNavMesh();
         
         TurnIntoBuildSlotIfNeeded(referenceTile);
+        DisableShadowsIfNeeded();
     }
 
 
@@ -105,9 +106,30 @@ public class TileSlot : MonoBehaviour
         UpdateNavMesh();
     }
 
+    public void DisableShadowsIfNeeded()
+    {
+        UnityEngine.Rendering.ShadowCastingMode shadowMode = UnityEngine.Rendering.ShadowCastingMode.On;
+
+        int blockedSides = 0;
+        Vector3 point = transform.position + new Vector3(0, .49f, 0);
+        Vector3[] direction = { Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
+
+        foreach (Vector3 dir in direction)
+        {
+            if (Physics.Raycast(point, dir, .6f))
+                blockedSides++;
+        }
+
+        if (blockedSides == direction.Length) shadowMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
+        meshRenderer.shadowCastingMode = shadowMode;
+    }
+
     public void AdjustY(int verticalDir)
     {
         transform.position += new Vector3(0, .1f * verticalDir, 0);
         UpdateNavMesh();
     }
+    
+    
 }

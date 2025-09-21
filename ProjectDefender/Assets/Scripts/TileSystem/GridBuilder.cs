@@ -15,6 +15,14 @@ public class GridBuilder : MonoBehaviour
 
     private bool hadFirstLoad;
 
+    public void disableShadowsIfneeded()
+    {
+        foreach (var tile in createdTiles)
+        {
+            tile.GetComponent<TileSlot>().DisableShadowsIfNeeded();
+        }
+    }
+
     public bool IsOnFirstLoad()
     {
         if (hadFirstLoad == false)
