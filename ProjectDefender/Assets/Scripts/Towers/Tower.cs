@@ -58,7 +58,7 @@ public class Tower : MonoBehaviour
         UpdateTargetIfNeeded();
         HandleRotation();
         
-        if (CanAttack()) Attack();
+        if (CanAttack()) AttemptToAttack();
     }
 
     protected virtual void LooseTargetIfNeeded()
@@ -104,6 +104,17 @@ public class Tower : MonoBehaviour
             lastTimeCheckedTarget = Time.time;
             currentEnemy = FindEnemyWithinRange();
         } 
+    }
+
+    protected void AttemptToAttack()
+    {
+        if (!currentEnemy.gameObject.activeSelf)
+        {
+            currentEnemy = null;
+            return;
+        }
+
+        Attack();
     }
 
     protected virtual void Attack()

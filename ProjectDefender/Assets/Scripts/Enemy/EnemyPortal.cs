@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class EnemyPortal : MonoBehaviour
 {
+    private ObjectPoolManager objectPool;
+    
     [SerializeField] private WaveManager myWaveManager;
     
     [SerializeField] private float spawnCooldown;
@@ -19,6 +21,7 @@ public class EnemyPortal : MonoBehaviour
     [Space]
     
     [SerializeField] private List<Waypoint> waypointList;
+    public Vector3[] currentWaypoints { get; private set; }
 
     private List<GameObject> enemiesToCreate = new List<GameObject>();
     private List<GameObject> activeEnemies = new List<GameObject>();
@@ -31,6 +34,11 @@ public class EnemyPortal : MonoBehaviour
     private void Update()
     {
         if (CanMakeNewEnemy()) CreateEnemy();
+    }
+
+    private void Start()
+    {
+        objectPool = ObjectPoolManager.instance;
     }
 
     public void AssignWaveManager(WaveManager newWaveManager) => myWaveManager = newWaveManager;
@@ -51,13 +59,12 @@ public class EnemyPortal : MonoBehaviour
         if (enemiesToCreate.Count == 0) return;
         
         GameObject randomEnemy = GetRandomEnemy();
-        
         if (randomEnemy == null) return;
         
-        GameObject newEnemy = Instantiate(randomEnemy, transform.position, Quaternion.identity);
+        GameObject newEnemy = objectPool.Get(randomEnemy, transform.position, Quaternion.identity);
 
         Enemy enemyScript = newEnemy.GetComponent<Enemy>();
-        enemyScript.SetupEnemy(waypointList, this);
+        enemyScript.SetupEnemy(this);
         
         PlaceEnemyAtFlyPortalIfNeeded(newEnemy,enemyScript.GetEnemyType());
         activeEnemies.Add(newEnemy);
@@ -118,6 +125,13 @@ public class EnemyPortal : MonoBehaviour
             Waypoint waypoint = child.GetComponent<Waypoint>();
             
             if (waypoint != null) waypointList.Add(waypoint);
+        }
+
+        currentWaypoints = new Vector3[waypointList.Count];
+
+        for (int i = 0; i < currentWaypoints.Length; i++)
+        {
+            currentWaypoints[i] = waypointList[i].transform.position;
         }
     }
 }

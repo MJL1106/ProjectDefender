@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpiderLeg : MonoBehaviour
 {
     private EnemySpiderVisuals spiderVisuals;
+    private ObjectPoolManager objectPool;
     
     [SerializeField] private float legSpeed = 2.5f;
     [SerializeField] private float moveThreshold = .45f;
@@ -23,6 +24,7 @@ public class SpiderLeg : MonoBehaviour
 
     private void Awake()
     {
+        objectPool = ObjectPoolManager.instance;
         spiderVisuals = GetComponentInParent<EnemySpiderVisuals>();
         
         worldTargetReference = Instantiate(worldTargetReference, actualTarget.position, Quaternion.identity)
@@ -73,5 +75,22 @@ public class SpiderLeg : MonoBehaviour
         legSpeed = spiderVisuals.legSpeed;
     }
 
+    private void OnEnable()
+    {
+        ParentLegReference(false);
+    }
+
+    private void OnDisable()
+    {
+        ParentLegReference(true);
+    }
+
     public void CanMove(bool enableMovement) => canMove = enableMovement;
+
+    private void ParentLegReference(bool parent)
+    {
+        if (worldTargetReference == null) return;
+
+        worldTargetReference.transform.parent = parent ? objectPool.transform : null;
+    }
 }

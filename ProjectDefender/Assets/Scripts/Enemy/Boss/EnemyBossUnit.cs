@@ -18,12 +18,24 @@ public class EnemyBossUnit : Enemy
 
     public void SetupEnemy(Vector3 destination, EnemyFlyingBoss myNewBoss, EnemyPortal myNewPortal)
     {
+        ResetEnemy();
+        ResetMovement();
+
         myBoss = myNewBoss;
         
         myPortal = myNewPortal;
         myPortal.GetActiveEnemies().Add(gameObject);
         
         savedDestination = destination;
+        
+        InvokeRepeating(nameof(SnapToBossIfNeeded), .1f,.5f);
+    }
+
+    private void ResetMovement()
+    {
+        rb.useGravity = true;
+        rb.isKinematic = false;
+        agent.enabled = false;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -40,5 +52,22 @@ public class EnemyBossUnit : Enemy
 
         agent.enabled = true;
         agent.SetDestination(savedDestination);
+    }
+
+    private void SnapToBossIfNeeded()
+    {
+        if (agent.enabled && !agent.isOnNavMesh)
+        {
+            if (Vector3.Distance(transform.position, lastKnownBossPosition) > 3f)
+            {
+                transform.position = lastKnownBossPosition + new Vector3(0, -1, 0);
+                ResetMovement();
+            }
+        }
+    }
+    
+    public override float DistanceToFinishLine()
+    {
+        return Vector3.Distance(transform.position, GetFinalWaypoint());
     }
 }
