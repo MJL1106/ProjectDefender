@@ -28,9 +28,9 @@ public class TowerSpiderNest : Tower
         reloadTimeMultiplier = 1 - attackTimeMultiplier;
     }
 
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
         UpdateAttachPointsPosition();
     }
 
