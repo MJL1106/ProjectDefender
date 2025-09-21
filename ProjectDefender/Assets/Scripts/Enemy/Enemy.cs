@@ -10,7 +10,8 @@ public enum EnemyType { Basic, Fast, Swarm, Heavy, Stealth, Flying, BossSpider, 
 public class Enemy : MonoBehaviour , IDamageable
 {
     public EnemyVisuals visuals { get; private set; }
-    
+
+    protected ObjectPoolManager objectPool;
     protected GameManager gameManager;
     protected EnemyPortal myPortal;
     protected NavMeshAgent agent;
@@ -49,6 +50,8 @@ public class Enemy : MonoBehaviour , IDamageable
         
         gameManager = FindFirstObjectByType<GameManager>();
         originalSpeed = agent.speed;
+        
+        objectPool = ObjectPoolManager.instance;
     }
 
     protected virtual void Start()

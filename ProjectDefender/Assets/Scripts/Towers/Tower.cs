@@ -9,6 +9,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Tower : MonoBehaviour
 {
+    protected ObjectPoolManager objectPool;
     public Enemy currentEnemy;
 
     protected bool towerActive = true;
@@ -43,6 +44,11 @@ public class Tower : MonoBehaviour
     {
     }
 
+    protected virtual void Start()
+    {
+        objectPool = ObjectPoolManager.instance;
+    }
+
     protected virtual void Update()
     {
         if (towerActive == false) return;
@@ -65,9 +71,9 @@ public class Tower : MonoBehaviour
     {
         if (deactivatedTowerCo != null) StopCoroutine(deactivatedTowerCo);
         
-        if (currentEmpVfx != null) Destroy(currentEmpVfx);
+        if (currentEmpVfx != null) objectPool.Remove(currentEmpVfx);
 
-        currentEmpVfx = Instantiate(empVxPrefab, transform.position + new Vector3(0, .5f, 0), Quaternion.identity);
+        currentEmpVfx = objectPool.Get(empVxPrefab, transform.position + new Vector3(0, .5f, 0), Quaternion.identity);
         deactivatedTowerCo = StartCoroutine(DeactivateTowerCo(duration));
     }
 
@@ -79,7 +85,7 @@ public class Tower : MonoBehaviour
 
         towerActive = true;
         lastTimeAttacked = Time.time;
-        Destroy(currentEmpVfx);
+        objectPool.Remove(currentEmpVfx);
     }
     
     private void UpdateTargetIfNeeded()

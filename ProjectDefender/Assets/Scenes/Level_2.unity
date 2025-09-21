@@ -26312,63 +26312,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899183808}
   m_Mesh: {fileID: 6920570469935848300, guid: e4f015fced1635b4faf93701b2d56f47, type: 3}
---- !u!1001 &907282755
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7609871674041638479, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_Name
-      value: Tower_MachineGun
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.393868
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 9.382773
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026687750696171432, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d02b9bc1f85bd844a8da1192508b81b7, type: 3}
 --- !u!1 &913830621
 GameObject:
   m_ObjectHideFlags: 0
@@ -30688,7 +30631,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 16449
   m_UseGeometry: 0
   m_DefaultArea: 4
   m_GenerateLinks: 0
@@ -48110,7 +48053,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   predefinedPools:
+  - {fileID: 5268367197024691187, guid: 99005e34c4401f14a81a93e7ecd6a83a, type: 3}
+  - {fileID: 8594857560097002602, guid: 3f3fcf604517b2645a921dd84e2bea29, type: 3}
+  - {fileID: 8841847086697906496, guid: a29452d9913893746a295c9ccc7ff8f3, type: 3}
+  - {fileID: 5860771414303627744, guid: 3ce1dec6aea65cc408de113af60fba11, type: 3}
+  - {fileID: 6883883636989024, guid: ff7e3e3895d267343b0f918dbf47cbbb, type: 3}
+  - {fileID: 6888268818105847383, guid: 52b8d6d6690fc554b9a738803c1b1be6, type: 3}
   - {fileID: 1604615626006732164, guid: 9537d3bbcd543974eaa30d9346acef05, type: 3}
+  - {fileID: 7060690608549553713, guid: 9d7cdc565b80acb46a736dd2f63ca86b, type: 3}
   defaultPoolSize: 50
   maxPoolSize: 500
 --- !u!4 &1675235820
@@ -64530,7 +64480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].basicEnemy
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].heavyEnemy
@@ -64546,7 +64496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].stealthEnemy
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].spiderBossEnemy
@@ -64583,4 +64533,3 @@ SceneRoots:
   - {fileID: 342123764}
   - {fileID: 405194991}
   - {fileID: 1675235820}
-  - {fileID: 907282755}

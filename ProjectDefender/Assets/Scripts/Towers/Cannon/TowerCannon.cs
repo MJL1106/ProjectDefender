@@ -17,8 +17,8 @@ public class TowerCannon : Tower
         Vector3 velocity = CalculateLaunchVelocity();
         attackVFX.Play();
 
-        GameObject newProjectile = Instantiate(projectilePrefab, gunPoint.position, Quaternion.identity);
-        newProjectile.GetComponent<ProjectileCannon>().SetupProjectile(velocity, damage);
+        GameObject newProjectile = objectPool.Get(projectilePrefab, gunPoint.position, Quaternion.identity);
+        newProjectile.GetComponent<ProjectileCannon>().SetupProjectile(velocity, damage, objectPool);
     }
     
     

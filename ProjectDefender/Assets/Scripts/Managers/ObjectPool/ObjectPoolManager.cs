@@ -49,7 +49,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         GameObject originalPrefab = objectToRemove.GetComponent<PooledObject>()?.originalPrefab;
 
-        if (originalPrefab == null || !poolDictionary.ContainsKey(originalPrefab))
+        if (originalPrefab == null)
         {
             Debug.LogWarning("You do not have object pool for this game object. Game object will be destroyed.");
             Destroy(objectToRemove);

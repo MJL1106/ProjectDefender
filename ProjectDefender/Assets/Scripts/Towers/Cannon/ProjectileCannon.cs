@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ProjectileCannon : MonoBehaviour
 {
+    private TrailRenderer trail;
+    private ObjectPoolManager objectPool;
     private Rigidbody rb;
     private float damage;
     
@@ -14,10 +16,13 @@ public class ProjectileCannon : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        trail = GetComponent<TrailRenderer>();
     }
 
-    public void SetupProjectile(Vector3 newVelocity, float newDamage)
+    public void SetupProjectile(Vector3 newVelocity, float newDamage, ObjectPoolManager newPool)
     {
+        trail.Clear();
+        objectPool = newPool;
         rb.linearVelocity = newVelocity;
         damage = newDamage;
     }
@@ -46,9 +51,9 @@ public class ProjectileCannon : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         DamageEnemiesAround();
-        explosionVfx.SetActive(true);
-        explosionVfx.transform.parent = null;
-        Destroy(gameObject);
+
+        objectPool.Get(explosionVfx, transform.position + new Vector3(0, .5f, 0));
+        objectPool.Remove(gameObject);
     }
 
     private void OnDrawGizmos()
