@@ -79,6 +79,7 @@ public class WaveManager : MonoBehaviour
     public void ActivateWaveManager()
     {
         gameBegan = true;
+        inGameUI = gameManager.inGameUI;
         EnableWaveTimer(true);
     }
 

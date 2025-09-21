@@ -9,6 +9,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Tower : MonoBehaviour
 {
+    protected ObjectPoolManager objectPool;
     public Enemy currentEnemy;
 
     protected bool towerActive = true;
@@ -35,6 +36,7 @@ public class Tower : MonoBehaviour
     [Space] 
     private float targetCheckInterval = .1f;
     private float lastTimeCheckedTarget;
+    protected Collider[] allocatedColliders = new Collider[100];
 
     [Header("SFX Details")] [SerializeField]
     protected AudioSource attackSfx;
@@ -43,12 +45,12 @@ public class Tower : MonoBehaviour
     {
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
-        GameManager.instance.currentActiveWaveManager.UpdateDroneNavMesh();
+        objectPool = ObjectPoolManager.instance;
     }
 
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
         if (towerActive == false) return;
         
@@ -56,7 +58,7 @@ public class Tower : MonoBehaviour
         UpdateTargetIfNeeded();
         HandleRotation();
         
-        if (CanAttack()) Attack();
+        if (CanAttack()) AttemptToAttack();
     }
 
     protected virtual void LooseTargetIfNeeded()
@@ -70,9 +72,9 @@ public class Tower : MonoBehaviour
     {
         if (deactivatedTowerCo != null) StopCoroutine(deactivatedTowerCo);
         
-        if (currentEmpVfx != null) Destroy(currentEmpVfx);
+        if (currentEmpVfx != null) objectPool.Remove(currentEmpVfx);
 
-        currentEmpVfx = Instantiate(empVxPrefab, transform.position + new Vector3(0, .5f, 0), Quaternion.identity);
+        currentEmpVfx = objectPool.Get(empVxPrefab, transform.position + new Vector3(0, .5f, 0), Quaternion.identity);
         deactivatedTowerCo = StartCoroutine(DeactivateTowerCo(duration));
     }
 
@@ -84,7 +86,7 @@ public class Tower : MonoBehaviour
 
         towerActive = true;
         lastTimeAttacked = Time.time;
-        Destroy(currentEmpVfx);
+        objectPool.Remove(currentEmpVfx);
     }
     
     private void UpdateTargetIfNeeded()
@@ -102,6 +104,17 @@ public class Tower : MonoBehaviour
             lastTimeCheckedTarget = Time.time;
             currentEnemy = FindEnemyWithinRange();
         } 
+    }
+
+    protected void AttemptToAttack()
+    {
+        if (!currentEnemy.gameObject.activeSelf)
+        {
+            currentEnemy = null;
+            return;
+        }
+
+        Attack();
     }
 
     protected virtual void Attack()
@@ -149,13 +162,19 @@ public class Tower : MonoBehaviour
     {
         List<Enemy> priorityTargets = new List<Enemy>();
         List<Enemy> possibleTargets = new List<Enemy>();
-        Collider[] enemiesAround = Physics.OverlapSphere(transform.position, attackRange, whatIsEnemy);
+        
+        int enemiesAround =
+            Physics.OverlapSphereNonAlloc(transform.position, attackRange, allocatedColliders, whatIsEnemy);
 
-        foreach (Collider enemy in enemiesAround)
+        for (int i = 0; i < enemiesAround; i++)
         {
-            Enemy newEnemy = enemy.GetComponent<Enemy>();
+            Enemy newEnemy = allocatedColliders[i].GetComponent<Enemy>();
 
             if (newEnemy == null) continue;
+
+            float distanceToEnemy = Vector3.Distance(transform.position, newEnemy.transform.position);
+
+            if (distanceToEnemy > attackRange) continue;
             
             EnemyType newEnemyType = newEnemy.GetEnemyType();
 
@@ -198,8 +217,8 @@ public class Tower : MonoBehaviour
     
     protected bool AtLeastOneEnemyAround()
     {
-        Collider[] enemyColliders = Physics.OverlapSphere(transform.position, attackRange, whatIsEnemy);
-        return enemyColliders.Length > 0;
+        int enemyColliders = Physics.OverlapSphereNonAlloc(transform.position, attackRange,allocatedColliders, whatIsEnemy);
+        return enemyColliders > 0;
     }
 
     protected virtual void OnDrawGizmos()

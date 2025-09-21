@@ -10,7 +10,8 @@ public enum EnemyType { Basic, Fast, Swarm, Heavy, Stealth, Flying, BossSpider, 
 public class Enemy : MonoBehaviour , IDamageable
 {
     public EnemyVisuals visuals { get; private set; }
-    
+
+    protected ObjectPoolManager objectPool;
     protected GameManager gameManager;
     protected EnemyPortal myPortal;
     protected NavMeshAgent agent;
@@ -18,13 +19,14 @@ public class Enemy : MonoBehaviour , IDamageable
 
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
-    public float healthPoints = 4;
+    public float maxHp = 100;
+    public float currentHp = 4;
     protected bool isDead;
     
     [Header("Movement")]
     [SerializeField] private float turnSpeed = 10;
     
-    [SerializeField] protected List<Transform> myWaypoints;
+    [SerializeField] protected Vector3[] myWaypoints;
     protected int nextWaypointIndex;
     protected int currentWaypointIndex;
     
@@ -49,6 +51,8 @@ public class Enemy : MonoBehaviour , IDamageable
         
         gameManager = FindFirstObjectByType<GameManager>();
         originalSpeed = agent.speed;
+        
+        objectPool = ObjectPoolManager.instance;
     }
 
     protected virtual void Start()
@@ -56,17 +60,45 @@ public class Enemy : MonoBehaviour , IDamageable
         
     }
 
-    public void SetupEnemy(List<Waypoint> newWaypoints, EnemyPortal myNewPortal)
+    public void SetupEnemy(EnemyPortal myNewPortal)
     {
-        myWaypoints = new List<Transform>();
-        foreach (var point in newWaypoints)
-        {
-            myWaypoints.Add(point.transform);
-        }
-        
-        CollectTotalDistance();
-
         myPortal = myNewPortal;
+        
+        UpdateWaypoints(myPortal.currentWaypoints);
+        CollectTotalDistance();
+        ResetEnemy();
+        BeginMovement();
+
+    }
+
+    private void UpdateWaypoints(Vector3[] newWaypoints)
+    {
+        myWaypoints = new Vector3[newWaypoints.Length];
+
+        for (int i = 0; i < myWaypoints.Length; i++)
+        {
+            myWaypoints[i] = newWaypoints[i];
+        }
+    }
+
+    private void BeginMovement()
+    {
+        currentWaypointIndex = 0;
+        nextWaypointIndex = 0;
+        ChangeWaypoint();
+    }
+
+    protected void ResetEnemy()
+    {
+        gameObject.layer = originalLayerIndex;
+        
+        visuals.MakeTransparent(false);
+
+        currentHp = maxHp;
+        isDead = false;
+
+        agent.speed = originalSpeed;
+        agent.enabled = true;
     }
 
     protected virtual void Update()
@@ -138,12 +170,12 @@ public class Enemy : MonoBehaviour , IDamageable
 
     protected virtual bool ShouldChangeWaypoint()
     {
-        if (nextWaypointIndex >= myWaypoints.Count) return false;
+        if (nextWaypointIndex >= myWaypoints.Length) return false;
 
         if (agent.remainingDistance < .5f) return true;
         
-        Vector3 currentWaypoint = myWaypoints[currentWaypointIndex].position;
-        Vector3 nextWaypoint = myWaypoints[nextWaypointIndex].position;
+        Vector3 currentWaypoint = myWaypoints[currentWaypointIndex];
+        Vector3 nextWaypoint = myWaypoints[nextWaypointIndex];
 
         float distanceToNextWaypoint = Vector3.Distance(transform.position, nextWaypoint);
         float distanceBetweenPoints = Vector3.Distance(currentWaypoint, nextWaypoint);
@@ -158,9 +190,9 @@ public class Enemy : MonoBehaviour , IDamageable
     
     private void CollectTotalDistance()
     {
-        for (int i = 0; i < myWaypoints.Count - 1; i++)
+        for (int i = 0; i < myWaypoints.Length - 1; i++)
         {
-            float distance = Vector3.Distance(myWaypoints[i].position, myWaypoints[i + 1].position);
+            float distance = Vector3.Distance(myWaypoints[i], myWaypoints[i + 1]);
             totalDistance = totalDistance + distance;
         }
     }
@@ -179,14 +211,14 @@ public class Enemy : MonoBehaviour , IDamageable
 
     private Vector3 GetNextWaypoint()
     {
-        if (nextWaypointIndex >= myWaypoints.Count) return transform.position;
+        if (nextWaypointIndex >= myWaypoints.Length) return transform.position;
         
-        Vector3 targetPoint = myWaypoints[nextWaypointIndex].position;
+        Vector3 targetPoint = myWaypoints[nextWaypointIndex];
 
         // Once the enemy is past the first waypoint, calculate the distance from the previous waypoint
         if (nextWaypointIndex > 0)
         {
-            float distance = Vector3.Distance(myWaypoints[nextWaypointIndex].position, myWaypoints[nextWaypointIndex - 1].position);
+            float distance = Vector3.Distance(myWaypoints[nextWaypointIndex], myWaypoints[nextWaypointIndex - 1]);
             // Workout new total distance left to finish point
             totalDistance = totalDistance - distance;
         }
@@ -199,9 +231,9 @@ public class Enemy : MonoBehaviour , IDamageable
 
     protected Vector3 GetFinalWaypoint()
     {
-        if (myWaypoints.Count == 0) return transform.position;
+        if (myWaypoints.Length == 0) return transform.position;
 
-        return myWaypoints[myWaypoints.Count - 1].position;
+        return myWaypoints[myWaypoints.Length - 1];
     }
 
     public Vector3 CentrePoint()
@@ -216,9 +248,9 @@ public class Enemy : MonoBehaviour , IDamageable
 
     public virtual void TakeDamage(float damage)
     {
-        healthPoints = healthPoints - damage;
+        currentHp = currentHp - damage;
 
-        if (healthPoints <= 0 && isDead == false)
+        if (currentHp <= 0 && isDead == false)
         {
             // isDead prevents Die() from being called twice.
             isDead = true;
@@ -229,14 +261,26 @@ public class Enemy : MonoBehaviour , IDamageable
     public virtual void Die()
     {
         gameManager.UpdateCurrency(1);
-        DestroyEnemy();
+        RemoveEnemy();
     }
 
-    public virtual void DestroyEnemy()
+    public virtual void RemoveEnemy()
     {
         visuals.CreateOnDeathVfx();
-        Destroy(gameObject);
+        objectPool.Remove(gameObject);
+        agent.enabled = false;
         
         if (myPortal != null) myPortal.RemoveActiveEnemy(gameObject);
+    }
+
+    protected virtual void OnEnable()
+    {
+        
+    }
+
+    protected virtual void OnDisable()
+    {
+        StopAllCoroutines();
+        CancelInvoke();
     }
 }

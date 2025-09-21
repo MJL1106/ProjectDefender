@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class CrossbowVisuals : MonoBehaviour
 {
+   private ObjectPoolManager objectPool;
+   
    [Header("Attack Visuals")] 
    [SerializeField] private GameObject onHitVfx;
    [SerializeField] private LineRenderer attackVisuals;
@@ -63,6 +65,11 @@ private void Awake()
       StartCoroutine(ChangeEmission(1));
    }
 
+   private void Start()
+   {
+      objectPool = ObjectPoolManager.instance;
+   }
+
    private void UpdateMaterialsOnLineRenderers()
    {
       foreach (var lr in lineRenderers)
@@ -79,11 +86,7 @@ private void Awake()
       UpdateAttackVisualsIfNeeded();
    }
 
-   public void CreateOnHitVFX(Vector3 hitPoint)
-   {
-      GameObject newVfx = Instantiate(onHitVfx, hitPoint, Random.rotation);
-      Destroy(newVfx, 1);
-   }
+   public void CreateOnHitVFX(Vector3 hitPoint) => objectPool.Get(onHitVfx, hitPoint, Random.rotation);
 
    private void UpdateAttackVisualsIfNeeded()
    {

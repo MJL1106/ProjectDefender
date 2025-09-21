@@ -6,6 +6,8 @@ using UnityEngine.InputSystem.Android;
 
 public class EnemyVisuals : MonoBehaviour
 {
+    private ObjectPoolManager objectPool;
+    
     [SerializeField] private GameObject onDeathVfx;
     [SerializeField] private float onDeathVfcScale = .5f;
     
@@ -26,6 +28,7 @@ public class EnemyVisuals : MonoBehaviour
 
     protected virtual void Start()
     {
+        objectPool = ObjectPoolManager.instance;
     }
     
     protected virtual void Update()
@@ -45,7 +48,7 @@ public class EnemyVisuals : MonoBehaviour
     public void CreateOnDeathVfx()
     {
         GameObject newDeathVfx =
-            Instantiate(onDeathVfx, transform.position + new Vector3(0, .15f, 0), Quaternion.identity);
+            objectPool.Get(onDeathVfx, transform.position + new Vector3(0, .15f, 0), Quaternion.identity);
         newDeathVfx.transform.localScale = new Vector3(onDeathVfcScale, onDeathVfcScale, onDeathVfcScale);
     }
 

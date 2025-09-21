@@ -15,6 +15,14 @@ public class GridBuilder : MonoBehaviour
 
     private bool hadFirstLoad;
 
+    public void DisableShadowsIfNeeded()
+    {
+        foreach (var tile in createdTiles)
+        {
+            tile.GetComponent<TileSlot>().DisableShadowsIfNeeded();
+        }
+    }
+
     public bool IsOnFirstLoad()
     {
         if (hadFirstLoad == false)
@@ -64,5 +72,13 @@ public class GridBuilder : MonoBehaviour
         createdTiles.Add(newTile);
         
         newTile.GetComponent<TileSlot>().TurnIntoBuildSlotIfNeeded(mainPrefab);
+    }
+
+    public void MakeTilesNonInteractable(bool makeNonInteractable)
+    {
+        foreach (var tile in createdTiles)
+        {
+            tile.GetComponent<TileSlot>().MakeNonInteractable(makeNonInteractable);
+        }
     }
 }

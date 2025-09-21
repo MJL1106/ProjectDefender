@@ -17,26 +17,28 @@ public class TowerCannon : Tower
         Vector3 velocity = CalculateLaunchVelocity();
         attackVFX.Play();
 
-        GameObject newProjectile = Instantiate(projectilePrefab, gunPoint.position, Quaternion.identity);
-        newProjectile.GetComponent<ProjectileCannon>().SetupProjectile(velocity, damage);
+        GameObject newProjectile = objectPool.Get(projectilePrefab, gunPoint.position, Quaternion.identity);
+        newProjectile.GetComponent<ProjectileCannon>().SetupProjectile(velocity, damage, objectPool);
     }
     
     
     // Finds the enemy with the most enemies around it, makes tower cannon useful for destroying large slow groups of enemies
     protected override Enemy FindEnemyWithinRange()
     {
-        Collider[] enemiesAround = Physics.OverlapSphere(transform.position, attackRange, whatIsEnemy);
+        int collidersFound = Physics.OverlapSphereNonAlloc(transform.position, attackRange, allocatedColliders, whatIsEnemy);
         Enemy bestTarget = null;
         int maxNearbyEnemies = 0;
 
-        foreach (Collider enemy in enemiesAround)
+        for (int i = 0; i < collidersFound; i++)
         {
-            int amountOfEnemiesAround = EnemiesAroundEnemy(enemy.transform);
+            Transform enemyTransform = allocatedColliders[i].transform;
+                
+            int amountOfEnemiesAround = EnemiesAroundEnemy(enemyTransform);
 
             if (amountOfEnemiesAround > maxNearbyEnemies)
             {
                 maxNearbyEnemies = amountOfEnemiesAround;
-                bestTarget = enemy.GetComponent<Enemy>();
+                bestTarget = enemyTransform.GetComponent<Enemy>();
             }
         }
 
@@ -45,9 +47,7 @@ public class TowerCannon : Tower
 
     private int EnemiesAroundEnemy(Transform enemyToCheck)
     {
-        Collider[] enemiesAround = Physics.OverlapSphere(enemyToCheck.position, .8f, whatIsEnemy);
-
-        return enemiesAround.Length;
+        return Physics.OverlapSphereNonAlloc(enemyToCheck.position, 1, allocatedColliders, whatIsEnemy);
     }
 
     protected override void HandleRotation()

@@ -96,8 +96,6 @@ public class UIGame : MonoBehaviour
 
     public void EnableWaveTimer(bool enable)
     {
-        if (!gameObject.activeInHierarchy) return;
-        
         RectTransform rect = waveTimer.GetComponent<RectTransform>();
         float yOffset = enable ? -waveTimerOffset : waveTimerOffset;
         

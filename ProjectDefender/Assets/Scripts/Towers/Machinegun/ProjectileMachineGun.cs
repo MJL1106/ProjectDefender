@@ -3,21 +3,33 @@ using UnityEngine;
 
 public class ProjectileMachineGun : MonoBehaviour
 {
+    private ObjectPoolManager objectPool;
+    private TrailRenderer trail;
+    
     private IDamageable damageable;
     private Vector3 target;
     private float damage;
     private float speed;
+    private float threshold = .01f;
     private bool isActive = true;
 
     [SerializeField] private GameObject onHitFx;
-    
-    public void SetupProjectile(Vector3 targetPosition, IDamageable newDamageable, float newDamage, float newSpeed)
+
+    private void Awake()
     {
+        trail = GetComponent<TrailRenderer>();
+    }
+
+    public void SetupProjectile(Vector3 targetPosition, IDamageable newDamageable, float newDamage, float newSpeed, ObjectPoolManager newObjectPool)
+    {
+        trail.Clear();
         target = targetPosition;
         damageable = newDamageable;
 
         damage = newDamage;
         speed = newSpeed;
+
+        objectPool = newObjectPool;
     }
 
     private void Update()
@@ -26,13 +38,13 @@ public class ProjectileMachineGun : MonoBehaviour
         
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, target) <= .01f)
+        if ((transform.position - target).sqrMagnitude <= threshold * threshold)
         {
             isActive = false;
             damageable.TakeDamage(damage);
-            
-            onHitFx.SetActive(true);
-            Destroy(gameObject,1);
+
+            objectPool.Get(onHitFx, transform.position);
+            objectPool.Remove(gameObject);
         }
     }
 }

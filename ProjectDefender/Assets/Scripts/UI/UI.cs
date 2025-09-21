@@ -28,7 +28,7 @@ public class UI : MonoBehaviour
         inGameUI = GetComponentInChildren<UIGame>(true);
         animUI = GetComponent<UIAnimator>();
 
-        //ActivateFadeEffect(true);
+        ActivateFadeEffect(true);
         
         SwitchTo(settingsUI.gameObject);
         SwitchTo(mainMenuUI.gameObject);
@@ -77,14 +77,16 @@ public class UI : MonoBehaviour
 
     public void QuitButton()
     {
+        if (!fadeImageUI.gameObject.activeSelf) return;
+        
         if (EditorApplication.isPlaying) EditorApplication.isPlaying = false;
         else Application.Quit();
     }
 
     public void ActivateFadeEffect(bool fadeIn)
     {
-        if (fadeIn) animUI.ChangeColour(fadeImageUI, 0, 2);
-        else animUI.ChangeColour(fadeImageUI, 1, 2);
+        if (fadeIn) animUI.ChangeColour(fadeImageUI, 0, 1.5f);
+        else animUI.ChangeColour(fadeImageUI, 1, 1.5f);
 
     }
 }
