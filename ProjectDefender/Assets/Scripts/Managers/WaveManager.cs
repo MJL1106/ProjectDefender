@@ -79,6 +79,7 @@ public class WaveManager : MonoBehaviour
     public void ActivateWaveManager()
     {
         gameBegan = true;
+        inGameUI = gameManager.inGameUI;
         EnableWaveTimer(true);
     }
 
@@ -113,7 +114,6 @@ public class WaveManager : MonoBehaviour
     public void StartNewWave()
     {
         UpdateNavMeshes();
-        currentGrid.disableShadowsIfneeded();
         GiveEnemiesToPortals();
         EnableWaveTimer(false);
         makingNextWave = false;

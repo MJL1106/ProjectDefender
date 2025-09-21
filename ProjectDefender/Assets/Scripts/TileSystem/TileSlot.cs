@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Unity.AI.Navigation;
@@ -6,12 +7,19 @@ using UnityEngine;
 
 public class TileSlot : MonoBehaviour
 {
+    private int originalLayerIndex;
+    
      private MeshRenderer meshRenderer => GetComponent<MeshRenderer>();
     private MeshFilter meshFilter => GetComponent<MeshFilter>();
     private Collider myCollider => GetComponent<Collider>();
     private NavMeshSurface myNavMesh => GetComponentInParent<NavMeshSurface>(true);
     private TileSetHolder tileSetHolder => GetComponentInParent<TileSetHolder>(true);
 
+    private void Awake()
+    {
+        originalLayerIndex = gameObject.layer;
+    }
+    
     public void SwitchTile(GameObject referenceTile)
     {
         gameObject.name = referenceTile.name;
@@ -27,9 +35,7 @@ public class TileSlot : MonoBehaviour
         UpdateNavMesh();
         
         TurnIntoBuildSlotIfNeeded(referenceTile);
-        DisableShadowsIfNeeded();
     }
-
 
 
     public Material GetMaterial() => meshRenderer.sharedMaterial;
@@ -98,7 +104,16 @@ public class TileSlot : MonoBehaviour
         }
     }
 
-    public void UpdateLayer(GameObject referenceObj) => gameObject.layer = referenceObj.layer;
+    public void UpdateLayer(GameObject referenceObj)
+    {
+        gameObject.layer = referenceObj.layer;
+        originalLayerIndex = gameObject.layer;
+    }
+
+    public void MakeNonInteractable(bool nonInteractable)
+    {
+        gameObject.layer = nonInteractable ? 15 : originalLayerIndex;
+    }
 
     public void RotateTile(int dir)
     {

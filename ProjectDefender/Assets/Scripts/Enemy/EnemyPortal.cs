@@ -29,6 +29,8 @@ public class EnemyPortal : MonoBehaviour
     private void Awake()
     {
         CollectWaypoints();
+
+        if (myWaveManager == null) myWaveManager = FindFirstObjectByType<LevelSetup>().GetWaveManager();
     }
 
     private void Update()

@@ -16879,7 +16879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EventMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16599
   m_MaxRayIntersections: 0
 --- !u!1 &331831589
 GameObject:
@@ -37644,8 +37644,14 @@ MonoBehaviour:
   selectedBuildSlot: {fileID: 0}
   waveManager: {fileID: 0}
   currentGrid: {fileID: 1199274202421046181}
+  whatToIgnore:
+    serializedVersion: 2
+    m_Bits: 0
   attackRadiusMat: {fileID: 2100000, guid: b1236d3963a71714487c1747287b2ec8, type: 2}
   buildPreviewMat: {fileID: 2100000, guid: 4836a6121d8ba6e439b147c5799f97ad, type: 2}
+  towerCentreY: 0.5
+  camShakeDuration: 0.02
+  camShakeMagnitude: 0.15
 --- !u!4 &718979425
 Transform:
   m_ObjectHideFlags: 0
@@ -60622,10 +60628,10 @@ MonoBehaviour:
   - {fileID: 410087039}
   - {fileID: 832575517}
   - {fileID: 605182627}
-  - {fileID: 0}
+  - {fileID: 1782517328}
   - {fileID: 299441678}
   - {fileID: 1122316687}
-  myWaveManager: {fileID: 0}
+  myWaveManager: {fileID: 1785373446}
 --- !u!4 &1105963833
 Transform:
   m_ObjectHideFlags: 0
@@ -62244,7 +62250,7 @@ PrefabInstance:
     - target: {fileID: -8345537198799329102, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
       propertyPath: myWaveManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1785373446}
     - target: {fileID: -8345537198799329102, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
       propertyPath: spawnCooldown
       value: 1
@@ -100307,6 +100313,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+--- !u!1 &1782517328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 976861680657956007, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+  m_PrefabInstance: {fileID: 1782517327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1782547415
 GameObject:
   m_ObjectHideFlags: 0
@@ -100969,11 +100980,34 @@ PrefabInstance:
       propertyPath: currentGrid
       value: 
       objectReference: {fileID: 1199274202421046181}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].fastEnemy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].flyingBossEnemy
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+--- !u!114 &1785373446 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+  m_PrefabInstance: {fileID: 1785373445}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08891405f0e55084f930fa0c5bda33ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1786648149
 GameObject:
   m_ObjectHideFlags: 0
@@ -109064,6 +109098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d6b4112dba4204cb23352b2e9fa0de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentActiveWaveManager: {fileID: 0}
   currency: 500
   maxHp: 100
   currentHp: 0

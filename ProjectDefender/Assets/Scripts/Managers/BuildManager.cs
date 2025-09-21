@@ -48,7 +48,11 @@ public class BuildManager : MonoBehaviour
             if (clickedNotOnBuildSlot) CancelBuildAction();
          }
       }
+   }
 
+   public void UpdateBuildManager(WaveManager newWaveManager)
+   {
+      MakeBuildSlotNotAvailableIfNeeded(newWaveManager, currentGrid);
    }
 
    private void Start()

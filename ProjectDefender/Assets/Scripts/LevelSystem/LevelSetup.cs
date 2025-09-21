@@ -9,6 +9,7 @@ public class LevelSetup : MonoBehaviour
     private TileAnimator tileAnimator;
     private LevelManager levelManager;
     private GameManager gameManager;
+    private BuildManager buildManager;
     
     [Header("Level Details")]
     [SerializeField] private List<TowerUnlockData> towersUnlocked;
@@ -26,6 +27,9 @@ public class LevelSetup : MonoBehaviour
         if (LevelWasLoadedToMainScene())
         {
             DeleteExtraObjects();
+
+            buildManager = FindFirstObjectByType<BuildManager>();
+            buildManager.UpdateBuildManager(myWaveManager);
             
             levelManager.UpdateCurrentGrid(myMainGrid);
 
@@ -38,9 +42,7 @@ public class LevelSetup : MonoBehaviour
             ui.EnableInGameUI(true);
 
             gameManager = FindFirstObjectByType<GameManager>();
-            gameManager.UpdateGameManager(levelCurrency, myWaveManager);
-            
-            myWaveManager.ActivateWaveManager();
+            gameManager.PrepareLevel(levelCurrency, myWaveManager);
         } 
         else
         {
@@ -78,6 +80,8 @@ public class LevelSetup : MonoBehaviour
         
         ui.BuildButtonsHolderUI.UpdateUnlockedBuildButtons();
     }
+
+    public WaveManager GetWaveManager() => myWaveManager;
 
     [ContextMenu("Initialize Tower Data")]
     private void InitializeTowerData()
