@@ -11,12 +11,19 @@ public class LevelManager : MonoBehaviour
     
     private GridBuilder currentActiveGrid;
     public string currentLevelName { get; private set; }
+
+    [Header("Color Change Details")] 
+    [SerializeField] private MeshRenderer groundMesh;
+    private Color defaultColor;
     
     private void Awake()
     {
         cameraEffects = FindFirstObjectByType<CameraEffects>();
         tileAnimator = FindFirstObjectByType<TileAnimator>();
         ui = FindFirstObjectByType<UI>();
+
+        defaultColor = groundMesh.material.color;
+        groundMesh.material = new Material(groundMesh.material);
     }
 
     private void Update()
@@ -65,12 +72,13 @@ public class LevelManager : MonoBehaviour
     private IEnumerator LoadMainMenuCo()
     {
         CleanUpScene();
-        
         ui.EnableInGameUI(false);
         
         cameraEffects.SwitchToMenuView();
 
         yield return tileAnimator.GetActiveCoroutine();
+        
+        UpdateBackgroundColor(defaultColor);
         UnloadCurrentScene();
 
         tileAnimator.EnableMainSceneObjects(true);
@@ -91,12 +99,7 @@ public class LevelManager : MonoBehaviour
 
     private void CleanUpScene()
     {
-       // WaveManager waveManager = FindFirstObjectByType<WaveManager>();
-       // if (waveManager != null)
-        //{
-        //    waveManager.DeactivateWaveManager();
-       // }
-        
+        GameManager.instance.StopMakingEnemies();
         EliminateAllEnemies();
         EliminateAllTowers();
         
@@ -123,6 +126,28 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void UpdateBackgroundColor(Color targetColor)
+    {
+        StartCoroutine(UpdateBackgroundColorCo(targetColor, 1.5f));
+    }
+
+    private IEnumerator UpdateBackgroundColorCo(Color targetColor, float duration)
+    {
+        float time = 0;
+        Color startColor = groundMesh.material.color;
+
+        while (time < duration)
+        {
+            Color currentColor = Color.Lerp(startColor, targetColor, time / duration);
+            groundMesh.material.color = currentColor;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        groundMesh.material.color = targetColor;
+    }
+    
     public void UpdateCurrentGrid(GridBuilder newGrid) => currentActiveGrid = newGrid;
 
     public int GetNextLevelIndex() => SceneUtility.GetBuildIndexByScenePath(currentLevelName) + 1;
