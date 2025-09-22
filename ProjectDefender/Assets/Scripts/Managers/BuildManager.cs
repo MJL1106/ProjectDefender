@@ -1,6 +1,5 @@
-using System;
+
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
@@ -32,7 +31,7 @@ public class BuildManager : MonoBehaviour
       ui = FindFirstObjectByType<UI>();
       cameraEffects = FindFirstObjectByType<CameraEffects>();
       
-      MakeBuildSlotNotAvailableIfNeeded(waveManager,currentGrid);
+     // MakeBuildSlotNotAvailableIfNeeded(waveManager,currentGrid);
    }
 
    private void Update()
@@ -50,8 +49,9 @@ public class BuildManager : MonoBehaviour
       }
    }
 
-   public void UpdateBuildManager(WaveManager newWaveManager)
+   public void UpdateBuildManager(WaveManager newWaveManager, GridBuilder newCurrentGrid)
    {
+      currentGrid = newCurrentGrid;
       MakeBuildSlotNotAvailableIfNeeded(newWaveManager, currentGrid);
    }
 
@@ -96,15 +96,15 @@ public class BuildManager : MonoBehaviour
 
    public void MouseOverUI(bool isOverUI) => isMouseOverUI = isOverUI;
    
-   public void MakeBuildSlotNotAvailableIfNeeded(WaveManager waveManager, GridBuilder currentGrid)
+   public void MakeBuildSlotNotAvailableIfNeeded(WaveManager newWaveManager, GridBuilder myCurrentGrid)
    {
-      if (waveManager == null) return;
+      if (newWaveManager == null) return;
       
-      foreach (var wave in waveManager.GetLevelWaves())
+      foreach (var wave in newWaveManager.GetLevelWaves())
       {
          if (wave.nextGrid == null) continue;
          
-         List<GameObject> grid = currentGrid.GetTileSetup();
+         List<GameObject> grid = myCurrentGrid.GetTileSetup();
          List<GameObject> nextWaveGrid = wave.nextGrid.GetTileSetup();
 
          for (int i = 0; i < grid.Count; i++)
@@ -113,7 +113,7 @@ public class BuildManager : MonoBehaviour
             TileSlot nextTile = nextWaveGrid[i].GetComponent<TileSlot>();
 
             bool tileNotTheSame = currentTile.GetMesh() != nextTile.GetMesh() ||
-                                  currentTile.GetMaterial() != nextTile.GetMaterial() ||
+                                  currentTile.GetOriginalMaterial() != nextTile.GetOriginalMaterial() ||
                                   currentTile.GetAllChildren().Count != nextTile.GetAllChildren().Count;
 
             if (tileNotTheSame == false) continue;

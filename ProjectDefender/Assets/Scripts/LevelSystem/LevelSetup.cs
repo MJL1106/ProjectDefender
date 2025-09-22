@@ -19,8 +19,7 @@ public class LevelSetup : MonoBehaviour
     private GridBuilder myMainGrid;
     [SerializeField] private List<GameObject> extraObjectsToDelete = new List<GameObject>();
     [SerializeField] private WaveManager myWaveManager;
-    
-    
+    [SerializeField] private Material groundMaterial;
     
     private IEnumerator Start()
     {
@@ -29,9 +28,10 @@ public class LevelSetup : MonoBehaviour
             DeleteExtraObjects();
 
             buildManager = FindFirstObjectByType<BuildManager>();
-            buildManager.UpdateBuildManager(myWaveManager);
+            buildManager.UpdateBuildManager(myWaveManager, myMainGrid);
             
             levelManager.UpdateCurrentGrid(myMainGrid);
+            levelManager.UpdateBackgroundColor(groundMaterial.color);
 
             tileAnimator = FindFirstObjectByType<TileAnimator>();
             tileAnimator.ShowGrid(myMainGrid, true);

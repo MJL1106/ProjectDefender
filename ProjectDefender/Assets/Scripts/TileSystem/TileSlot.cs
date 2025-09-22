@@ -8,6 +8,7 @@ using UnityEngine;
 public class TileSlot : MonoBehaviour
 {
     private int originalLayerIndex;
+    private Material originalMaterial;
     
      private MeshRenderer meshRenderer => GetComponent<MeshRenderer>();
     private MeshFilter meshFilter => GetComponent<MeshFilter>();
@@ -18,6 +19,7 @@ public class TileSlot : MonoBehaviour
     private void Awake()
     {
         originalLayerIndex = gameObject.layer;
+        originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
     }
     
     public void SwitchTile(GameObject referenceTile)
@@ -37,6 +39,12 @@ public class TileSlot : MonoBehaviour
         TurnIntoBuildSlotIfNeeded(referenceTile);
     }
 
+    public Material GetOriginalMaterial()
+    {
+        if (originalMaterial == null) originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
+
+        return originalMaterial;
+    }
 
     public Material GetMaterial() => meshRenderer.sharedMaterial;
     public Mesh GetMesh() => meshFilter.sharedMesh;
