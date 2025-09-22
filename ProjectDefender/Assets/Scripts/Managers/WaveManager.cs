@@ -214,13 +214,13 @@ public class WaveManager : MonoBehaviour
         newTile.transform.parent = currentGrid.transform;
 
         Vector3 targetPosition = newTile.transform.position + new Vector3(0, yOffset, 0);
-        tileAnimator.MoveTile(newTile.transform, targetPosition);
+        tileAnimator.MoveTile(newTile.transform, targetPosition, true);
     }
 
     private void RemoveTile(TileSlot tileToRemove)
     {
         Vector3 targetPosition = tileToRemove.transform.position + new Vector3(0, -yOffset, 0);
-        tileAnimator.MoveTile(tileToRemove.transform, targetPosition);
+        tileAnimator.MoveTile(tileToRemove.transform, targetPosition, false);
         
         Destroy(tileToRemove.gameObject, 1);
     }

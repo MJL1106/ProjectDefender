@@ -30344,6 +30344,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8345537198799329102, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8345537198799329102, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
       propertyPath: myWaveManager
       value: 
       objectReference: {fileID: 0}
@@ -44769,6 +44773,8 @@ MonoBehaviour:
   yOffset: 5
   mainMenuObjects: []
   mainSceneGrid: {fileID: 1199274202421046181}
+  dissolveMat: {fileID: 2100000, guid: 9bc78516fe16c9849a820cb1f5be41ea, type: 2}
+  dissolveDuration: 1.2
 --- !u!4 &1674286581
 Transform:
   m_ObjectHideFlags: 0
@@ -50922,6 +50928,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8345537198799329102, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -8345537198799329102, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
       propertyPath: myWaveManager
       value: 
