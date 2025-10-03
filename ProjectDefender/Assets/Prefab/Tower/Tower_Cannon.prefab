@@ -67,7 +67,7 @@ MonoBehaviour:
   towerAttacksForward: 0
   attackSfx: {fileID: 0}
   timeToTarget: 1.5
-  damage: 15
+  damage: 40
   projectilePrefab: {fileID: 6888268818105847383, guid: 52b8d6d6690fc554b9a738803c1b1be6, type: 3}
   attackVFX: {fileID: 9005131269454984309}
 --- !u!54 &4760417721025213192

@@ -1689,7 +1689,7 @@ MonoBehaviour:
     m_Bits: 129
   towerAttacksForward: 0
   attackSfx: {fileID: 7691047474527346684}
-  damage: 10
+  damage: 25
 --- !u!114 &4105478440329888710
 MonoBehaviour:
   m_ObjectHideFlags: 0
