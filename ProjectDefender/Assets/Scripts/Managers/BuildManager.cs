@@ -31,7 +31,12 @@ public class BuildManager : MonoBehaviour
       ui = FindFirstObjectByType<UI>();
       cameraEffects = FindFirstObjectByType<CameraEffects>();
       
-     // MakeBuildSlotNotAvailableIfNeeded(waveManager,currentGrid);
+     MakeBuildSlotNotAvailableIfNeeded(waveManager,currentGrid);
+   }
+   
+   private void Start()
+   {
+      gameManager = GameManager.instance;
    }
 
    private void Update()
@@ -55,10 +60,6 @@ public class BuildManager : MonoBehaviour
       MakeBuildSlotNotAvailableIfNeeded(newWaveManager, currentGrid);
    }
 
-   private void Start()
-   {
-      gameManager = GameManager.instance;
-   }
 
    public void BuildTower(GameObject towerToBuild, int towerPrice, Transform newPreviewTower)
    {
@@ -139,8 +140,13 @@ public class BuildManager : MonoBehaviour
    public void SelectBuildSlot(BuildSlot newSlot)
    {
       if (selectedBuildSlot != null) selectedBuildSlot.UnselectTile();
-      
+    
       selectedBuildSlot = newSlot;
+      
+      if (ui != null && ui.BuildButtonsHolderUI != null)
+      {
+         ui.BuildButtonsHolderUI.OnTileSelectionChanged(newSlot);
+      }
    }
 
    public void EnableBuildMenu()

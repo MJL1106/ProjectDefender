@@ -19,8 +19,9 @@ public class Enemy : MonoBehaviour , IDamageable
 
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
+    [SerializeField] private int reward = 10;
     public float maxHp = 100;
-    public float currentHp = 4;
+    protected float currentHp = 4;
     protected bool isDead;
     
     [Header("Movement")]
@@ -260,7 +261,7 @@ public class Enemy : MonoBehaviour , IDamageable
 
     public virtual void Die()
     {
-        gameManager.UpdateCurrency(1);
+        gameManager.UpdateCurrency(reward);
         RemoveEnemy();
     }
 

@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     private CameraEffects cameraEffects;
     
     [SerializeField] private int currency;
-    [SerializeField] private int maxHp;
-    [SerializeField] private int currentHp;
+    [SerializeField] private int maxHp; 
+    private int currentHp;
     
     public int enemiesKilled { get; private set; }
 
@@ -33,11 +33,12 @@ public class GameManager : MonoBehaviour
     {
         currentHp = maxHp;
 
-        if (IsTestingLevel())
+        // Enable if need to test a level using high currency and hp
+        /*if (IsTestingLevel())
         {
-            currency += 9999;
+            currency += 500;
             currentHp += 9999;
-        }
+        }*/
         
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
         inGameUI.UpdateCurrencyUI(currency);
@@ -118,7 +119,7 @@ public class GameManager : MonoBehaviour
 
     public bool HasEnoughCurrency(int price)
     {
-        if (price < currency)
+        if (price <= currency)
         {
             currency = currency - price;
             inGameUI.UpdateCurrencyUI(currency);

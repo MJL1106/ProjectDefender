@@ -8276,7 +8276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -18584,6 +18584,10 @@ PrefabInstance:
 
         great for groups of enemies'
       objectReference: {fileID: 0}
+    - target: {fileID: 1483223718029093709, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: m_text
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3162894555644719622, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -18603,6 +18607,10 @@ PrefabInstance:
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerName
       value: Cannon
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: towerPrice
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerToBuild
@@ -18730,6 +18738,10 @@ PrefabInstance:
       propertyPath: m_text
       value: excellent for penetrating armored enemies
       objectReference: {fileID: 0}
+    - target: {fileID: 1483223718029093709, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: m_text
+      value: 125
+      objectReference: {fileID: 0}
     - target: {fileID: 3162894555644719622, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -18749,6 +18761,10 @@ PrefabInstance:
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerName
       value: Rapid Fire Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: towerPrice
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerToBuild
@@ -19170,6 +19186,10 @@ PrefabInstance:
 
         along a direct line'
       objectReference: {fileID: 0}
+    - target: {fileID: 1483223718029093709, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: m_text
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 3162894555644719622, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -19189,6 +19209,10 @@ PrefabInstance:
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerName
       value: Just Fan
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: towerPrice
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerToBuild
@@ -19334,6 +19358,10 @@ PrefabInstance:
 
         high damage'
       objectReference: {fileID: 0}
+    - target: {fileID: 1483223718029093709, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: m_text
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3162894555644719622, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -19353,6 +19381,10 @@ PrefabInstance:
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerName
       value: Spider Nest
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: towerPrice
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerToBuild
@@ -19490,6 +19522,10 @@ PrefabInstance:
 
         slowing down enemies'
       objectReference: {fileID: 0}
+    - target: {fileID: 1483223718029093709, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: m_text
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 3162894555644719622, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -19509,6 +19545,10 @@ PrefabInstance:
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerName
       value: Hammer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
+      propertyPath: towerPrice
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerToBuild

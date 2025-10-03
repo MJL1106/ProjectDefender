@@ -372,6 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onDeathVfx: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
+  onDeathVfcScale: 0.5
   visuals: {fileID: 2232352621041289219}
   whatIsGround:
     serializedVersion: 2
@@ -432,7 +433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 2
   centrePoint: {fileID: 8026809459497262713}
-  healthPoints: 4
+  maxHp: 1
   turnSpeed: 10
   myWaypoints: []
 --- !u!1 &4960479960739324193

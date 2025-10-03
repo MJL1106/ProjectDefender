@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyHeavy : Enemy
 {
     [Header("Enemy Details")] 
-    [SerializeField] private float currentShield = 50;
+    private float currentShield = 50;
     [SerializeField] private float maxShield = 50;
     [SerializeField] private EnemyShield shieldObject;
 
