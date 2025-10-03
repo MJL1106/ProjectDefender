@@ -114,7 +114,7 @@ public class UIBuildButtonsHolder : MonoBehaviour
         float methodDelay = isBuildMenuActive ? openAnimationDuration : 0;
         
         uiAnim.ChangePosition(transform, new Vector3(0,yOffset), openAnimationDuration);
-        
+
         Invoke(nameof(ToggleButtonMovement), methodDelay);
     }
 
@@ -128,13 +128,12 @@ public class UIBuildButtonsHolder : MonoBehaviour
     
     public void OnTileSelectionChanged(BuildSlot newSelectedSlot)
     {
-        // If we have a selected button with a preview, update its position
         if (lastSelectedButton != null && previewTower != null && newSelectedSlot != null)
         {
-            Vector3 previewPosition = newSelectedSlot.GetBuildPosition(1f); // Use same offset as in SelectButton
+            Vector3 previewPosition = newSelectedSlot.GetBuildPosition(1f);
+
             previewTower.position = previewPosition;
         
-            // Update the preview component if it exists
             TowerPreview towerPreview = previewTower.GetComponent<TowerPreview>();
             if (towerPreview != null)
             {

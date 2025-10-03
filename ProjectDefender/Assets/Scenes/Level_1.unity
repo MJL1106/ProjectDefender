@@ -37754,7 +37754,7 @@ MonoBehaviour:
   currentGrid: {fileID: 1199274202421046181}
   whatToIgnore:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4353
   attackRadiusMat: {fileID: 2100000, guid: b1236d3963a71714487c1747287b2ec8, type: 2}
   buildPreviewMat: {fileID: 2100000, guid: 4836a6121d8ba6e439b147c5799f97ad, type: 2}
   towerCentreY: 0.5
@@ -100947,6 +100947,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 374545648054012900, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 995204158997342381, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1545721856978025495, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224445649154221276, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2946865593451307507, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604846684671497920, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5166639448441320783, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.284873
@@ -100987,9 +101011,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5787457765701255498, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6178411761234882239, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: m_Name
       value: ___WaveManager___
+      objectReference: {fileID: 0}
+    - target: {fileID: 6572409651803518628, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450457275328123699, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: currentGrid
@@ -101031,6 +101067,10 @@ PrefabInstance:
       propertyPath: 'levelWaves.Array.data[1].newPortals.Array.data[0]'
       value: 
       objectReference: {fileID: 1911912825}
+    - target: {fileID: 8459082314993533358, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
