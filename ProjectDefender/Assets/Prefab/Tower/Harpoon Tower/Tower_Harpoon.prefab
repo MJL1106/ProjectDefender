@@ -160,8 +160,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7710917892564352953, guid: 6e8e655e19af0784f89ba44946eef03f, type: 3}
   projectileDefaultPosition: {fileID: 9148707866004476194}
   projectileSpeed: 15
-  initialDamage: 5
-  damageOverTime: 10
+  initialDamage: 8
+  damageOverTime: 15
   overTimeEffectDuration: 4
   slowEffect: 0.7
 --- !u!114 &7625356309920796652

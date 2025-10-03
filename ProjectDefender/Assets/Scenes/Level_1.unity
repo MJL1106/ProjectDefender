@@ -60606,15 +60606,15 @@ MonoBehaviour:
   - towerName: Crossbow
     unlocked: 1
   - towerName: Cannon
-    unlocked: 1
+    unlocked: 0
   - towerName: Rapid Fire Gun
-    unlocked: 1
+    unlocked: 0
   - towerName: Hammer
     unlocked: 0
   - towerName: Spider Nest
     unlocked: 0
   - towerName: Anti-air Harpoon
-    unlocked: 1
+    unlocked: 0
   - towerName: Just Fan
     unlocked: 0
   levelCurrency: 1000

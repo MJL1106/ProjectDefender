@@ -51058,8 +51058,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentActiveWaveManager: {fileID: 0}
-  currency: 500
-  maxHp: 100
+  currency: 200
+  maxHp: 20
   currentHp: 0
 --- !u!4 &1913317771
 Transform:
@@ -60419,6 +60419,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 911075193}
+    - target: {fileID: 633749326604177938, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+      propertyPath: towerPrice
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 634054627291996464, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+      propertyPath: towerPrice
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 976861680657956007, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -60427,6 +60435,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 911075193}
+    - target: {fileID: 3219001338865796268, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+      propertyPath: towerPrice
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 3724655101324771369, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -60439,10 +60451,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 911075193}
+    - target: {fileID: 5419631907047712926, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+      propertyPath: towerPrice
+      value: 125
+      objectReference: {fileID: 0}
     - target: {fileID: 6145423565368005782, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 911075193}
+    - target: {fileID: 6867322691923528132, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+      propertyPath: towerPrice
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 7127432521445720835, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 

@@ -44,11 +44,8 @@ public class LevelSetup : MonoBehaviour
             gameManager = FindFirstObjectByType<GameManager>();
             gameManager.PrepareLevel(levelCurrency, myWaveManager);
         } 
-        else
-        {
-            yield return new WaitForEndOfFrame();
-            UnlockAvailableTowers();
-        }
+        
+        UnlockAvailableTowers();
     }
 
     private bool LevelWasLoadedToMainScene()
