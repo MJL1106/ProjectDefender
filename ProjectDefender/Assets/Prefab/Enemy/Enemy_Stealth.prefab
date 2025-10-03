@@ -438,7 +438,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 4
   centrePoint: {fileID: 2851485706542082124}
-  healthPoints: 4
+  reward: 30
+  maxHp: 80
   turnSpeed: 10
   myWaypoints: []
   enemiesToHide: []

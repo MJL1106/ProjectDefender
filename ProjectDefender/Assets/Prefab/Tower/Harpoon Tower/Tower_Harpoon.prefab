@@ -161,7 +161,7 @@ MonoBehaviour:
   projectileDefaultPosition: {fileID: 9148707866004476194}
   projectileSpeed: 15
   initialDamage: 8
-  damageOverTime: 15
+  damageOverTime: 20
   overTimeEffectDuration: 4
   slowEffect: 0.7
 --- !u!114 &7625356309920796652

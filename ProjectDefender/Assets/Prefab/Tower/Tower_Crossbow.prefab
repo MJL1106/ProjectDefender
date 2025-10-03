@@ -1674,7 +1674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemy: {fileID: 0}
   dynamicTargetChange: 0
-  attackCooldown: 3
+  attackCooldown: 2
   enemyPriorityType: 1
   towerHead: {fileID: 606353449706686464}
   towerBody: {fileID: 0}

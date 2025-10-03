@@ -196,6 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   centrePoint: {fileID: 5973087668014973993}
+  reward: 10
   maxHp: 50
   turnSpeed: 10
   myWaypoints: []

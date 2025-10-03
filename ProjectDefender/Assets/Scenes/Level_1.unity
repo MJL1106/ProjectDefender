@@ -31871,7 +31871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &605182629
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60668,18 +60668,18 @@ MonoBehaviour:
   - towerName: Crossbow
     unlocked: 1
   - towerName: Cannon
-    unlocked: 0
+    unlocked: 1
   - towerName: Rapid Fire Gun
-    unlocked: 0
+    unlocked: 1
   - towerName: Hammer
-    unlocked: 0
+    unlocked: 1
   - towerName: Spider Nest
-    unlocked: 0
+    unlocked: 1
   - towerName: Anti-air Harpoon
-    unlocked: 0
+    unlocked: 1
   - towerName: Just Fan
-    unlocked: 0
-  levelCurrency: 1000
+    unlocked: 1
+  levelCurrency: 400
   myMainGrid: {fileID: 1199274202421046181}
   extraObjectsToDelete:
   - {fileID: 231532976}
@@ -62319,6 +62319,14 @@ PrefabInstance:
     - target: {fileID: -8345537198799329102, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
       propertyPath: spawnCooldown
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159755381478222981, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159755381478222981, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.81
       objectReference: {fileID: 0}
     - target: {fileID: 3980865510223320822, guid: 112eb78f3b2f3d347805139cceb73bb2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -101104,7 +101112,7 @@ PrefabInstance:
       objectReference: {fileID: 1522258238}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].fastEnemy
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[1].fastEnemy
@@ -101112,6 +101120,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].basicEnemy
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].heavyEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].swarmEnemy
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
@@ -101119,7 +101135,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].flyingEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].stealthEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].flyingBossEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[0].spiderBossEnemy
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
@@ -109252,8 +109280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentActiveWaveManager: {fileID: 0}
-  currency: 500
-  maxHp: 100
+  currency: 200
+  maxHp: 20
   currentHp: 0
 --- !u!4 &1913317771
 Transform:
