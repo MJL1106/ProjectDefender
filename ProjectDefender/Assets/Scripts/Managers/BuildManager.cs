@@ -139,8 +139,14 @@ public class BuildManager : MonoBehaviour
    public void SelectBuildSlot(BuildSlot newSlot)
    {
       if (selectedBuildSlot != null) selectedBuildSlot.UnselectTile();
-      
+    
       selectedBuildSlot = newSlot;
+    
+      // Update the preview position if there's an active button selected
+      if (ui != null && ui.BuildButtonsHolderUI != null)
+      {
+         ui.BuildButtonsHolderUI.OnTileSelectionChanged(newSlot);
+      }
    }
 
    public void EnableBuildMenu()

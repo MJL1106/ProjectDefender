@@ -125,4 +125,21 @@ public class UIBuildButtonsHolder : MonoBehaviour
             button.ToggleMovement(isBuildMenuActive);
         }
     }
+    
+    public void OnTileSelectionChanged(BuildSlot newSelectedSlot)
+    {
+        // If we have a selected button with a preview, update its position
+        if (lastSelectedButton != null && previewTower != null && newSelectedSlot != null)
+        {
+            Vector3 previewPosition = newSelectedSlot.GetBuildPosition(1f); // Use same offset as in SelectButton
+            previewTower.position = previewPosition;
+        
+            // Update the preview component if it exists
+            TowerPreview towerPreview = previewTower.GetComponent<TowerPreview>();
+            if (towerPreview != null)
+            {
+                towerPreview.ShowPreview(true, previewPosition);
+            }
+        }
+    }
 }
