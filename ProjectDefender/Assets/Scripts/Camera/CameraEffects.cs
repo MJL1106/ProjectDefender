@@ -49,12 +49,6 @@ public class CameraEffects : MonoBehaviour
         SwitchToMenuView();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V)) ScreenShake(shakeDuration,shakeMagnitude);
-        if (Input.GetKeyDown(KeyCode.B)) FocusOnCastle();
-    }
-
     public void ScreenShake(float newDuration, float newMagnitude)
     {
         StartCoroutine(ScreenShakeVFX(newDuration, newMagnitude));
