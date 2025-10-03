@@ -23,19 +23,21 @@ public class ProjectileMachineGun : MonoBehaviour
     public void SetupProjectile(Vector3 targetPosition, IDamageable newDamageable, float newDamage, float newSpeed, ObjectPoolManager newObjectPool)
     {
         trail.Clear();
+        objectPool = newObjectPool;
+        isActive = true;
+
         target = targetPosition;
         damageable = newDamageable;
 
         damage = newDamage;
         speed = newSpeed;
-
-        objectPool = newObjectPool;
     }
 
     private void Update()
     {
-        if (isActive == false) return;
-        
+        if (isActive == false)
+            return;
+
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
 
         if ((transform.position - target).sqrMagnitude <= threshold * threshold)
@@ -43,8 +45,8 @@ public class ProjectileMachineGun : MonoBehaviour
             isActive = false;
             damageable.TakeDamage(damage);
 
-            objectPool.Get(onHitFx, transform.position);
-            objectPool.Remove(gameObject);
+            objectPool.Get(onHitFx,transform.position);
+            objectPool.Remove(gameObject);   
         }
     }
 }
