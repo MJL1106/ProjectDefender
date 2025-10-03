@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour , IDamageable
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
     public float maxHp = 100;
-    public float currentHp = 4;
+    protected float currentHp = 4;
     protected bool isDead;
     
     [Header("Movement")]

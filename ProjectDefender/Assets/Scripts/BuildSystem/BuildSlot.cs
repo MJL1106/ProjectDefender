@@ -23,12 +23,13 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         defaultPosition = transform.position;
     }
 
+    // Enable if want tiles to be raised to show upcoming grid to the player
     private void Start()
     {
-        if (buildSlotAvailable == false)
-        {
-            transform.position += new Vector3(0, .1f);
-        }
+       // if (buildSlotAvailable == false)
+        //{
+         //   transform.position += new Vector3(0, .1f);
+      //  }
     }
 
     public void SetSlotAvailableTo(bool value) => buildSlotAvailable = value;

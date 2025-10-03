@@ -37754,7 +37754,7 @@ MonoBehaviour:
   currentGrid: {fileID: 1199274202421046181}
   whatToIgnore:
     serializedVersion: 2
-    m_Bits: 4353
+    m_Bits: 37633
   attackRadiusMat: {fileID: 2100000, guid: b1236d3963a71714487c1747287b2ec8, type: 2}
   buildPreviewMat: {fileID: 2100000, guid: 4836a6121d8ba6e439b147c5799f97ad, type: 2}
   towerCentreY: 0.5
@@ -49700,6 +49700,68 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899183808}
   m_Mesh: {fileID: 6920570469935848300, guid: e4f015fced1635b4faf93701b2d56f47, type: 3}
+--- !u!1001 &903957616
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1585137732407041544, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_Name
+      value: ObjectPoolManager_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.750988
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.187944
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.834068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683752977222531236, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+--- !u!1 &903957617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1585137732407041544, guid: 0e4bf1e7f9252344181eca23b65dbaaa, type: 3}
+  m_PrefabInstance: {fileID: 903957616}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &906867249
 GameObject:
   m_ObjectHideFlags: 0
@@ -60632,6 +60694,7 @@ MonoBehaviour:
   - {fileID: 299441678}
   - {fileID: 1122316687}
   - {fileID: 163361700398521113}
+  - {fileID: 903957617}
   myWaveManager: {fileID: 1785373446}
   groundMaterial: {fileID: 2100000, guid: b8455780cbd62554c89f1d78aaa2ff65, type: 2}
 --- !u!4 &1105963833
@@ -94538,7 +94601,7 @@ MonoBehaviour:
   yOffset: 5
   mainMenuObjects: []
   mainSceneGrid: {fileID: 1199274202421046181}
-  dissolveMat: {fileID: 0}
+  dissolveMat: {fileID: 2100000, guid: 9bc78516fe16c9849a820cb1f5be41ea, type: 2}
   dissolveDuration: 1.2
 --- !u!4 &1674286581
 Transform:
@@ -101041,7 +101104,7 @@ PrefabInstance:
       objectReference: {fileID: 1522258238}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].fastEnemy
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[1].fastEnemy
@@ -101049,7 +101112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].basicEnemy
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[1].basicEnemy
@@ -125114,3 +125177,4 @@ SceneRoots:
   - {fileID: 1122316690}
   - {fileID: 1782517327}
   - {fileID: 7333683017499254689}
+  - {fileID: 903957616}
