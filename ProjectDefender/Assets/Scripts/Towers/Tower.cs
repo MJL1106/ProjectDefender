@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
-using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
 public class Tower : MonoBehaviour
@@ -12,6 +10,7 @@ public class Tower : MonoBehaviour
     protected ObjectPoolManager objectPool;
     public Enemy currentEnemy;
 
+    // Spider Boss EMP
     protected bool towerActive = true;
     protected Coroutine deactivatedTowerCo;
     protected GameObject currentEmpVfx;
