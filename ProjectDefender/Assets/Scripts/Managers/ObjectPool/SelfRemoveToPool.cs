@@ -30,8 +30,6 @@ public class SelfRemoveToPool : MonoBehaviour
     {
         yield return new WaitForSeconds(removeDelay);
         
-        Debug.Log($"Trying to remove {gameObject.name}: ObjectPoolManager exists? {ObjectPoolManager.instance != null}");
-        
         objectPool.Remove(gameObject);
     }
 }

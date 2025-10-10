@@ -22,7 +22,6 @@ public class TowerMachineGun : Tower
 
     protected override void Attack()
     {
-
         gunPoint = gunPointSet[gunPointIndex];
         Vector3 directionToEnemy = DirectionToEnemyFrom(gunPoint);
 

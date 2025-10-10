@@ -79,14 +79,25 @@ public class LevelManager : MonoBehaviour
         yield return tileAnimator.GetActiveCoroutine();
         
         UpdateBackgroundColor(defaultColor);
-        UnloadCurrentScene();
+        
+        yield return UnloadCurrentScene();
 
-        tileAnimator.EnableMainSceneObjects(true);
-        tileAnimator.ShowMainGrid(true);
+        // Re-find references that might have been in the unloaded scene
+        if (tileAnimator == null)
+        {
+            tileAnimator = FindFirstObjectByType<TileAnimator>();
+        }
+        
+        if (tileAnimator != null)
+        {
+            tileAnimator.EnableMainSceneObjects(true);
+            tileAnimator.ShowMainGrid(true);
 
-        yield return tileAnimator.GetActiveCoroutine();
+            yield return tileAnimator.GetActiveCoroutine();
+        }
 
         ui.EnableMainMenuUI(true);
+
     }
 
     private void LoadScene(string sceneNameToLoad)
@@ -95,7 +106,7 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadSceneAsync(sceneNameToLoad, LoadSceneMode.Additive);
     }
 
-    private void UnloadCurrentScene() => SceneManager.UnloadSceneAsync(currentLevelName);
+    private AsyncOperation UnloadCurrentScene() => SceneManager.UnloadSceneAsync(currentLevelName);
 
     private void CleanUpScene()
     {

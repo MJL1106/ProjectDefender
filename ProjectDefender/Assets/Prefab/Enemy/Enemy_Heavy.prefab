@@ -163,7 +163,7 @@ MonoBehaviour:
   maxHp: 20
   turnSpeed: 10
   myWaypoints: []
-  maxShield: 100
+  maxShield: 300
   shieldObject: {fileID: 2601762505387196657}
 --- !u!195 &2339925153305727565
 NavMeshAgent:

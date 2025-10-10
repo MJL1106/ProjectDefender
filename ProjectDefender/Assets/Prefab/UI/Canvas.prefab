@@ -18740,7 +18740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1483223718029093709, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: m_text
-      value: 125
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3162894555644719622, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: m_Sprite
@@ -18764,7 +18764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerPrice
-      value: 125
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6028690439968568079, guid: 9c7c0ba4ad5e90549b2130e7dee9427f, type: 3}
       propertyPath: towerToBuild

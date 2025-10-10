@@ -26,6 +26,9 @@ public class TowerCrossbow : Tower
          towerHead.forward = directionToEnemy;
          
          IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+         
+         if (damageable == null) return;
+         
          damageable.TakeDamage(damage);
          
          visuals.CreateOnHitVFX(hitInfo.point);

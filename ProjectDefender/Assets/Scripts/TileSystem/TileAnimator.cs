@@ -29,8 +29,6 @@ public class TileAnimator : MonoBehaviour
     [SerializeField] private Material dissolveMat;
     [SerializeField] private float dissolveDuration = 1.2f;
     private List<Transform> dissolvingObjects = new List<Transform>();
-
-
     private void Start()
     {
         if (GameManager.instance.IsTestingLevel()) return;
