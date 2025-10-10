@@ -60431,15 +60431,15 @@ MonoBehaviour:
   - towerName: Cannon
     unlocked: 1
   - towerName: Rapid Fire Gun
-    unlocked: 0
+    unlocked: 1
   - towerName: Hammer
-    unlocked: 0
+    unlocked: 1
   - towerName: Spider Nest
-    unlocked: 0
+    unlocked: 1
   - towerName: Anti-air Harpoon
-    unlocked: 0
+    unlocked: 1
   - towerName: Just Fan
-    unlocked: 0
+    unlocked: 1
   levelCurrency: 200
   myMainGrid: {fileID: 1199274202421046181}
   extraObjectsToDelete:
@@ -108709,7 +108709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentActiveWaveManager: {fileID: 0}
   currency: 200
-  maxHp: 1
+  maxHp: 20
 --- !u!4 &1913317771
 Transform:
   m_ObjectHideFlags: 0

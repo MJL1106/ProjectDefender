@@ -31,6 +31,8 @@ public class Tower : MonoBehaviour
     [SerializeField] protected LayerMask whatIsEnemy;
     [SerializeField] protected LayerMask whatIsTargetable;
     
+    [SerializeField] private GameObject onGameOverVFX;
+    
     [Tooltip("Handles showing the correct preview for the fan tower")] 
     public bool towerAttacksForward;
 
@@ -220,6 +222,15 @@ public class Tower : MonoBehaviour
     {
         int enemyColliders = Physics.OverlapSphereNonAlloc(transform.position, attackRange,allocatedColliders, whatIsEnemy);
         return enemyColliders > 0;
+    }
+
+    public virtual void RemoveTower()
+    {
+        GameObject newOnGameOverVFX =
+            objectPool.Get(onGameOverVFX, transform.position + new Vector3(0, .15f, 0), Quaternion.identity);
+        newOnGameOverVFX.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+        
+        objectPool.Remove(gameObject);
     }
 
     protected virtual void OnDrawGizmos()

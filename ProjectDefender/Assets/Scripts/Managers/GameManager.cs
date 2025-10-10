@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         
         RemoveAllEnemies();
+        RemoveAllTowers();
         
         yield return new WaitForSeconds(0.5f);
         
@@ -121,6 +122,18 @@ public class GameManager : MonoBehaviour
             if (enemy != null && enemy.gameObject.activeSelf)
             {
                 enemy.RemoveEnemy();
+            }
+        }
+    }
+    
+    private void RemoveAllTowers()
+    {
+        Tower[] allTowers = FindObjectsByType<Tower>(FindObjectsSortMode.None);
+        foreach (Tower tower in allTowers)
+        {
+            if (tower != null && tower.gameObject.activeSelf)
+            {
+                tower.RemoveTower();
             }
         }
     }
