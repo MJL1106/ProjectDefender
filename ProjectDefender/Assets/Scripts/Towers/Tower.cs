@@ -30,6 +30,8 @@ public class Tower : MonoBehaviour
     [SerializeField] protected float attackRange = 2.5f;
     [SerializeField] protected LayerMask whatIsEnemy;
     [SerializeField] protected LayerMask whatIsTargetable;
+    
+    [Tooltip("Handles showing the correct preview for the fan tower")] 
     public bool towerAttacksForward;
 
     [Space] 

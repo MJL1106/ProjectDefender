@@ -108709,7 +108709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentActiveWaveManager: {fileID: 0}
   currency: 200
-  maxHp: 20
+  maxHp: 1
 --- !u!4 &1913317771
 Transform:
   m_ObjectHideFlags: 0

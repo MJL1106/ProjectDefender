@@ -60,6 +60,17 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         
     }
+    
+    protected virtual void Update()
+    {
+        FaceTarget(agent.steeringTarget);
+        
+        // Check if the agent is close to current target point
+        if (ShouldChangeWaypoint())
+        {
+            ChangeWaypoint();
+        }
+    }
 
     public void SetupEnemy(EnemyPortal myNewPortal)
     {
@@ -100,17 +111,6 @@ public class Enemy : MonoBehaviour , IDamageable
 
         agent.speed = originalSpeed;
         agent.enabled = true;
-    }
-
-    protected virtual void Update()
-    {
-        FaceTarget(agent.steeringTarget);
-        
-        // Check if the agent is close to current target point
-        if (ShouldChangeWaypoint())
-        {
-            ChangeWaypoint();
-        }
     }
 
     public void SlowEnemy(float slowMultiplier, float duration)
