@@ -83,10 +83,22 @@ public class WaveManager : MonoBehaviour
         EnableWaveTimer(true);
     }
 
-    public void DeactivateWaveManager() => gameBegan = false;
+    public void DeactivateWaveManager()
+    {
+        gameBegan = false;
+        waveTimerEnabled = false;
+    
+        // Hide the wave timer UI when deactivating
+        if (inGameUI != null)
+        {
+            inGameUI.EnableWaveTimer(false);
+        }
+    }
 
     public void CheckIfWaveCompleted()
     {
+        if (gameBegan == false || gameManager.IsGameLost()) return;
+        
         if (gameBegan == false) return;
         
         if (AllEnemiesDefeated() == false || makingNextWave) return;
@@ -113,6 +125,8 @@ public class WaveManager : MonoBehaviour
     
     public void StartNewWave()
     {
+        if (gameManager.IsGameLost()) return;
+        
         UpdateNavMeshes();
         GiveEnemiesToPortals();
         EnableWaveTimer(false);
@@ -122,6 +136,13 @@ public class WaveManager : MonoBehaviour
     private void HandleWaveTimer()
     {
         if (waveTimerEnabled == false) return;
+        
+        if (gameManager.IsGameLost()) 
+        {
+            waveTimerEnabled = false;
+            inGameUI.EnableWaveTimer(false);
+            return;
+        }
         
         waveTimer -= Time.deltaTime;
         inGameUI.UpdateWaveTimerUI(waveTimer);
@@ -231,6 +252,8 @@ public class WaveManager : MonoBehaviour
 
     private void EnableWaveTimer(bool enable)
     {
+        if (enable && gameManager.IsGameLost()) return;
+        
         if (waveTimerEnabled == enable) return;
 
         waveTimer = timeBetweenWaves;
