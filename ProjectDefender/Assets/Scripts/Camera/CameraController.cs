@@ -47,6 +47,9 @@ public class CameraController : MonoBehaviour
     {
         screenWidth = Screen.width;
         screenHeight = Screen.height;
+        
+        pitch = transform.eulerAngles.x;
+
     }
 
     private void Update()
@@ -96,16 +99,25 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetMouseButton(1)) // Right mouse button
         {
-            float horizontalRotation = Input.GetAxis("Mouse X") * rotationSpeed *Time.deltaTime;
+            float horizontalRotation = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
             float verticalRotation = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
 
-            pitch = Mathf.Clamp(pitch - verticalRotation, minPitch, maxPitch);
+            pitch -= verticalRotation;
+            pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
             
             transform.RotateAround(focusPoint.position, Vector3.up, horizontalRotation);
-            transform.RotateAround(focusPoint.position, transform.right, pitch - transform.eulerAngles.x);
+            
+            // Calculate the angle difference and apply it
+            float currentPitch = transform.eulerAngles.x;
+            // Handle angle wrapping (Unity uses 0-360)
+            if (currentPitch > 180) currentPitch -= 360;
+            float pitchDifference = pitch - currentPitch;
+            
+            transform.RotateAround(focusPoint.position, transform.right, pitchDifference);
             
             transform.LookAt(focusPoint);
         }
+
     }
 
     private void HandleMovement()
