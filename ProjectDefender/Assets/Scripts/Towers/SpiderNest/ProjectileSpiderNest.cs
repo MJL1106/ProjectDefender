@@ -47,7 +47,8 @@ public class ProjectileSpiderNest : MonoBehaviour
 
     public void SetupSpider(float newDamage)
     {
-        trail.Clear();
+        if (trail != null) trail.Clear();
+        
         damage = newDamage;
         agent.enabled = true;
         transform.parent = null;
