@@ -36,18 +36,18 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (tileCanBeMoved == false) return;
-        
         if (buildSlotAvailable == false|| tileAnim.IsGridMoving()) return;
+        
+        if (tileCanBeMoved == false) return;
         
         MoveTileUp();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (tileCanBeMoved == false) return;
-        
         if (buildSlotAvailable == false|| tileAnim.IsGridMoving()) return;
+        
+        if (tileCanBeMoved == false) return;
 
         if (currentMovementUpCo != null) Invoke(nameof(MoveToDefaultPosition), tileAnim.GetTravelDuration());
         else MoveToDefaultPosition();

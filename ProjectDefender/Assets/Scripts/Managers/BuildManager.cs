@@ -43,8 +43,10 @@ public class BuildManager : MonoBehaviour
    {
       if (Input.GetKeyDown(KeyCode.Escape)) CancelBuildAction();
 
-      if (Input.GetKeyDown(KeyCode.Mouse0) && isMouseOverUI == false)
+      if (Input.GetKeyDown(KeyCode.Mouse0))
       {
+         if (isMouseOverUI) return;
+         
          if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, ~whatToIgnore))
          {
             bool clickedNotOnBuildSlot = hit.collider.GetComponent<BuildSlot>() == null;
