@@ -36,7 +36,7 @@ public class TowerSpiderNest : Tower
 
     protected override bool CanAttack()
     {
-        return Time.time > lastTimeAttacked + attackCooldown; //&& AtLeastOneEnemyAround();
+        return Time.time > lastTimeAttacked + attackCooldown && AtLeastOneEnemyAround();
     }
 
     protected override void Attack()

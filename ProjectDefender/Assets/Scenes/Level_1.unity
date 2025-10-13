@@ -60427,15 +60427,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towersUnlocked:
   - towerName: Crossbow
-    unlocked: 0
+    unlocked: 1
   - towerName: Cannon
-    unlocked: 0
+    unlocked: 1
   - towerName: Rapid Fire Gun
     unlocked: 0
   - towerName: Hammer
     unlocked: 0
   - towerName: Spider Nest
-    unlocked: 1
+    unlocked: 0
   - towerName: Anti-air Harpoon
     unlocked: 0
   - towerName: Just Fan
@@ -108708,7 +108708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentActiveWaveManager: {fileID: 0}
-  currency: 999
+  currency: 200
   maxHp: 20
 --- !u!4 &1913317771
 Transform:

@@ -113,7 +113,7 @@ public class WaveManager : MonoBehaviour
         }
 
         if (HasNewLayout())
-        {
+        {   
             AttemptToUpdateLayout();
         }
         else

@@ -80,6 +80,7 @@ public class Enemy : MonoBehaviour , IDamageable
         CollectTotalDistance();
         ResetEnemy();
         BeginMovement();
+
     }
 
     private void UpdateWaypoints(Vector3[] newWaypoints)

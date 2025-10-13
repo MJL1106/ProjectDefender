@@ -60,7 +60,7 @@ public class Tower : MonoBehaviour
         LooseTargetIfNeeded();
         UpdateTargetIfNeeded();
         HandleRotation();
-
+        
         if (CanAttack()) AttemptToAttack();
     }
 
