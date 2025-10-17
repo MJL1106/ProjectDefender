@@ -147,9 +147,11 @@ public class Enemy : MonoBehaviour , IDamageable
     public void HideEnemy(float duration)
     {
         if (isDead) return;
-        
+    
+        if (!gameObject.activeInHierarchy) return;
+    
         if (canBeHidden == false) return;
-        
+    
         if (hideCo != null) StopCoroutine(hideCo);
 
         hideCo = StartCoroutine(HideEnemyCo(duration));
