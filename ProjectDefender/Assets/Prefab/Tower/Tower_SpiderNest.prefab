@@ -117,13 +117,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemy: {fileID: 0}
   dynamicTargetChange: 0
-  attackCooldown: 2
+  attackCooldown: 2.5
   enemyPriorityType: 7
   towerHead: {fileID: 0}
   towerBody: {fileID: 0}
   gunPoint: {fileID: 0}
   rotationSpeed: 10
-  attackRange: 2.5
+  attackRange: 4
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
@@ -134,7 +134,7 @@ MonoBehaviour:
   towerAttacksForward: 0
   attackSfx: {fileID: 0}
   spiderPrefab: {fileID: 7060690608549553713, guid: 9d7cdc565b80acb46a736dd2f63ca86b, type: 3}
-  damage: 50
+  damage: 35
   attackTimeMultiplier: 0.401
   reloadTimeMultiplier: 0.6
   attachPoint:

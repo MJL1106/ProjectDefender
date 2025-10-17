@@ -12530,8 +12530,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 6
   centrePoint: {fileID: 2458354899954704562}
-  reward: 300
-  maxHp: 1250
+  reward: 450
+  maxHp: 4000
   turnSpeed: 10
   myWaypoints: []
   empPrefab: {fileID: 8729951672839446541, guid: 0670a39573445de419e369d83477f2bd, type: 3}
