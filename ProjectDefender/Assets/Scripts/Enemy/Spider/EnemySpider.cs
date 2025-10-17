@@ -8,7 +8,6 @@ public class EnemySpider : Enemy
 
    [Header("Emp attack details")] [SerializeField]
    private GameObject empPrefab;
-
    [SerializeField] private LayerMask whatIsTower;
    [SerializeField] private float towerCheckRadius = 5;
    [SerializeField] private float empCooldown = 8;
@@ -19,7 +18,6 @@ public class EnemySpider : Enemy
    protected override void Awake()
    {
       base.Awake();
-
       spiderVisuals = GetComponent<EnemySpiderVisuals>();
    }
 
@@ -44,7 +42,11 @@ public class EnemySpider : Enemy
    {
       Transform target = FindRandomTower();
 
-      if (target == null) return;
+      if (target == null)
+      {
+         empAttackTimer = empCooldown;
+         return;
+      }
 
       empAttackTimer = empCooldown;
 
