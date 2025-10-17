@@ -28,10 +28,16 @@ public class EnemyStealth : Enemy
 
     public void EnableSmoke(bool enable)
     {
-        if (enable && !smokeFx.isPlaying)
+        if (enable)
+        {
+            smokeFx.Clear();
             smokeFx.Play();
-        else if (!enable && smokeFx.isPlaying)
+        }
+        else
+        {
             smokeFx.Stop();
+            smokeFx.Clear();
+        }
     }
 
     protected override IEnumerator DisableHideCo(float duration)
@@ -50,8 +56,22 @@ public class EnemyStealth : Enemy
     protected override void OnEnable()
     {
         base.OnEnable();
-        
+    
+        canBeHidden = true;
+        canHideEnemies = true;
+        EnableSmoke(true);
+    
+        enemiesToHide.Clear();
+    
         InvokeRepeating(nameof(HideItself), .1f, hideDuration);
         InvokeRepeating(nameof(HideEnemies), .1f, hideDuration);
+    }
+    
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+    
+        EnableSmoke(false);
+        enemiesToHide.Clear();
     }
 }

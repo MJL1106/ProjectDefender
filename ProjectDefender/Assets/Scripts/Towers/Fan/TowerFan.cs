@@ -19,6 +19,8 @@ public class TowerFan : Tower
 
     private void RevealEnemies()
     {
+        enemiesToReveal.RemoveAll(enemy => enemy == null || enemy.IsDead() || !enemy.gameObject.activeInHierarchy);
+        
         foreach (var enemy in enemiesToReveal)
         {
             if (enemy != null) enemy.DisableHide(revealDuration);
