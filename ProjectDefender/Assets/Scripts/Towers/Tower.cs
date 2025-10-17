@@ -111,6 +111,8 @@ public class Tower : MonoBehaviour
 
     protected void AttemptToAttack()
     {
+        if (currentEnemy == null) return;
+        
         if (!currentEnemy.gameObject.activeSelf)
         {
             currentEnemy = null;

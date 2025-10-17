@@ -49,6 +49,11 @@ public class ProjectileSpiderNest : MonoBehaviour
     {
         if (trail != null) trail.Clear();
         damage = newDamage;
+    
+        // Enable collider when spider is deployed
+        Collider spiderCollider = GetComponent<Collider>();
+        if (spiderCollider != null) spiderCollider.enabled = true;
+    
         agent.enabled = true;
         transform.parent = null;
     }
@@ -69,6 +74,13 @@ public class ProjectileSpiderNest : MonoBehaviour
 
             if (damageable != null)
             {
+                // Check if it's an Enemy and if it's hidden - skip if hidden
+                Enemy enemyComponent = damageable as Enemy;
+                if (enemyComponent != null && enemyComponent.IsHidden())
+                {
+                    continue; // Skip hidden enemies
+                }
+            
                 damageable.TakeDamage(damage);
             }
         }
@@ -87,6 +99,15 @@ public class ProjectileSpiderNest : MonoBehaviour
 
         foreach (Collider enemyCollider in enemiesAround)
         {
+            // Check if enemy is hidden and skip if it is
+            Enemy enemy = enemyCollider.GetComponent<Enemy>();
+            if (enemy == null) enemy = enemyCollider.GetComponentInParent<Enemy>();
+            
+            if (enemy != null && enemy.IsHidden())
+            {
+                continue;
+            }
+            
             float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
 
             if (distance < shortestDistance)

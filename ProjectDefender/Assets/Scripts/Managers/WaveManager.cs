@@ -101,7 +101,7 @@ public class WaveManager : MonoBehaviour
         
         if (gameBegan == false) return;
         
-        if (AllEnemiesDefeated() == false || makingNextWave) return;
+        if (AllEnemiesDefeated() == false || AllPortalsFinishedSpawning() == false || makingNextWave) return;
 
         makingNextWave = true;
         waveIndex++;
@@ -169,6 +169,18 @@ public class WaveManager : MonoBehaviour
 
             if (portalIndex >= enemyPortals.Count) portalIndex = 0;
         }
+    }
+    
+    private bool AllPortalsFinishedSpawning()
+    {
+        foreach (EnemyPortal portal in enemyPortals)
+        {
+            if (portal.HasEnemiesToSpawn())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void AttemptToUpdateLayout() => UpdateLevelLayout(levelWaves[waveIndex]);

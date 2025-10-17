@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TowerSpiderNest : Tower
 {
@@ -51,12 +52,28 @@ public class TowerSpiderNest : Tower
         Transform currentAttachPoint = attachPoint[spiderIndex];
         float attackTime = (attackCooldown / 4) * attackTimeMultiplier;
         float reloadTime = (attackCooldown / 4) * reloadTimeMultiplier;
-        
+    
         yield return ChangeScaleCo(currentWeb, 1, attackTime);
         activeSpider[spiderIndex].GetComponent<ProjectileSpiderNest>().SetupSpider(damage);
 
         yield return ChangeScaleCo(currentWeb, .1f, reloadTime);
-        activeSpider[spiderIndex] = objectPool.Get(spiderPrefab, currentAttachPoint.position + spiderPointOffset, Quaternion.identity, currentAttachPoint);
+    
+        // Spawn away from tower first
+        Vector3 spawnPos = GetSafeSpawnPosition(currentAttachPoint);
+        GameObject newSpider = objectPool.Get(spiderPrefab, spawnPos, Quaternion.identity, null);
+    
+        // Then move and parent
+        newSpider.transform.position = currentAttachPoint.position + spiderPointOffset;
+        newSpider.transform.SetParent(currentAttachPoint);
+    
+        // Disable components while attached
+        Collider spiderCollider = newSpider.GetComponent<Collider>();
+        if (spiderCollider != null) spiderCollider.enabled = false;
+    
+        NavMeshAgent agent = newSpider.GetComponent<NavMeshAgent>();
+        if (agent != null) agent.enabled = false;
+    
+        activeSpider[spiderIndex] = newSpider;
 
         spiderIndex = (spiderIndex + 1) % attachPoint.Length;
     }
@@ -75,10 +92,38 @@ public class TowerSpiderNest : Tower
 
         for (int i = 0; i < activeSpider.Length; i++)
         {
-            GameObject newSpider =
-                objectPool.Get(spiderPrefab, attachPoint[i].position + spiderPointOffset, Quaternion.identity, attachPoint[i]);
+            Vector3 spawnPos = GetSafeSpawnPosition(attachPoint[i]);
+            GameObject newSpider = objectPool.Get(spiderPrefab, spawnPos, Quaternion.identity, null); // Don't parent yet
+        
+            // Move to correct position after spawn, then parent
+            newSpider.transform.position = attachPoint[i].position + spiderPointOffset;
+            newSpider.transform.SetParent(attachPoint[i]);
+        
+            // Disable collider while attached
+            Collider spiderCollider = newSpider.GetComponent<Collider>();
+            if (spiderCollider != null) spiderCollider.enabled = false;
+        
+            // Disable NavMeshAgent while attached
+            NavMeshAgent agent = newSpider.GetComponent<NavMeshAgent>();
+            if (agent != null) agent.enabled = false;
+        
             activeSpider[i] = newSpider;
         }
+    }
+    
+    private Vector3 GetSafeSpawnPosition(Transform attachPoint)
+    {
+        // Get a position offset away from other nearby towers
+        Vector3 basePosition = attachPoint.position + spiderPointOffset;
+    
+        // Add a small random offset to prevent exact overlaps
+        Vector3 randomOffset = new Vector3(
+            UnityEngine.Random.Range(-0.2f, 0.2f),
+            0,
+            UnityEngine.Random.Range(-0.2f, 0.2f)
+        );
+    
+        return basePosition + randomOffset;
     }
     
     private IEnumerator ChangeScaleCo(Transform transform, float newScale, float duration = .25f)
