@@ -420,12 +420,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  damageRadius: 0.8
-  detonateDistance: 0.5
+  damageRadius: 1.3
+  detonateDistance: 1.1
   explosionVfx: {fileID: 6883883636989024, guid: ff7e3e3895d267343b0f918dbf47cbbb, type: 3}
   whatIsEnemy:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 131200
+  whatIsShield:
+    serializedVersion: 2
+    m_Bits: 131072
   enemyCheckRadius: 10
   targetUpdateInterval: 0.5
 --- !u!195 &8880516238027011572

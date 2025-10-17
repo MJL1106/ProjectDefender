@@ -94255,7 +94255,7 @@ MonoBehaviour:
     unlocked: 0
   - towerName: Just Fan
     unlocked: 1
-  levelCurrency: 500
+  levelCurrency: 450
   myMainGrid: {fileID: 1199274202421046181}
   extraObjectsToDelete:
   - {fileID: 231532976}
@@ -172630,7 +172630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentActiveWaveManager: {fileID: 687509787}
-  currency: 500
+  currency: 450
   maxHp: 20
 --- !u!4 &1913317771
 Transform:
@@ -201617,7 +201617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].swarmEnemy
-      value: 20
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[1].basicEnemy

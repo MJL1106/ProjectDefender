@@ -15,6 +15,7 @@ public class ProjectileSpiderNest : MonoBehaviour
     [SerializeField] private GameObject explosionVfx;
     [Space]
     [SerializeField] private LayerMask whatIsEnemy;
+    [SerializeField] private LayerMask whatIsShield;
     [SerializeField] private float enemyCheckRadius = 10;
     [SerializeField] private float targetUpdateInterval = .5f;
 
@@ -33,7 +34,18 @@ public class ProjectileSpiderNest : MonoBehaviour
     
         agent.SetDestination(currentTarget.position);
 
-        if (Vector3.Distance(transform.position, currentTarget.position) < detonateDistance) Explode();
+        Vector3 directionToTarget = (currentTarget.position - transform.position).normalized;
+        
+        if (Physics.Raycast(transform.position, directionToTarget, out RaycastHit hit, detonateDistance + 0.1f, whatIsShield))
+        {
+            Explode();
+            return;
+        }
+
+        if (agent.hasPath && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            Explode();
+        }
     }
 
     private void Explode()
@@ -50,11 +62,12 @@ public class ProjectileSpiderNest : MonoBehaviour
         if (trail != null) trail.Clear();
         damage = newDamage;
     
-        // Enable collider when spider is deployed
         Collider spiderCollider = GetComponent<Collider>();
         if (spiderCollider != null) spiderCollider.enabled = true;
     
         agent.enabled = true;
+        agent.isStopped = false;
+        agent.stoppingDistance = detonateDistance;
         transform.parent = null;
     }
     
@@ -66,7 +79,6 @@ public class ProjectileSpiderNest : MonoBehaviour
         {
             IDamageable damageable = enemy.GetComponent<IDamageable>();
         
-            // Check parent if not found on the collider itself
             if (damageable == null)
             {
                 damageable = enemy.GetComponentInParent<IDamageable>();
@@ -74,11 +86,10 @@ public class ProjectileSpiderNest : MonoBehaviour
 
             if (damageable != null)
             {
-                // Check if it's an Enemy and if it's hidden - skip if hidden
                 Enemy enemyComponent = damageable as Enemy;
                 if (enemyComponent != null && enemyComponent.IsHidden())
                 {
-                    continue; // Skip hidden enemies
+                    continue;
                 }
             
                 damageable.TakeDamage(damage);
@@ -99,7 +110,6 @@ public class ProjectileSpiderNest : MonoBehaviour
 
         foreach (Collider enemyCollider in enemiesAround)
         {
-            // Check if enemy is hidden and skip if it is
             Enemy enemy = enemyCollider.GetComponent<Enemy>();
             if (enemy == null) enemy = enemyCollider.GetComponentInParent<Enemy>();
             
