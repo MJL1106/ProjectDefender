@@ -130,6 +130,8 @@ public class Enemy : MonoBehaviour , IDamageable
 
     public void DisableHide(float duration)
     {
+        if (isDead) return;
+        
         if (disableHideCo != null) StopCoroutine(disableHideCo);
 
         disableHideCo = StartCoroutine(DisableHideCo(duration));
@@ -144,6 +146,8 @@ public class Enemy : MonoBehaviour , IDamageable
 
     public void HideEnemy(float duration)
     {
+        if (isDead) return;
+        
         if (canBeHidden == false) return;
         
         if (hideCo != null) StopCoroutine(hideCo);
@@ -162,6 +166,8 @@ public class Enemy : MonoBehaviour , IDamageable
         visuals.MakeTransparent(false);
         isHidden = false;
     }
+    
+    public bool IsHidden() => isHidden;
 
     protected virtual void ChangeWaypoint()
     {
@@ -264,6 +270,8 @@ public class Enemy : MonoBehaviour , IDamageable
         gameManager.UpdateCurrency(reward);
         RemoveEnemy();
     }
+
+    public bool IsDead() => isDead;
 
     public virtual void RemoveEnemy()
     {

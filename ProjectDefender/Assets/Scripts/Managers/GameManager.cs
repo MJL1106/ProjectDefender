@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
         levelManager = FindFirstObjectByType<LevelManager>();
         cameraEffects = FindFirstObjectByType<CameraEffects>();
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("TowerProjectile"), LayerMask.NameToLayer("TowerProjectile"), true);
     }
 
     private void Start()

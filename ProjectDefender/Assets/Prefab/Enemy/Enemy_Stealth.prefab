@@ -443,7 +443,7 @@ MonoBehaviour:
   turnSpeed: 10
   myWaypoints: []
   enemiesToHide: []
-  hideDuration: 0.5
+  hideDuration: 1.5
   smokeFx: {fileID: 8337841935844351048}
 --- !u!114 &1496493402882020791
 MonoBehaviour:

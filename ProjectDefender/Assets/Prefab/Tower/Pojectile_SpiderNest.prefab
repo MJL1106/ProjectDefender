@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4218505147621093233}
   - component: {fileID: 1858692171646299076}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: trail_fx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 496312070179886779}
   - component: {fileID: 6071179935463592913}
   - component: {fileID: 53880103749898057}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: s_bot_2_front_wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 5526717881863624057}
   - component: {fileID: 1091983090737031938}
   - component: {fileID: 4229038864013485634}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: spider_bot_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 6155868308175636475}
   - component: {fileID: 3516406753937473221}
   - component: {fileID: 8880516238027011572}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Pojectile_SpiderNest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 6987850178426979016}
   - component: {fileID: 4029720126784114222}
   - component: {fileID: 8306798641595903480}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: s_bot_2_back_wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}

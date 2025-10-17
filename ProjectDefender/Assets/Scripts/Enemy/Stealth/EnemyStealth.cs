@@ -16,6 +16,8 @@ public class EnemyStealth : Enemy
     {
         if (canHideEnemies == false) return;
         
+        enemiesToHide.RemoveAll(enemy => enemy == null || enemy.IsDead());
+        
         foreach (Enemy enemy in enemiesToHide)
         {
             enemy.HideEnemy(hideDuration);

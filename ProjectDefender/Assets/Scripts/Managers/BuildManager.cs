@@ -95,6 +95,11 @@ public class BuildManager : MonoBehaviour
 
       GameObject newTower = Instantiate(towerToBuild,slotToUse.GetBuildPosition(towerCentreY), Quaternion.identity);
       newTower.transform.rotation = previewTower.rotation;
+      ForwardAttackDisplay display = newTower.GetComponent<ForwardAttackDisplay>();
+      if (display != null)
+      {
+         display.UpdateLines();
+      }
    }
 
    public void MouseOverUI(bool isOverUI) => isMouseOverUI = isOverUI;

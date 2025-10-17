@@ -43,6 +43,13 @@ public class ProjectileCannon : MonoBehaviour
 
             if (damageable != null)
             {
+                // Check if it's an Enemy and if it's hidden
+                Enemy enemyComponent = damageable as Enemy;
+                if (enemyComponent != null && enemyComponent.IsHidden())
+                {
+                    continue; // Skip hidden enemies
+                }
+                
                 damageable.TakeDamage(damage);
             }
         }
