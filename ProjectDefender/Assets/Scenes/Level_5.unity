@@ -76148,7 +76148,7 @@ MonoBehaviour:
     unlocked: 1
   - towerName: Just Fan
     unlocked: 1
-  levelCurrency: 10000
+  levelCurrency: 600
   myMainGrid: {fileID: 1199274202421046181}
   extraObjectsToDelete:
   - {fileID: 231532976}
@@ -127416,7 +127416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentActiveWaveManager: {fileID: 687509787}
-  currency: 10000
+  currency: 600
   maxHp: 20
 --- !u!4 &1913317771
 Transform:
@@ -143675,7 +143675,7 @@ PrefabInstance:
       objectReference: {fileID: 1252231751}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].fastEnemy
-      value: 0
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[1].fastEnemy
@@ -143695,7 +143695,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].basicEnemy
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].heavyEnemy
@@ -143703,7 +143703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].swarmEnemy
-      value: 0
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[1].basicEnemy
@@ -143755,7 +143755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].flyingEnemy
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[1].flyingEnemy
