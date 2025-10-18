@@ -6,6 +6,7 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 {
     private UI ui;
     private TileAnimator tileAnim;
+    private Outline outline;
     private Vector3 defaultPosition;
     private BuildManager buildManager;
 
@@ -21,6 +22,16 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         tileAnim = FindFirstObjectByType<TileAnimator>();
         buildManager = FindFirstObjectByType<BuildManager>();
         defaultPosition = transform.position;
+        
+        if (outline == null)
+        {
+            outline = gameObject.AddComponent<Outline>();
+        }
+        outline.OutlineMode = Outline.Mode.VisibleEdgesOnly; 
+        
+        outline.OutlineColor = Color.white;
+        outline.OutlineWidth = 2.0f;
+        outline.enabled = false;
     }
 
     // Enable if want tiles to be raised to show upcoming grid to the player
@@ -38,6 +49,8 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         if (buildSlotAvailable == false|| tileAnim.IsGridMoving()) return;
         
+        if (outline != null) outline.enabled = true;
+        
         if (tileCanBeMoved == false) return;
         
         MoveTileUp();
@@ -46,6 +59,11 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnPointerExit(PointerEventData eventData)
     {
         if (buildSlotAvailable == false|| tileAnim.IsGridMoving()) return;
+        
+        if (tileCanBeMoved && outline != null)
+        {
+            outline.enabled = false;
+        }
         
         if (tileCanBeMoved == false) return;
 
@@ -74,6 +92,8 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void UnselectTile()
     {
+        if (outline != null) outline.enabled = false;
+        
         MoveToDefaultPosition();
         tileCanBeMoved = true;
     }
