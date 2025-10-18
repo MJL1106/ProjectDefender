@@ -27,16 +27,31 @@ public class ProjectileHarpoon : MonoBehaviour
 
     private void AttachToEnemy()
     {
-        isAttached = true;
+        if (isAttached) return;
+
+        if (enemy == null) return;
+    
+        if (myTower == null) return;
+
+        isAttached = true; 
         transform.parent = enemy.transform;
         myTower.ActivateAttack();
     }
 
     public void SetupProjectile(Enemy newEnemy, float newSpeed, TowerHarpoon newTower)
     {
+        ResetProjectile();
+        
         speed = newSpeed;
         enemy = newEnemy;
         myTower = newTower;
+    }
+    
+    public void ResetProjectile()
+    {
+        isAttached = false;
+        enemy = null;
+        myTower = null;
     }
 
     public Transform GetConnectionPoint()
@@ -44,6 +59,13 @@ public class ProjectileHarpoon : MonoBehaviour
         if (connectionPoint == null) return transform;
 
         return connectionPoint;
+    }
+    
+    private void OnDisable()
+    {
+        isAttached = false;
+        enemy = null;
+        myTower = null;
     }
 
 }
