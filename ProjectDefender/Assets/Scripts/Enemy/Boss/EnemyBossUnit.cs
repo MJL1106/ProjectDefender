@@ -1,11 +1,17 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyBossUnit : Enemy
 {
     private Vector3 savedDestination;
     private Vector3 lastKnownBossPosition;
     private EnemyFlyingBoss myBoss;
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
 
     protected override void Update()
     {
@@ -15,20 +21,18 @@ public class EnemyBossUnit : Enemy
             lastKnownBossPosition = myBoss.transform.position;
     }
 
-
     public void SetupEnemy(Vector3 destination, EnemyFlyingBoss myNewBoss, EnemyPortal myNewPortal)
     {
         ResetEnemy();
         ResetMovement();
 
         myBoss = myNewBoss;
-        
         myPortal = myNewPortal;
         myPortal.GetActiveEnemies().Add(gameObject);
-        
+
         savedDestination = destination;
-        
-        InvokeRepeating(nameof(SnapToBossIfNeeded), .1f,.5f);
+
+        InvokeRepeating(nameof(SnapToBossIfNeeded), .1f, .5f);
     }
 
     private void ResetMovement()
@@ -38,15 +42,11 @@ public class EnemyBossUnit : Enemy
         agent.enabled = false;
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.collider.tag == "Enemy") return;
+        if (collision.collider.tag == "Enemy")
+            return;
 
-        if (Vector3.Distance(transform.position, lastKnownBossPosition) > 2.5f)
-        {
-            transform.position = lastKnownBossPosition + new Vector3(0, -1, 0);
-        }
-        
         rb.useGravity = false;
         rb.isKinematic = true;
 
@@ -56,7 +56,7 @@ public class EnemyBossUnit : Enemy
 
     private void SnapToBossIfNeeded()
     {
-        if (agent.enabled && !agent.isOnNavMesh)
+        if (agent.enabled && agent.isOnNavMesh == false)
         {
             if (Vector3.Distance(transform.position, lastKnownBossPosition) > 3f)
             {
@@ -65,7 +65,7 @@ public class EnemyBossUnit : Enemy
             }
         }
     }
-    
+
     public override float DistanceToFinishLine()
     {
         return Vector3.Distance(transform.position, GetFinalWaypoint());

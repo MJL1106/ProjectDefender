@@ -25,8 +25,10 @@ public class WaveManager : MonoBehaviour
     private UIGame inGameUI;
     [SerializeField] private GridBuilder currentGrid;
     [SerializeField] private NavMeshSurface flyingNavSurface;
+    [SerializeField] private NavMeshSurface flyingBossNavSurface;
     [SerializeField] private NavMeshSurface droneNavSurface;
-    [SerializeField] private MeshCollider[] flyingNavColliders;
+    private MeshCollider[] flyingNavColliders;
+    private MeshCollider[] flyingBossNavColliders;
 
     [Header("Wave Details")]
     [SerializeField] private float timeBetweenWaves = 10;
@@ -60,7 +62,25 @@ public class WaveManager : MonoBehaviour
         tileAnimator = FindFirstObjectByType<TileAnimator>();
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
 
-        flyingNavColliders = GetComponentsInChildren<MeshCollider>();
+        MeshCollider[] allColliders = GetComponentsInChildren<MeshCollider>();
+    
+        List<MeshCollider> flyingList = new List<MeshCollider>();
+        List<MeshCollider> bossList = new List<MeshCollider>();
+    
+        foreach (var collider in allColliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("FlyEnemyBoss_Road"))
+            {
+                bossList.Add(collider);
+            }
+            else if (collider.gameObject.layer == LayerMask.NameToLayer("FlyEnemy_Road"))
+            {
+                flyingList.Add(collider);
+            }
+        }
+    
+        flyingNavColliders = flyingList.ToArray();
+        flyingBossNavColliders = bossList.ToArray();
     }
 
     private void Update()
@@ -286,6 +306,14 @@ public class WaveManager : MonoBehaviour
 
     private void UpdateNavMeshes()
     {
+        UpdateNavMeshForFlyingEnemies();
+
+        currentGrid.UpdateNavMesh();
+        droneNavSurface.BuildNavMesh();
+    }
+
+    private void UpdateNavMeshForFlyingEnemies()
+    {
         foreach (var myCollider in flyingNavColliders)
         {
             myCollider.enabled = true;
@@ -298,8 +326,17 @@ public class WaveManager : MonoBehaviour
             myCollider.enabled = false;
         }
         
-        currentGrid.UpdateNavMesh();
-        droneNavSurface.BuildNavMesh();
+        foreach (var myCollider in flyingBossNavColliders)
+        {
+            myCollider.enabled = true;
+        }
+        
+        flyingBossNavSurface.BuildNavMesh();
+        
+        foreach (var myCollider in flyingBossNavColliders)
+        {
+            myCollider.enabled = false;
+        }
     }
 
     public void UpdateDroneNavMesh() => droneNavSurface.BuildNavMesh();
