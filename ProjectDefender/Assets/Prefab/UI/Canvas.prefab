@@ -1781,7 +1781,19 @@ MonoBehaviour:
   m_Value: 0.55
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2887687749347236795}
+        m_TargetAssemblyTypeName: UISettings, Assembly-CSharp
+        m_MethodName: BGMSliderValue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1247425718804947745
 GameObject:
   m_ObjectHideFlags: 0
@@ -9400,7 +9412,19 @@ MonoBehaviour:
   m_Value: 0.55
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2887687749347236795}
+        m_TargetAssemblyTypeName: UISettings, Assembly-CSharp
+        m_MethodName: SFXSliderValue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4621636007335860346
 GameObject:
   m_ObjectHideFlags: 0
@@ -14778,14 +14802,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474977c047560e249b903cf30770ad52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: 003219f32cf1d0d46a464c34a03002fa, type: 2}
   mixerMultiplier: 25
-  sfxSlider: {fileID: 0}
-  sfxParameter: 
-  sfxSliderText: {fileID: 0}
-  bgmSlider: {fileID: 0}
-  bgmParameter: 
-  bgmSliderText: {fileID: 0}
+  sfxSlider: {fileID: 4796403201540185118}
+  sfxParameter: SFXVolume
+  sfxSliderText: {fileID: 7424988413768612479}
+  bgmSlider: {fileID: 1678513822459146578}
+  bgmParameter: bgmVolume
+  bgmSliderText: {fileID: 2001855473286592391}
   keyboardSenseSlider: {fileID: 1212525178219629869}
   keyboardSenseParameter: keyboardSens
   keyboardSenseText: {fileID: 6592353388731731774}

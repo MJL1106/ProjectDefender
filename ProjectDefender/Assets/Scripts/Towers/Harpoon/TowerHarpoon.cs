@@ -45,6 +45,9 @@ public class TowerHarpoon : Tower
             
             currentProjectile.SetupProjectile(currentEnemy, projectileSpeed, this);
             harpoonVisuals.EnableChainVisuals(true, currentProjectile.GetConnectionPoint());
+            
+            PlayAttackSound();
+            
         
             Invoke(nameof(ResetAttackIfMissed), 1f);
         }
@@ -137,6 +140,8 @@ public class TowerHarpoon : Tower
                 enemyFlying.RemoveObservingTower(this);
             }
         }
+        
+        if (attackSfx != null) AudioManager.instance?.FadeOutSFX(attackSfx, 0.2f);
         
         busyWithAttack = false;
         reachedTarget = false;

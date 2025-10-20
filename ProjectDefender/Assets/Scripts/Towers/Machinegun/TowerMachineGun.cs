@@ -34,8 +34,9 @@ public class TowerMachineGun : Tower
 
             GameObject newProjectile = objectPool.Get(projectilePrefab, gunPoint.position, gunPoint.rotation);
             newProjectile.GetComponent<ProjectileMachineGun>().SetupProjectile(hitInfo.point, damageable, damage, projectileSpeed, objectPool);
-            
+        
             machineGunVisuals.RecoilVfx(gunPoint);
+            PlayAttackSound(); // Use the base class helper
 
             base.Attack();
             gunPointIndex = (gunPointIndex + 1) % gunPointSet.Length;

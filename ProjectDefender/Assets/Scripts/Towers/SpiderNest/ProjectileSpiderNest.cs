@@ -13,6 +13,14 @@ public class ProjectileSpiderNest : MonoBehaviour
     [SerializeField] private float damageRadius = .8f;
     [SerializeField] private float detonateDistance = .5f;
     [SerializeField] private GameObject explosionVfx;
+    
+    [Header("Explosion Audio")]
+    [SerializeField] private AudioClip explosionSfx;
+    [SerializeField] private string explosionSfxId = "SpiderExplosion";
+    [SerializeField] private float explosionSfxCooldown = 0.15f;
+    [SerializeField] private int maxConcurrentExplosions = 4;
+    [SerializeField] private float explosionVolume = 1f;
+    
     [Space]
     [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private LayerMask whatIsShield;
@@ -51,8 +59,21 @@ public class ProjectileSpiderNest : MonoBehaviour
     private void Explode()
     {
         DamageEnemiesAround();
+        
+        if (explosionSfx != null)
+        {
+            AudioManager.instance?.PlaySFXOneShotLimited(
+                explosionSfx, 
+                transform.position, 
+                explosionSfxId, 
+                explosionSfxCooldown, 
+                maxConcurrentExplosions, 
+                true, 
+                explosionVolume
+            );
+        }
 
-        objectPool.Get(explosionVfx, transform.position + new Vector3(0, .4f,0));
+        objectPool.Get(explosionVfx, transform.position + new Vector3(0, .4f, 0));
         
         objectPool.Remove(gameObject);
     }

@@ -16,6 +16,7 @@ public class TowerCannon : Tower
 
         Vector3 velocity = CalculateLaunchVelocity();
         attackVFX.Play();
+        PlayAttackSound(); // Use the base class helper
 
         GameObject newProjectile = objectPool.Get(projectilePrefab, gunPoint.position, Quaternion.identity);
         newProjectile.GetComponent<ProjectileCannon>().SetupProjectile(velocity, damage, objectPool);

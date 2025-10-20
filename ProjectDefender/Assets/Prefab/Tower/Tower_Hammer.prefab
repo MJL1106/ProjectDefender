@@ -29829,6 +29829,10 @@ MonoBehaviour:
   onGameOverVFX: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   towerAttacksForward: 0
   attackSfx: {fileID: 0}
+  limitAttackSfx: 0
+  attackSfxId: Hammer
+  sfxCooldown: 0.3
+  maxConcurrentSfx: 3
   slowMultiplier: 0.402
   slowDuration: 2
 --- !u!114 &4717701645807103492

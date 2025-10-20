@@ -325,6 +325,8 @@ public class WaveManager : MonoBehaviour
         {
             myCollider.enabled = false;
         }
+
+        if (flyingBossNavColliders == null || flyingBossNavSurface == null) return;
         
         foreach (var myCollider in flyingBossNavColliders)
         {

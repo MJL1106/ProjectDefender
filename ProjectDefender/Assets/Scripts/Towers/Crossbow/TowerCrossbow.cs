@@ -18,24 +18,24 @@ public class TowerCrossbow : Tower
    protected override void Attack()
    {
       base.Attack();
-      
+    
       Vector3 directionToEnemy = DirectionToEnemyFrom(gunPoint);
 
       if (Physics.Raycast(gunPoint.position, directionToEnemy, out RaycastHit hitInfo, Mathf.Infinity, whatIsTargetable))
       {
          towerHead.forward = directionToEnemy;
-         
+        
          IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-         
+        
          if (damageable == null) return;
-         
+        
          damageable.TakeDamage(damage);
-         
+        
          visuals.CreateOnHitVFX(hitInfo.point);
          visuals.PlayAttackVFX(gunPoint.position, hitInfo.point);
          visuals.PlayerReloadVFX(attackCooldown);
-         
-         AudioManager.instance?.PlaySFX(attackSfx, true);
+        
+         PlayAttackSound(); // Use the base class helper
       }
    }
 }

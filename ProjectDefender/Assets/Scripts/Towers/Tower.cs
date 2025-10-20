@@ -41,8 +41,12 @@ public class Tower : MonoBehaviour
     private float lastTimeCheckedTarget;
     protected Collider[] allocatedColliders = new Collider[100];
 
-    [Header("SFX Details")] [SerializeField]
-    protected AudioSource attackSfx;
+    [Header("SFX Details")] 
+    [SerializeField] protected AudioSource attackSfx;
+    [SerializeField] protected bool limitAttackSfx = false; // Enable limiting for rapid-fire towers
+    [SerializeField] protected string attackSfxId = ""; // Unique ID for this tower type's sound
+    [SerializeField] protected float sfxCooldown = 0.3f; // Cooldown between sounds
+    [SerializeField] protected int maxConcurrentSfx = 3;
 
     protected virtual void Awake()
     {
@@ -130,6 +134,20 @@ public class Tower : MonoBehaviour
     protected virtual bool CanAttack()
     {
         return Time.time > lastTimeAttacked + attackCooldown && currentEnemy != null;
+    }
+    
+    protected void PlayAttackSound()
+    {
+        if (attackSfx == null) return;
+    
+        if (limitAttackSfx && !string.IsNullOrEmpty(attackSfxId))
+        {
+            AudioManager.instance?.PlaySFXLimited(attackSfx, attackSfxId, sfxCooldown, maxConcurrentSfx, true);
+        }
+        else
+        {
+            AudioManager.instance?.PlaySFX(attackSfx, true);
+        }
     }
 
     protected virtual void HandleRotation()

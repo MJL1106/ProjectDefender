@@ -119,6 +119,10 @@ MonoBehaviour:
   onGameOverVFX: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   towerAttacksForward: 1
   attackSfx: {fileID: 0}
+  limitAttackSfx: 0
+  attackSfxId: Fan
+  sfxCooldown: 0.3
+  maxConcurrentSfx: 3
   revealFrequency: 0.1
   revealDuration: 1
 --- !u!114 &7373520256955382792
