@@ -47,6 +47,8 @@ public class EnemyVisuals : MonoBehaviour
 
     public void CreateOnDeathVfx()
     {
+        if (onDeathVfx == null) return;
+        
         GameObject newDeathVfx =
             objectPool.Get(onDeathVfx, transform.position + new Vector3(0, .15f, 0), Quaternion.identity);
         newDeathVfx.transform.localScale = new Vector3(onDeathVfcScale, onDeathVfcScale, onDeathVfcScale);
