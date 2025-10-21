@@ -253,10 +253,6 @@ public class Tower : MonoBehaviour
 
     public virtual void RemoveTower()
     {
-        GameObject newOnGameOverVFX =
-            objectPool.Get(onGameOverVFX, transform.position + new Vector3(0, .15f, 0), Quaternion.identity);
-        newOnGameOverVFX.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
-        
         objectPool.Remove(gameObject);
     }
 

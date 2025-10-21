@@ -68,12 +68,6 @@ public class GameManager : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
         
-        RemoveAllEnemies();
-        RemoveAllTowers();
-        
-        yield return new WaitForSeconds(0.5f);
-        
-        HideAllTowers();
         
         yield return ShowGameOverSequence();
     }
@@ -111,42 +105,6 @@ public class GameManager : MonoBehaviour
                     navAgent.velocity = Vector3.zero;
                 }
                 enemy.enabled = false;
-            }
-        }
-    }
-
-    private void RemoveAllEnemies()
-    {
-        Enemy[] allEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
-        foreach (Enemy enemy in allEnemies)
-        {
-            if (enemy != null && enemy.gameObject.activeSelf)
-            {
-                enemy.RemoveEnemy();
-            }
-        }
-    }
-    
-    private void RemoveAllTowers()
-    {
-        Tower[] allTowers = FindObjectsByType<Tower>(FindObjectsSortMode.None);
-        foreach (Tower tower in allTowers)
-        {
-            if (tower != null && tower.gameObject.activeSelf)
-            {
-                tower.RemoveTower();
-            }
-        }
-    }
-
-    private void HideAllTowers()
-    {
-        Tower[] allTowers = FindObjectsByType<Tower>(FindObjectsSortMode.None);
-        foreach (Tower tower in allTowers)
-        {
-            if (tower != null && !(tower is Castle))
-            {
-                tower.gameObject.SetActive(false);
             }
         }
     }
