@@ -105901,6 +105901,7 @@ MonoBehaviour:
   towerCentreY: 0.5
   camShakeDuration: 0.2
   camShakeMagnitude: 0.2
+  buildSound: {fileID: 8300000, guid: 633ef7ed447959c4b9b34971d144ab6f, type: 3}
 --- !u!4 &718979425
 Transform:
   m_ObjectHideFlags: 0

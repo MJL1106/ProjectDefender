@@ -22,6 +22,7 @@ public class BuildManager : MonoBehaviour
    [SerializeField] private float towerCentreY = .5f;
    [SerializeField] private float camShakeDuration = .02f;
    [SerializeField] private float camShakeMagnitude = .15f;
+   [SerializeField] private AudioClip buildSound;
    
 
    private bool isMouseOverUI;
@@ -71,17 +72,10 @@ public class BuildManager : MonoBehaviour
          return;
       }
         
-      if (towerToBuild == null)
-      {
-         Debug.LogWarning("YOu did not assign a tower to this button!");
-         return;
-      }
-
-      if (ui.BuildButtonsHolderUI.GetLastSelected() == null)
-      {
-         return;
-      }
-
+      if (towerToBuild == null) return;
+      
+      if (ui.BuildButtonsHolderUI.GetLastSelected() == null) return;
+      
       Transform previewTower = newPreviewTower;
       BuildSlot slotToUse = GetSelectedSlot();
       CancelBuildAction();
@@ -93,8 +87,16 @@ public class BuildManager : MonoBehaviour
         
       cameraEffects.ScreenShake(camShakeDuration, camShakeMagnitude);
 
-      GameObject newTower = Instantiate(towerToBuild,slotToUse.GetBuildPosition(towerCentreY), Quaternion.identity);
+      Vector3 buildPosition = slotToUse.GetBuildPosition(towerCentreY);
+
+      GameObject newTower = Instantiate(towerToBuild, buildPosition, Quaternion.identity);
       newTower.transform.rotation = previewTower.rotation;
+      
+      if (buildSound != null && AudioManager.instance != null)
+      {
+         AudioManager.instance.PlaySFXOneShot(buildSound, buildPosition, true);
+      }
+      
       ForwardAttackDisplay display = newTower.GetComponent<ForwardAttackDisplay>();
       if (display != null)
       {
