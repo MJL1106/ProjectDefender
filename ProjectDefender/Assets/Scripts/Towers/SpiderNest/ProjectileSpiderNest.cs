@@ -7,11 +7,17 @@ public class ProjectileSpiderNest : MonoBehaviour
     private TrailRenderer trail;
     private ObjectPoolManager objectPool;
     private NavMeshAgent agent;
-    private Transform currentTarget;
+    
+    private Enemy currentTarget;
 
+    [Header("Base Stats")]
     [SerializeField] private float damage;
-    [SerializeField] private float damageRadius = .8f;
-    [SerializeField] private float detonateDistance = .5f;
+    [SerializeField] private float baseDamageRadius = .8f;
+    [SerializeField] private float baseDetonateDistance = .5f;
+    
+    private float currentDamageRadius;
+    private float currentDetonateDistance;
+
     [SerializeField] private GameObject explosionVfx;
     
     private AudioClip explosionSfx;
@@ -33,6 +39,9 @@ public class ProjectileSpiderNest : MonoBehaviour
         agent = GetComponent <NavMeshAgent>();
         objectPool = ObjectPoolManager.instance;
         
+        currentDamageRadius = baseDamageRadius;
+        currentDetonateDistance = baseDetonateDistance;
+        
         InvokeRepeating(nameof(UpdateClosestTarget), .1f, targetUpdateInterval);
     }
 
@@ -40,11 +49,11 @@ public class ProjectileSpiderNest : MonoBehaviour
     {
         if (currentTarget == null || agent.enabled == false || agent.isOnNavMesh == false) return;
     
-        agent.SetDestination(currentTarget.position);
+        agent.SetDestination(currentTarget.transform.position);
 
-        Vector3 directionToTarget = (currentTarget.position - transform.position).normalized;
+        Vector3 directionToTarget = (currentTarget.transform.position - transform.position).normalized;
         
-        if (Physics.Raycast(transform.position, directionToTarget, out RaycastHit hit, detonateDistance + 0.1f, whatIsShield))
+        if (Physics.Raycast(transform.position, directionToTarget, out RaycastHit hit, currentDetonateDistance + 0.1f, whatIsShield))
         {
             Explode();
             return;
@@ -91,26 +100,27 @@ public class ProjectileSpiderNest : MonoBehaviour
     
         damage = newDamage;
     
-        // Store audio settings passed from tower
         explosionSfx = expSfx;
         explosionSfxId = expSfxId;
         explosionSfxCooldown = expSfxCooldown;
         maxConcurrentExplosions = maxConcurrent;
         limitExplosionSfx = limitSfx;
-        explosionVolume = expVolume;  // Store the volume from AudioSource
+        explosionVolume = expVolume;
 
         Collider spiderCollider = GetComponent<Collider>();
         if (spiderCollider != null) spiderCollider.enabled = true;
 
         agent.enabled = true;
         agent.isStopped = false;
-        agent.stoppingDistance = detonateDistance;
+        
+        agent.stoppingDistance = currentDetonateDistance;
+        
         transform.parent = null;
     }
     
     private void DamageEnemiesAround()
     {
-        Collider[] enemiesAround = Physics.OverlapSphere(transform.position, damageRadius, whatIsEnemy);
+        Collider[] enemiesAround = Physics.OverlapSphere(transform.position, currentDamageRadius, whatIsEnemy);
 
         foreach (Collider enemy in enemiesAround)
         {
@@ -136,13 +146,35 @@ public class ProjectileSpiderNest : MonoBehaviour
 
     private void UpdateClosestTarget()
     {
-        currentTarget = FindClosestEnemy();
+        Enemy newTarget = FindClosestEnemy();
+
+        if (newTarget == currentTarget) return;
+
+        currentTarget = newTarget;
+
+        if (currentTarget != null)
+        {
+            EnemyType type = currentTarget.GetEnemyType();
+            currentDetonateDistance = GetDetonateDistanceForType(type);
+            currentDamageRadius = GetDamageRadiusForType(type);
+        }
+        else
+        {
+            currentDetonateDistance = baseDetonateDistance;
+            currentDamageRadius = baseDamageRadius;
+        }
+
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.stoppingDistance = currentDetonateDistance;
+        }
     }
 
-    private Transform FindClosestEnemy()
+    private Enemy FindClosestEnemy()
     {
         Collider[] enemiesAround = Physics.OverlapSphere(transform.position, enemyCheckRadius, whatIsEnemy);
-        Transform nearestEnemy = null;
+        
+        Enemy nearestEnemy = null; 
         float shortestDistance = float.MaxValue;
 
         foreach (Collider enemyCollider in enemiesAround)
@@ -155,11 +187,13 @@ public class ProjectileSpiderNest : MonoBehaviour
                 continue;
             }
             
+            if (enemy == null) continue;
+            
             float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
 
             if (distance < shortestDistance)
             {
-                nearestEnemy = enemyCollider.transform;
+                nearestEnemy = enemy; 
                 shortestDistance = distance;
             }
         }
@@ -167,8 +201,34 @@ public class ProjectileSpiderNest : MonoBehaviour
         return nearestEnemy;
     }
 
+    private float GetDetonateDistanceForType(EnemyType type)
+    {
+        switch (type)
+        {
+            case EnemyType.Heavy:
+            case EnemyType.BossSpider:
+                return 1.1f; 
+        
+            default:
+                return baseDetonateDistance;
+        }
+    }
+    
+    private float GetDamageRadiusForType(EnemyType type)
+    {
+        switch (type)
+        {
+            case EnemyType.Heavy:
+            case EnemyType.BossSpider:
+                return 1.3f;
+            
+            default:
+                return baseDamageRadius;
+        }
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, damageRadius);
+        Gizmos.DrawWireSphere(transform.position, currentDamageRadius);
     }
 }
