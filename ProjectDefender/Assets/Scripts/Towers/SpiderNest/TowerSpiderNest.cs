@@ -54,7 +54,16 @@ public class TowerSpiderNest : Tower
         float reloadTime = (attackCooldown / 4) * reloadTimeMultiplier;
     
         yield return ChangeScaleCo(currentWeb, 1, attackTime);
-        activeSpider[spiderIndex].GetComponent<ProjectileSpiderNest>().SetupSpider(damage);
+        
+        activeSpider[spiderIndex].GetComponent<ProjectileSpiderNest>().SetupSpider(
+            damage,
+            projectileSfx != null ? projectileSfx.clip : null,
+            projectileSfxId,
+            projectileSfxCooldown,
+            maxConcurrentProjectileSfx,
+            limitProjectileSfx,
+            projectileSfx != null ? projectileSfx.volume : 1f
+        );
 
         yield return ChangeScaleCo(currentWeb, .1f, reloadTime);
     

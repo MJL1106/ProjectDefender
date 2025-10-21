@@ -1689,11 +1689,16 @@ MonoBehaviour:
     m_Bits: 131201
   onGameOverVFX: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   towerAttacksForward: 0
-  attackSfx: {fileID: 7691047474527346684}
-  limitAttackSfx: 0
-  attackSfxId: Crossbow
-  sfxCooldown: 0.3
-  maxConcurrentSfx: 3
+  towerAttackSfx: {fileID: 7691047474527346684}
+  limitTowerSfx: 0
+  towerSfxId: 
+  towerSfxCooldown: 0.3
+  maxConcurrentTowerSfx: 3
+  projectileSfx: {fileID: 0}
+  limitProjectileSfx: 0
+  projectileSfxId: 
+  projectileSfxCooldown: 0.3
+  maxConcurrentProjectileSfx: 3
   damage: 25
 --- !u!114 &4105478440329888710
 MonoBehaviour:

@@ -15,6 +15,7 @@ public class TowerFan : Tower
         base.Awake();
         
         InvokeRepeating(nameof(RevealEnemies), .1f,revealFrequency);
+        PlayTowerAttackSound();
     }
 
     private void RevealEnemies()

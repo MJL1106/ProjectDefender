@@ -35,9 +35,6 @@ public class AudioManager : MonoBehaviour
         InvokeRepeating(nameof(PlayMusicIfNeeded), 0, 2);
     }
     
-    /// <summary>
-    /// Play SFX without limiting (for unique sounds like harpoon)
-    /// </summary>
     public void PlaySFX(AudioSource audioToPlay, bool randomPitch = false)
     {
         if (audioToPlay.clip == null)
@@ -47,56 +44,32 @@ public class AudioManager : MonoBehaviour
         }
         
         if (audioToPlay.isPlaying) audioToPlay.Stop();
-
-        audioToPlay.volume = 1f;
+        
         audioToPlay.pitch = randomPitch ? Random.Range(.9f, 1.1f) : 1;
         audioToPlay.Play();
     }
 
-    /// <summary>
-    /// Play SFX with rate limiting for rapid-fire or frequently occurring sounds
-    /// </summary>
     public void PlaySFXLimited(AudioSource audioToPlay, string soundId, float cooldown = 0.3f, int maxConcurrent = 3, bool randomPitch = false)
     {
-        if (audioToPlay == null || audioToPlay.clip == null)
-        {
-            return;
-        }
+        if (audioToPlay == null || audioToPlay.clip == null) return;
+        
+        if (lastPlayTime.ContainsKey(soundId) && Time.time - lastPlayTime[soundId] < cooldown) return;
+        
+        if (!concurrentSounds.ContainsKey(soundId)) concurrentSounds[soundId] = 0;
+        
+        if (concurrentSounds[soundId] >= maxConcurrent) return;
 
-        // Check cooldown for this specific sound
-        if (lastPlayTime.ContainsKey(soundId) && Time.time - lastPlayTime[soundId] < cooldown)
-        {
-            return; // Still on cooldown
-        }
-
-        // Check concurrent limit
-        if (!concurrentSounds.ContainsKey(soundId))
-        {
-            concurrentSounds[soundId] = 0;
-        }
-
-        if (concurrentSounds[soundId] >= maxConcurrent)
-        {
-            return; // Too many of this sound playing
-        }
-
-        // Play the sound
         if (audioToPlay.isPlaying) audioToPlay.Stop();
         
-        audioToPlay.volume = 1f;
         audioToPlay.pitch = randomPitch ? Random.Range(.9f, 1.1f) : 1;
         audioToPlay.Play();
 
         lastPlayTime[soundId] = Time.time;
         concurrentSounds[soundId]++;
 
-        // Decrease counter after clip finishes
         StartCoroutine(DecreaseConcurrentSoundCo(soundId, audioToPlay.clip.length));
     }
 
-    /// <summary>
-    /// Play a one-shot sound effect at a position using the SFX mixer group with 3D spatial audio
-    /// </summary>
     public void PlaySFXOneShot(AudioClip clip, Vector3 position, bool randomPitch = false, float volume = 1f)
     {
         if (clip == null)
@@ -114,46 +87,23 @@ public class AudioManager : MonoBehaviour
         audioSource.pitch = randomPitch ? Random.Range(.9f, 1.1f) : 1;
         audioSource.outputAudioMixerGroup = sfxMixerGroup;
         
-        // Match your existing AudioSource settings for 3D spatial audio
         audioSource.spatialBlend = 1f;
-        audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-        audioSource.minDistance = 1f;
-        audioSource.maxDistance = 500f;
-        audioSource.dopplerLevel = 0f;
         
         audioSource.Play();
         
         Destroy(tempAudio, clip.length + 0.1f);
     }
 
-    /// <summary>
-    /// Play one-shot SFX with limiting (for explosions, common impact sounds, etc.)
-    /// </summary>
     public void PlaySFXOneShotLimited(AudioClip clip, Vector3 position, string soundId, float cooldown = 0.2f, int maxConcurrent = 4, bool randomPitch = false, float volume = 1f)
     {
-        if (clip == null)
-        {
-            return;
-        }
+        if (clip == null) return;
 
-        // Check cooldown
-        if (lastPlayTime.ContainsKey(soundId) && Time.time - lastPlayTime[soundId] < cooldown)
-        {
-            return;
-        }
+        if (lastPlayTime.ContainsKey(soundId) && Time.time - lastPlayTime[soundId] < cooldown) return;
+        
+        if (!concurrentSounds.ContainsKey(soundId)) concurrentSounds[soundId] = 0;
 
-        // Check concurrent limit
-        if (!concurrentSounds.ContainsKey(soundId))
-        {
-            concurrentSounds[soundId] = 0;
-        }
+        if (concurrentSounds[soundId] >= maxConcurrent) return;
 
-        if (concurrentSounds[soundId] >= maxConcurrent)
-        {
-            return;
-        }
-
-        // Play the sound
         GameObject tempAudio = new GameObject("TempAudio_" + clip.name);
         tempAudio.transform.position = position;
         
@@ -164,10 +114,6 @@ public class AudioManager : MonoBehaviour
         audioSource.outputAudioMixerGroup = sfxMixerGroup;
         
         audioSource.spatialBlend = 1f;
-        audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-        audioSource.minDistance = 1f;
-        audioSource.maxDistance = 500f;
-        audioSource.dopplerLevel = 0f;
         
         audioSource.Play();
         

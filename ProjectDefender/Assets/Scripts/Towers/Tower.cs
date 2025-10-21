@@ -41,12 +41,19 @@ public class Tower : MonoBehaviour
     private float lastTimeCheckedTarget;
     protected Collider[] allocatedColliders = new Collider[100];
 
-    [Header("SFX Details")] 
-    [SerializeField] protected AudioSource attackSfx;
-    [SerializeField] protected bool limitAttackSfx = false; // Enable limiting for rapid-fire towers
-    [SerializeField] protected string attackSfxId = ""; // Unique ID for this tower type's sound
-    [SerializeField] protected float sfxCooldown = 0.3f; // Cooldown between sounds
-    [SerializeField] protected int maxConcurrentSfx = 3;
+    [Header("Tower SFX Details")] 
+    [SerializeField] protected AudioSource towerAttackSfx;
+    [SerializeField] protected bool limitTowerSfx = false;
+    [SerializeField] protected string towerSfxId = "";
+    [SerializeField] protected float towerSfxCooldown = 0.3f;
+    [SerializeField] protected int maxConcurrentTowerSfx = 3;
+
+    [Header("Projectile SFX Details")]
+    [SerializeField] protected AudioSource projectileSfx;
+    [SerializeField] protected bool limitProjectileSfx = false;
+    [SerializeField] protected string projectileSfxId = "";
+    [SerializeField] protected float projectileSfxCooldown = 0.3f;
+    [SerializeField] protected int maxConcurrentProjectileSfx = 3;
 
     protected virtual void Awake()
     {
@@ -136,17 +143,17 @@ public class Tower : MonoBehaviour
         return Time.time > lastTimeAttacked + attackCooldown && currentEnemy != null;
     }
     
-    protected void PlayAttackSound()
+    protected void PlayTowerAttackSound()
     {
-        if (attackSfx == null) return;
+        if (towerAttackSfx == null) return;
     
-        if (limitAttackSfx && !string.IsNullOrEmpty(attackSfxId))
+        if (limitTowerSfx && !string.IsNullOrEmpty(towerSfxId))
         {
-            AudioManager.instance?.PlaySFXLimited(attackSfx, attackSfxId, sfxCooldown, maxConcurrentSfx, true);
+            AudioManager.instance?.PlaySFXLimited(towerAttackSfx, towerSfxId, towerSfxCooldown, maxConcurrentTowerSfx, true);
         }
         else
         {
-            AudioManager.instance?.PlaySFX(attackSfx, true);
+            AudioManager.instance?.PlaySFX(towerAttackSfx, true);
         }
     }
 

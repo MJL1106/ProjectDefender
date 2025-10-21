@@ -12,6 +12,13 @@ public class ProjectileCannon : MonoBehaviour
     [SerializeField] private float damageRadius;
     [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private GameObject explosionVfx;
+    
+    private AudioClip explosionSfx;
+    private string explosionSfxId;
+    private float explosionSfxCooldown;
+    private int maxConcurrentExplosions;
+    private bool limitExplosionSfx;
+    private float explosionVolume;
 
     private void Awake()
     {
@@ -19,12 +26,21 @@ public class ProjectileCannon : MonoBehaviour
         trail = GetComponent<TrailRenderer>();
     }
 
-    public void SetupProjectile(Vector3 newVelocity, float newDamage, ObjectPoolManager newPool)
+    public void SetupProjectile(Vector3 newVelocity, float newDamage, ObjectPoolManager newPool,
+        AudioClip expSfx, string expSfxId, float expSfxCooldown, int maxConcurrent, bool limitSfx, float expVolume)
     {
         trail.Clear();
         objectPool = newPool;
         rb.linearVelocity = newVelocity;
         damage = newDamage;
+        
+        // Store audio settings
+        explosionSfx = expSfx;
+        explosionSfxId = expSfxId;
+        explosionSfxCooldown = expSfxCooldown;
+        maxConcurrentExplosions = maxConcurrent;
+        limitExplosionSfx = limitSfx;
+        explosionVolume = expVolume;
     }
 
     private void DamageEnemiesAround()
@@ -63,6 +79,26 @@ public class ProjectileCannon : MonoBehaviour
         }
         
         DamageEnemiesAround();
+
+        if (explosionSfx != null)
+        {
+            if (limitExplosionSfx && !string.IsNullOrEmpty(explosionSfxId))
+            {
+                AudioManager.instance?.PlaySFXOneShotLimited(
+                    explosionSfx,
+                    transform.position,
+                    explosionSfxId,
+                    explosionSfxCooldown,
+                    maxConcurrentExplosions,
+                    true,
+                    explosionVolume
+                );
+            }
+            else
+            {
+                AudioManager.instance?.PlaySFXOneShot(explosionSfx, transform.position, true, explosionVolume);
+            }
+        }
 
         objectPool.Get(explosionVfx, transform.position + new Vector3(0, .5f, 0));
         objectPool.Remove(gameObject);

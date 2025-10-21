@@ -10962,7 +10962,7 @@ GameObject:
   - component: {fileID: 2136725542526598474}
   - component: {fileID: 3506602139261192932}
   m_Layer: 12
-  m_Name: sfx_beam_1
+  m_Name: sfx_tower_attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11566,11 +11566,16 @@ MonoBehaviour:
     m_Bits: 131201
   onGameOverVFX: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   towerAttacksForward: 0
-  attackSfx: {fileID: 3506602139261192932}
-  limitAttackSfx: 1
-  attackSfxId: MachineGun
-  sfxCooldown: 0.3
-  maxConcurrentSfx: 3
+  towerAttackSfx: {fileID: 3506602139261192932}
+  limitTowerSfx: 1
+  towerSfxId: MachineGun
+  towerSfxCooldown: 0.3
+  maxConcurrentTowerSfx: 8
+  projectileSfx: {fileID: 0}
+  limitProjectileSfx: 0
+  projectileSfxId: 
+  projectileSfxCooldown: 0.3
+  maxConcurrentProjectileSfx: 3
   projectilePrefab: {fileID: 1604615626006732164, guid: 9537d3bbcd543974eaa30d9346acef05, type: 3}
   damage: 6
   projectileSpeed: 15

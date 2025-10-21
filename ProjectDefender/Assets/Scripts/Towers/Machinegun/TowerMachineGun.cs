@@ -36,7 +36,7 @@ public class TowerMachineGun : Tower
             newProjectile.GetComponent<ProjectileMachineGun>().SetupProjectile(hitInfo.point, damageable, damage, projectileSpeed, objectPool);
         
             machineGunVisuals.RecoilVfx(gunPoint);
-            PlayAttackSound(); // Use the base class helper
+            PlayTowerAttackSound(); // Use the base class helper
 
             base.Attack();
             gunPointIndex = (gunPointIndex + 1) % gunPointSet.Length;

@@ -158,7 +158,16 @@ MonoBehaviour:
     m_Bits: 1024
   onGameOverVFX: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   towerAttacksForward: 0
-  attackSfx: {fileID: 7009516629617391102}
+  towerAttackSfx: {fileID: 7009516629617391102}
+  limitTowerSfx: 1
+  towerSfxId: Harpoon
+  towerSfxCooldown: 0.3
+  maxConcurrentTowerSfx: 6
+  projectileSfx: {fileID: 0}
+  limitProjectileSfx: 0
+  projectileSfxId: 
+  projectileSfxCooldown: 0.3
+  maxConcurrentProjectileSfx: 3
   projectilePrefab: {fileID: 7710917892564352953, guid: 6e8e655e19af0784f89ba44946eef03f, type: 3}
   projectileDefaultPosition: {fileID: 9148707866004476194}
   projectileSpeed: 15

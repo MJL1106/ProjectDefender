@@ -14,12 +14,12 @@ public class ProjectileSpiderNest : MonoBehaviour
     [SerializeField] private float detonateDistance = .5f;
     [SerializeField] private GameObject explosionVfx;
     
-    [Header("Explosion Audio")]
-    [SerializeField] private AudioClip explosionSfx;
-    [SerializeField] private string explosionSfxId = "SpiderExplosion";
-    [SerializeField] private float explosionSfxCooldown = 0.15f;
-    [SerializeField] private int maxConcurrentExplosions = 4;
-    [SerializeField] private float explosionVolume = 1f;
+    private AudioClip explosionSfx;
+    private string explosionSfxId;
+    private float explosionSfxCooldown;
+    private int maxConcurrentExplosions;
+    private bool limitExplosionSfx;
+    private float explosionVolume;
     
     [Space]
     [SerializeField] private LayerMask whatIsEnemy;
@@ -59,33 +59,49 @@ public class ProjectileSpiderNest : MonoBehaviour
     private void Explode()
     {
         DamageEnemiesAround();
-        
+    
         if (explosionSfx != null)
         {
-            AudioManager.instance?.PlaySFXOneShotLimited(
-                explosionSfx, 
-                transform.position, 
-                explosionSfxId, 
-                explosionSfxCooldown, 
-                maxConcurrentExplosions, 
-                true, 
-                explosionVolume
-            );
+            if (limitExplosionSfx && !string.IsNullOrEmpty(explosionSfxId))
+            {
+                AudioManager.instance?.PlaySFXOneShotLimited(
+                    explosionSfx, 
+                    transform.position, 
+                    explosionSfxId, 
+                    explosionSfxCooldown, 
+                    maxConcurrentExplosions, 
+                    true, 
+                    explosionVolume
+                );
+            }
+            else
+            {
+                AudioManager.instance?.PlaySFXOneShot(explosionSfx, transform.position, true, explosionVolume);
+            }
         }
 
         objectPool.Get(explosionVfx, transform.position + new Vector3(0, .4f, 0));
-        
+    
         objectPool.Remove(gameObject);
     }
 
-    public void SetupSpider(float newDamage)
+    public void SetupSpider(float newDamage, AudioClip expSfx, string expSfxId, float expSfxCooldown, int maxConcurrent, bool limitSfx, float expVolume)
     {
         if (trail != null) trail.Clear();
+    
         damage = newDamage;
     
+        // Store audio settings passed from tower
+        explosionSfx = expSfx;
+        explosionSfxId = expSfxId;
+        explosionSfxCooldown = expSfxCooldown;
+        maxConcurrentExplosions = maxConcurrent;
+        limitExplosionSfx = limitSfx;
+        explosionVolume = expVolume;  // Store the volume from AudioSource
+
         Collider spiderCollider = GetComponent<Collider>();
         if (spiderCollider != null) spiderCollider.enabled = true;
-    
+
         agent.enabled = true;
         agent.isStopped = false;
         agent.stoppingDistance = detonateDistance;
