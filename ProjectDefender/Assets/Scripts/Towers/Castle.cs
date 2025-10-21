@@ -23,11 +23,17 @@ public class Castle : MonoBehaviour
    {
       if (other.CompareTag("Enemy"))
       {
-         other.GetComponent<Enemy>().RemoveEnemy();
+         Enemy enemy = other.GetComponent<Enemy>();
+
+         if (enemy == null) return;
+
+         int damageToDeal = enemy.GetCastleDamage();
+         
+         enemy.RemoveEnemy();
 
          if (gameManager == null) gameManager = FindAnyObjectByType<GameManager>();
          
-         if (gameManager != null) gameManager.UpdateHp(-1);
+         if (gameManager != null) gameManager.UpdateHp(-damageToDeal);
       }
    }
 }

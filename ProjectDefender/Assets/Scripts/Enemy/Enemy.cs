@@ -19,9 +19,13 @@ public class Enemy : MonoBehaviour , IDamageable
 
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
+    
+    [Header("Stats")]
     [SerializeField] private int reward = 10;
+    [SerializeField] private int castleDamage = 1;
     public float maxHp = 100;
     protected float currentHp = 4;
+    
     protected bool isDead;
     
     [Header("Movement")]
@@ -245,19 +249,13 @@ public class Enemy : MonoBehaviour , IDamageable
         return myWaypoints[myWaypoints.Length - 1];
     }
 
-    public Vector3 CentrePoint()
-    {
-        return centrePoint.position;
-    }
-
-    public EnemyType GetEnemyType()
-    {
-        return enemyType;
-    }
+    public Vector3 CentrePoint() => centrePoint.position;
+    public EnemyType GetEnemyType() => enemyType;
+    public int GetCastleDamage() => castleDamage;
 
     public virtual void TakeDamage(float damage)
     {
-        currentHp = currentHp - damage;
+        currentHp -= damage;
 
         if (currentHp <= 0 && isDead == false)
         {

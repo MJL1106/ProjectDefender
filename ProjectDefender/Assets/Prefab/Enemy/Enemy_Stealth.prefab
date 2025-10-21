@@ -439,6 +439,7 @@ MonoBehaviour:
   enemyType: 4
   centrePoint: {fileID: 2851485706542082124}
   reward: 30
+  castleDamage: 2
   maxHp: 80
   turnSpeed: 10
   myWaypoints: []
