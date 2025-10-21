@@ -51095,6 +51095,8 @@ MonoBehaviour:
   currentActiveWaveManager: {fileID: 0}
   currency: 500
   maxHp: 20
+  winFireworksVFX: {fileID: 4337154042685336059, guid: fe18f1358f2ec684aa273bdffc04dbfa, type: 3}
+  loseSmokeVFX: {fileID: 6725364902247231417, guid: fce5f08eec65e064e9c422478afadfd0, type: 3}
 --- !u!4 &1913317771
 Transform:
   m_ObjectHideFlags: 0

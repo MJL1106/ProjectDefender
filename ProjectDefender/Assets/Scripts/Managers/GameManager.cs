@@ -16,6 +16,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxHp; 
     private int currentHp;
     
+    private Transform castleTransform; 
+
+    [Header("Win/Loss Visuals")]
+    [SerializeField] private GameObject winFireworksVFX; // Drag your fireworks prefab here
+    [SerializeField] private GameObject loseSmokeVFX;
+    
+    public void RegisterCastle(Transform newCastleTransform) => castleTransform = newCastleTransform;
+    
     public int enemiesKilled { get; private set; }
 
     private bool gameLost;
@@ -66,8 +74,14 @@ public class GameManager : MonoBehaviour
         DisableAllTowers();
         FreezeAllEnemies();
         
-        yield return new WaitForSeconds(1f);
+        if (loseSmokeVFX != null && castleTransform != null)
+        {
+            Vector3 spawnPosition = castleTransform.position;
+            spawnPosition.y += 1.5f; 
+            Instantiate(loseSmokeVFX, spawnPosition, Quaternion.identity);
+        }
         
+        yield return new WaitForSeconds(1f);
         
         yield return ShowGameOverSequence();
     }
@@ -127,11 +141,23 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LevelCompletedCo()
     {
+        bool isFinalLevel = levelManager.HasNoMoreLevels();
+        
+        if (isFinalLevel && winFireworksVFX != null && castleTransform != null)
+        {
+            Vector3 spawnPosition = castleTransform.position;
+            spawnPosition.y += 2f; 
+            Quaternion spawnRotation = Quaternion.Euler(-90, 0, 0);
+            Instantiate(winFireworksVFX, spawnPosition, spawnRotation);
+        }
+        
+        yield return new WaitForSeconds(1.5f);
+        
         cameraEffects.FocusOnCastle();
 
         yield return cameraEffects.GetActiveCameraCo();
 
-        if (levelManager.HasNoMoreLevels())
+        if (isFinalLevel)
         { 
             inGameUI.EnableVictoryUI(true);
         }
