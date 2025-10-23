@@ -7,6 +7,7 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
 {
     private LevelManager levelManager;
     private TileAnimator tileAnimator;
+    private Outline outline;
     private TextMeshPro myText => GetComponentInChildren<TextMeshPro>();
     
     [SerializeField] private int levelIndex;
@@ -23,6 +24,17 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
         tileAnimator = FindFirstObjectByType<TileAnimator>();
         levelManager = FindAnyObjectByType<LevelManager>();
         defaultPosition = transform.position;
+        
+        // Add outline component
+        if (outline == null)
+        {
+            outline = gameObject.AddComponent<Outline>();
+        }
+        outline.OutlineMode = Outline.Mode.VisibleEdgesOnly; 
+        outline.OutlineColor = Color.white;
+        outline.OutlineWidth = 2.0f;
+        outline.enabled = false;
+        
         CheckIfLevelUnlocked();
     }
 
@@ -61,12 +73,18 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
     {
         if (tileAnimator.IsGridMoving()) return;
         
+        // Enable outline
+        if (outline != null) outline.enabled = true;
+        
         MoveTileUp();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (tileAnimator.IsGridMoving()) return;
+        
+        // Disable outline
+        if (outline != null) outline.enabled = false;
 
         if (currentMoveCo != null)
         {
@@ -94,7 +112,5 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
         levelIndex = transform.GetSiblingIndex() + 1;
 
         if (myText != null) myText.text = "Level " + levelIndex;
-
     }
-    
 }
