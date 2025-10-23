@@ -119,8 +119,6 @@ public class WaveManager : MonoBehaviour
     {
         if (gameBegan == false || gameManager.IsGameLost()) return;
         
-        if (gameBegan == false) return;
-        
         if (AllEnemiesDefeated() == false || AllPortalsFinishedSpawning() == false || makingNextWave) return;
 
         makingNextWave = true;
