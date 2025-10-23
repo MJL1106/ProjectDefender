@@ -9711,7 +9711,7 @@ MonoBehaviour:
   focusPoint: {fileID: 605182631}
   maxFocusPointDistance: 15
   rotationSpeed: 500
-  minPitch: 5
+  minPitch: 46
   maxPitch: 85
   zoomSpeed: 200
   minZoom: 3

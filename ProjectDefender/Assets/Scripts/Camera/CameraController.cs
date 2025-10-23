@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
     
     [Space] 
     private float pitch;
-    [SerializeField] private float minPitch = 5f;
+    [SerializeField] private float minPitch = 46f;
     [SerializeField] private float maxPitch = 85f;
 
     [Header("Zoom Details")]
