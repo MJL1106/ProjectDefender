@@ -192,22 +192,17 @@ public class GameManager : MonoBehaviour
         if (currentHp <= 0 && gameLost == false) StartCoroutine(LevelFailedCo());
     }
 
+    public void UpdateEnemiesKilled() => enemiesKilled++;
+    
+
     public void UpdateCurrency(int value)
     {
-        enemiesKilled++;
         currency += value;
         inGameUI.UpdateCurrencyUI(currency);
     }
 
     public bool HasEnoughCurrency(int price)
     {
-        if (price <= currency)
-        {
-            currency = currency - price;
-            inGameUI.UpdateCurrencyUI(currency);
-            return true;
-        }
-
-        return false;
+        return price <= currency;
     }
 }

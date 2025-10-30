@@ -285,6 +285,7 @@ public class Enemy : MonoBehaviour , IDamageable
     public virtual void Die()
     {
         gameManager.UpdateCurrency(reward);
+        gameManager.UpdateEnemiesKilled();
         RemoveEnemy();
     }
 

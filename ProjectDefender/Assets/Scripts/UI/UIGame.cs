@@ -107,7 +107,7 @@ public class UIGame : MonoBehaviour
     {
         if (sellTowerValueText != null)
         {
-            sellTowerValueText.text = "Sell for: " + sellValue;
+            sellTowerValueText.text = "Sell for : " + sellValue;
         }
     }
 
@@ -142,7 +142,7 @@ public class UIGame : MonoBehaviour
 
         if (enable && sellTowerValueText != null)
         {
-            sellTowerValueText.text = "Sell for: " + sellValue;
+            sellTowerValueText.text = "Sell for : " + sellValue;
         }
 
         sellTowerMoveCo = StartCoroutine(animatorUI.ChangePositionCo(rect, offset));

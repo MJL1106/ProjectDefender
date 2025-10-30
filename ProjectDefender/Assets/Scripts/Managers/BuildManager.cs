@@ -81,7 +81,10 @@ public class BuildManager : MonoBehaviour
       
       Transform previewTower = newPreviewTower;
       BuildSlot slotToUse = GetSelectedSlot();
-      CancelBuildAction();
+      
+      // Manually hide the preview and build menu
+      ui.BuildButtonsHolderUI.GetLastSelected()?.SelectButton(false);
+      DisableBuildMenu();
         
       slotToUse.SnapToDefaultPosition();
       slotToUse.SetSlotAvailableTo(false);
@@ -110,6 +113,10 @@ public class BuildManager : MonoBehaviour
       }
       
       gameManager.UpdateCurrency(-towerPrice);
+      
+      // Clean up the slot selection
+      slotToUse.UnselectTile();
+      selectedBuildSlot = null;
    }
 
    public void MouseOverUI(bool isOverUI) => isMouseOverUI = isOverUI;
@@ -155,8 +162,8 @@ public class BuildManager : MonoBehaviour
       DisableBuildMenu();
       DisableSellMenu();
     
-      buildMenuEnabled = false; // Reset the flag
-      sellMenuEnabled = false;  // Reset the flag
+      buildMenuEnabled = false;
+      sellMenuEnabled = false;
    }
 
    public void SelectBuildSlot(BuildSlot newSlot)
@@ -173,9 +180,7 @@ public class BuildManager : MonoBehaviour
 
    public void EnableBuildMenu()
    {
-      if (buildMenuEnabled) return; // Already enabled
-    
-      Debug.Log($"EnableBuildMenu called. selectedBuildSlot is null: {selectedBuildSlot == null}");
+      if (buildMenuEnabled) return;
     
       buildMenuEnabled = true;
       ui.BuildButtonsHolderUI.ShowBuildButtons(true);
@@ -183,7 +188,7 @@ public class BuildManager : MonoBehaviour
 
    public void DisableBuildMenu()
    {
-      if (!buildMenuEnabled) return; // Already disabled
+      if (!buildMenuEnabled) return;
     
       buildMenuEnabled = false;
       ui.BuildButtonsHolderUI.ShowBuildButtons(false);
@@ -208,7 +213,7 @@ public class BuildManager : MonoBehaviour
 
    public void DisableSellMenu()
    {
-      if (!sellMenuEnabled) return; // Already disabled, don't animate again
+      if (!sellMenuEnabled) return;
     
       sellMenuEnabled = false;
       ui.inGameUI.EnableSellTowerUI(false);
@@ -219,19 +224,22 @@ public class BuildManager : MonoBehaviour
       if (selectedBuildSlot == null || !HasTowerOnSlot(selectedBuildSlot)) return;
 
       int sellValue = GetTowerSellValue(selectedBuildSlot);
+      BuildSlot slotBeingSold = selectedBuildSlot;
+      
+      cameraEffects.ScreenShake(camShakeDuration, camShakeMagnitude);
       
       // Destroy the tower
-      TowerData towerData = builtTowers[selectedBuildSlot];
+      TowerData towerData = builtTowers[slotBeingSold];
       if (towerData.towerObject != null)
       {
          Destroy(towerData.towerObject);
       }
       
       // Remove from tracking
-      builtTowers.Remove(selectedBuildSlot);
+      builtTowers.Remove(slotBeingSold);
       
       // Make slot available again
-      selectedBuildSlot.SetSlotAvailableTo(true);
+      slotBeingSold.SetSlotAvailableTo(true);
       
       // Add currency back to player
       gameManager.UpdateCurrency(sellValue);
@@ -257,7 +265,6 @@ public class BuildManager : MonoBehaviour
    public Material GetBuildPreviewMat() => buildPreviewMat;
 }
 
-// Simple class to store tower data
 [System.Serializable]
 public class TowerData
 {
