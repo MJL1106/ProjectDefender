@@ -20,6 +20,14 @@ public class UIGame : MonoBehaviour
     private Coroutine waveTimerMoveCo;
     private Vector3 waveTimerDefaultPosition;
 
+    [Header("Sell Tower UI")]
+    [SerializeField] private Transform sellTowerUI;
+    [SerializeField] private float sellTowerOffset;
+    [SerializeField] private UITextBlinkEffect sellTowerTextBlinkEffect;
+    [SerializeField] private TextMeshProUGUI sellTowerValueText;
+    private Coroutine sellTowerMoveCo;
+    private Vector3 sellTowerDefaultPosition;
+
     [Header("Victory and Defeat")] 
     [SerializeField] private GameObject victoryUI;
     [SerializeField] private GameObject gameOverUI;
@@ -46,6 +54,7 @@ public class UIGame : MonoBehaviour
         }
 
         if (waveTimer != null) waveTimerDefaultPosition = waveTimer.localPosition;
+        if (sellTowerUI != null) sellTowerDefaultPosition = sellTowerUI.localPosition;
     }
 
     private void Update()
@@ -93,6 +102,14 @@ public class UIGame : MonoBehaviour
     {
         waveTimerText.text = "seconds : " + value.ToString("00");
     }
+    
+    public void UpdateSellTowerValue(int sellValue)
+    {
+        if (sellTowerValueText != null)
+        {
+            sellTowerValueText.text = "Sell for: " + sellValue;
+        }
+    }
 
     public void EnableWaveTimer(bool enable)
     {
@@ -114,9 +131,45 @@ public class UIGame : MonoBehaviour
         waveTimer.localPosition = waveTimerDefaultPosition;
     }
 
+    public void EnableSellTowerUI(bool enable, int sellValue = 0)
+    {
+        if (sellTowerUI == null) return;
+
+        RectTransform rect = sellTowerUI.GetComponent<RectTransform>();
+        float yOffset = enable ? -sellTowerOffset : sellTowerOffset;
+        
+        Vector3 offset = new Vector3(0, yOffset);
+
+        if (enable && sellTowerValueText != null)
+        {
+            sellTowerValueText.text = "Sell for: " + sellValue;
+        }
+
+        sellTowerMoveCo = StartCoroutine(animatorUI.ChangePositionCo(rect, offset));
+        if (sellTowerTextBlinkEffect != null) sellTowerTextBlinkEffect.EnableBlink(enable);
+    }
+
+    public void SnapSellTowerToDefaultPosition()
+    {
+        if (sellTowerUI == null) return;
+
+        if (sellTowerMoveCo != null) StopCoroutine(sellTowerMoveCo);
+
+        sellTowerUI.localPosition = sellTowerDefaultPosition;
+    }
+
     public void ForceWaveButton()
     {
         WaveManager waveManager = FindFirstObjectByType<WaveManager>();
         waveManager.StartNewWave();
+    }
+
+    public void SellTowerButton()
+    {
+        BuildManager buildManager = FindFirstObjectByType<BuildManager>();
+        if (buildManager != null)
+        {
+            buildManager.SellSelectedTower();
+        }
     }
 }

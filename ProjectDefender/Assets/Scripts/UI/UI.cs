@@ -71,6 +71,7 @@ public class UI : MonoBehaviour
         else
         {
             inGameUI.SnapTimerToDefaultPosition();
+            inGameUI.SnapSellTowerToDefaultPosition();
             SwitchTo(null);
         }
     }

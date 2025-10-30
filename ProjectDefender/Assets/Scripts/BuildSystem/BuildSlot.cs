@@ -12,12 +12,16 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private bool tileCanBeMoved = true;
     private bool buildSlotAvailable = true;
+    
+    private GameObject builtTower;
+    private int towerOriginalPrice;
 
     private Coroutine currentMovementUpCo;
     private Coroutine moveToDefaultCo;
 
+    // Colors for different states
     private Color buildableColor = Color.white;
-    private Color unbuildableColor = new Color(1f,0.3f,0.3f);
+    private Color unbuildableColor = new Color(1f, 0.3f, 0.3f);
 
     private void Awake()
     {
@@ -37,16 +41,28 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         outline.enabled = false;
     }
 
-    // Enable if want tiles to be raised to show upcoming grid to the player
-    private void Start()
+    public void SetSlotAvailableTo(bool value) => buildSlotAvailable = value;
+
+    public void SetBuiltTower(GameObject tower, int price)
     {
-       // if (buildSlotAvailable == false)
-        //{
-         //   transform.position += new Vector3(0, .1f);
-      //  }
+        builtTower = tower;
+        towerOriginalPrice = price;
     }
 
-    public void SetSlotAvailableTo(bool value) => buildSlotAvailable = value;
+    public bool HasTower() => builtTower != null;
+
+    public int GetTowerSellValue() => Mathf.RoundToInt(towerOriginalPrice * 0.5f);
+
+    public void RemoveTower()
+    {
+        if (builtTower != null)
+        {
+            Destroy(builtTower);
+            builtTower = null;
+            towerOriginalPrice = 0;
+            buildSlotAvailable = true;
+        }
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -54,19 +70,24 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         
         if (outline != null)
         {
-            // Set color based on availability
             outline.OutlineColor = buildSlotAvailable ? buildableColor : unbuildableColor;
             outline.enabled = true;
         }
         
-        if (tileCanBeMoved) MoveTileUp();
+        if (tileCanBeMoved)
+        {
+            MoveTileUp();
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (tileAnim.IsGridMoving()) return;
         
-        if (outline != null) outline.enabled = false;
+        if (outline != null)
+        {
+            outline.enabled = false;
+        }
         
         if (tileCanBeMoved == false) return;
 
@@ -74,23 +95,47 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         else MoveToDefaultPosition();
     }
 
-
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (buildSlotAvailable == false || tileAnim.IsGridMoving()) return;
-        
+        if (tileAnim.IsGridMoving()) return;
+    
         if (eventData.button != PointerEventData.InputButton.Left) return;
 
-        if (buildManager.GetSelectedSlot() == this) return;
-        
+        Debug.Log($"BuildSlot clicked! buildSlotAvailable: {buildSlotAvailable}");
+    
+        // If clicking a different slot, just deselect the previous one visually
+        if (buildManager.GetSelectedSlot() != null && buildManager.GetSelectedSlot() != this)
+        {
+            buildManager.GetSelectedSlot().UnselectTile();
+        }
+    
         SnapToBeforeBuildPosition();
-        buildManager.EnableBuildMenu();
         buildManager.SelectBuildSlot(this);
         MoveTileUp();
 
+        // Check if tower exists on this slot, show appropriate menu
+        bool hasTower = buildManager.HasTowerOnSlot(this);
+        Debug.Log($"Has tower on slot: {hasTower}");
+    
+        if (hasTower)
+        {
+            Debug.Log("Enabling sell menu");
+            buildManager.DisableBuildMenu(); // Hide build menu if it was showing
+            buildManager.EnableSellMenu();
+        }
+        else if (buildSlotAvailable)
+        {
+            Debug.Log("Enabling build menu");
+            buildManager.DisableSellMenu(); // Hide sell menu if it was showing
+            buildManager.EnableBuildMenu();
+            ui.BuildButtonsHolderUI.GetLastSelected()?.SelectButton(true);
+        }
+        else
+        {
+            Debug.Log("Slot not available and no tower");
+        }
+
         tileCanBeMoved = false;
-        
-        ui.BuildButtonsHolderUI.GetLastSelected()?.SelectButton(true);
     }
 
     public void UnselectTile()
