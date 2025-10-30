@@ -44171,7 +44171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da70a5c7fb7dc9d428cd33cec9cc0d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playBgm: 0
+  playBgm: 1
   bgm:
   - {fileID: 2100839881}
   - {fileID: 237228621}

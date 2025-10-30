@@ -16,6 +16,9 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private Coroutine currentMovementUpCo;
     private Coroutine moveToDefaultCo;
 
+    private Color buildableColor = Color.white;
+    private Color unbuildableColor = new Color(1f,0.3f,0.3f);
+
     private void Awake()
     {
         ui = FindFirstObjectByType<UI>();
@@ -47,23 +50,23 @@ public class BuildSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (buildSlotAvailable == false|| tileAnim.IsGridMoving()) return;
+        if (tileAnim.IsGridMoving()) return;
         
-        if (outline != null) outline.enabled = true;
+        if (outline != null)
+        {
+            // Set color based on availability
+            outline.OutlineColor = buildSlotAvailable ? buildableColor : unbuildableColor;
+            outline.enabled = true;
+        }
         
-        if (tileCanBeMoved == false) return;
-        
-        MoveTileUp();
+        if (tileCanBeMoved) MoveTileUp();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (buildSlotAvailable == false|| tileAnim.IsGridMoving()) return;
+        if (tileAnim.IsGridMoving()) return;
         
-        if (tileCanBeMoved && outline != null)
-        {
-            outline.enabled = false;
-        }
+        if (outline != null) outline.enabled = false;
         
         if (tileCanBeMoved == false) return;
 
