@@ -105,19 +105,13 @@ public class Tower : MonoBehaviour
     
     private void UpdateTargetIfNeeded()
     {
-        if (currentEnemy == null)
-        {
-            currentEnemy = FindEnemyWithinRange();
-            return;
-        }
-        
-        if (dynamicTargetChange == false) return;
+        if (dynamicTargetChange == false && currentEnemy != null) return;
 
-        if (Time.time > lastTimeCheckedTarget + targetCheckInterval)
+        if (Time.time > lastTimeCheckedTarget + targetCheckInterval || currentEnemy == null)
         {
             lastTimeCheckedTarget = Time.time;
             currentEnemy = FindEnemyWithinRange();
-        } 
+        }
     }
 
     protected void AttemptToAttack()
@@ -225,18 +219,17 @@ public class Tower : MonoBehaviour
     {
         Enemy mostAdvancedEnemy = null;
         float minRemainingDistance = float.MaxValue;
-
+        
         foreach (Enemy enemy in targets)
         {
             float remainingDistance = enemy.DistanceToFinishLine();
-
+            
             if (remainingDistance < minRemainingDistance)
             {
                 minRemainingDistance = remainingDistance;
                 mostAdvancedEnemy = enemy;
             }
         }
-
         return mostAdvancedEnemy;
     }
     

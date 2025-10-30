@@ -101,6 +101,7 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         currentWaypointIndex = 0;
         nextWaypointIndex = 0;
+        totalDistance = 0;
         ChangeWaypoint();
     }
 
@@ -198,7 +199,23 @@ public class Enemy : MonoBehaviour , IDamageable
 
     public virtual float DistanceToFinishLine()
     {
-        return totalDistance + agent.remainingDistance;
+        if (myWaypoints == null || currentWaypointIndex >= myWaypoints.Length)
+        {
+            return 0f;
+        }
+
+        float remainingDistance = 0f;
+
+        // Distance from current position to the current waypoint we're heading toward
+        remainingDistance += Vector3.Distance(transform.position, myWaypoints[currentWaypointIndex]);
+
+        // Add distances between all remaining waypoints after that
+        for (int i = currentWaypointIndex; i < myWaypoints.Length - 1; i++)
+        {
+            remainingDistance += Vector3.Distance(myWaypoints[i], myWaypoints[i + 1]);
+        }
+
+        return remainingDistance;
     }
     
     private void CollectTotalDistance()
