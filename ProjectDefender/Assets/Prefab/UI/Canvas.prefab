@@ -2841,10 +2841,10 @@ MonoBehaviour:
   waveTimerOffset: 189.8
   waveTimerTextBlinkEffect: {fileID: 5516500578688168167}
   waveTimer: {fileID: 1515759523594717297}
-  sellTowerUI: {fileID: 0}
-  sellTowerOffset: 0
-  sellTowerTextBlinkEffect: {fileID: 0}
-  sellTowerValueText: {fileID: 0}
+  sellTowerUI: {fileID: 6087566268993388834}
+  sellTowerOffset: 189.8
+  sellTowerTextBlinkEffect: {fileID: 6405372757604448521}
+  sellTowerValueText: {fileID: 2041186543497625666}
   victoryUI: {fileID: 6314055933026970032}
   gameOverUI: {fileID: 3357378814910712035}
   levelCompletedUI: {fileID: 6369992984159886255}
@@ -15640,7 +15640,7 @@ GameObject:
   - component: {fileID: 2041186543497625666}
   - component: {fileID: 6405372757604448521}
   m_Layer: 5
-  m_Name: Forcewave_Text
+  m_Name: SellTower_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19807,7 +19807,7 @@ GameObject:
   - component: {fileID: 1496400952173479851}
   - component: {fileID: 4565784621122658156}
   m_Layer: 5
-  m_Name: Forcewave_BTN
+  m_Name: SellTower_BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

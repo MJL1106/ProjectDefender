@@ -78,19 +78,28 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
+        Debug.Log($"Playing sound at position: {position}"); // DEBUG
+
         GameObject tempAudio = new GameObject("TempAudio_" + clip.name);
         tempAudio.transform.position = position;
-        
+    
+        Debug.DrawLine(position, position + Vector3.up * 5f, Color.green, 1f); // DEBUG - shows where sound spawns
+    
         AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
         audioSource.clip = clip;
         audioSource.volume = volume;
         audioSource.pitch = randomPitch ? Random.Range(.9f, 1.1f) : 1;
         audioSource.outputAudioMixerGroup = sfxMixerGroup;
-        
+    
         audioSource.spatialBlend = 1f;
-        
+        audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+        audioSource.minDistance = 1f;
+        audioSource.maxDistance = 30f;
+        audioSource.dopplerLevel = 0f;
+        audioSource.spread = 0f;
+    
         audioSource.Play();
-        
+    
         Destroy(tempAudio, clip.length + 0.1f);
     }
 
@@ -114,6 +123,11 @@ public class AudioManager : MonoBehaviour
         audioSource.outputAudioMixerGroup = sfxMixerGroup;
         
         audioSource.spatialBlend = 1f;
+        audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+        audioSource.minDistance = 1f;
+        audioSource.maxDistance = 30f; // Keeping same as before
+        audioSource.dopplerLevel = 0f;
+        audioSource.spread = 0f;
         
         audioSource.Play();
         

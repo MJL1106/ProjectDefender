@@ -43,6 +43,7 @@ public class Tower : MonoBehaviour
 
     [Header("Tower SFX Details")] 
     [SerializeField] protected AudioSource towerAttackSfx;
+    [SerializeField] protected int playSoundEveryXShots = 3; // Play sound every 3rd shot
     [SerializeField] protected bool limitTowerSfx = false;
     [SerializeField] protected string towerSfxId = "";
     [SerializeField] protected float towerSfxCooldown = 0.3f;
@@ -139,15 +140,30 @@ public class Tower : MonoBehaviour
     
     protected void PlayTowerAttackSound()
     {
-        if (towerAttackSfx == null) return;
-    
+        if (towerAttackSfx == null || towerAttackSfx.clip == null) return;
+
+        Vector3 soundPosition = gunPoint != null ? gunPoint.position : transform.position;
+
         if (limitTowerSfx && !string.IsNullOrEmpty(towerSfxId))
         {
-            AudioManager.instance?.PlaySFXLimited(towerAttackSfx, towerSfxId, towerSfxCooldown, maxConcurrentTowerSfx, true);
+            AudioManager.instance?.PlaySFXOneShotLimited(
+                towerAttackSfx.clip, 
+                soundPosition, 
+                towerSfxId, 
+                towerSfxCooldown, 
+                maxConcurrentTowerSfx, 
+                true, 
+                towerAttackSfx.volume
+            );
         }
         else
         {
-            AudioManager.instance?.PlaySFX(towerAttackSfx, true);
+            AudioManager.instance?.PlaySFXOneShot(
+                towerAttackSfx.clip, 
+                soundPosition, 
+                true, 
+                towerAttackSfx.volume
+            );
         }
     }
 

@@ -60441,7 +60441,7 @@ MonoBehaviour:
     unlocked: 0
   - towerName: Just Fan
     unlocked: 0
-  levelCurrency: 900
+  levelCurrency: 200
   myMainGrid: {fileID: 1199274202421046181}
   extraObjectsToDelete:
   - {fileID: 231532976}
@@ -71473,28 +71473,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1522258237}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1315289771 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6405372757604448521, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
-  m_PrefabInstance: {fileID: 1782517327}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f4700b74d954c24697d4ddc291548b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1315289772 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2041186543497625666, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
-  m_PrefabInstance: {fileID: 1782517327}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1318611676
 GameObject:
   m_ObjectHideFlags: 0
@@ -99421,22 +99399,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5160894622376785764, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
-      propertyPath: sellTowerUI
-      value: 
-      objectReference: {fileID: 1967592893}
-    - target: {fileID: 5160894622376785764, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
-      propertyPath: sellTowerOffset
-      value: 189.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160894622376785764, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
-      propertyPath: sellTowerValueText
-      value: 
-      objectReference: {fileID: 1315289772}
-    - target: {fileID: 5160894622376785764, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
-      propertyPath: sellTowerTextBlinkEffect
-      value: 
-      objectReference: {fileID: 1315289771}
     - target: {fileID: 6476713000767615994, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -99485,10 +99447,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6591573205225713004, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
-      propertyPath: m_Name
-      value: SellTower_Text
-      objectReference: {fileID: 0}
     - target: {fileID: 6753511410726988792, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -99496,10 +99454,6 @@ PrefabInstance:
     - target: {fileID: 6753511410726988792, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8373663105596519627, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
-      propertyPath: m_Name
-      value: SellTower_BTN
       objectReference: {fileID: 0}
     - target: {fileID: 9043586303162881638, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -108482,7 +108436,7 @@ MonoBehaviour:
   currency: 200
   maxHp: 20
   winFireworksVFX: {fileID: 4337154042685336059, guid: fe18f1358f2ec684aa273bdffc04dbfa, type: 3}
-  loseSmokeVFX: {fileID: 0}
+  loseSmokeVFX: {fileID: 6725364902247231417, guid: fce5f08eec65e064e9c422478afadfd0, type: 3}
 --- !u!4 &1913317771
 Transform:
   m_ObjectHideFlags: 0
@@ -112320,11 +112274,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1199274202421046178}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &1967592893 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6087566268993388834, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
-  m_PrefabInstance: {fileID: 1782517327}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1967961301
 GameObject:
   m_ObjectHideFlags: 0

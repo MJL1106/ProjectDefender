@@ -11567,10 +11567,10 @@ MonoBehaviour:
   onGameOverVFX: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   towerAttacksForward: 0
   towerAttackSfx: {fileID: 3506602139261192932}
-  limitTowerSfx: 1
+  limitTowerSfx: 0
   towerSfxId: MachineGun
-  towerSfxCooldown: 0.3
-  maxConcurrentTowerSfx: 8
+  towerSfxCooldown: 0.01
+  maxConcurrentTowerSfx: 80
   projectileSfx: {fileID: 0}
   limitProjectileSfx: 0
   projectileSfxId: 
@@ -11587,6 +11587,7 @@ MonoBehaviour:
   - {fileID: 5283482578586279140}
   - {fileID: 5818922557904510937}
   - {fileID: 5623662357522730654}
+  playSoundEveryXShots: 3
 --- !u!114 &2117109096796244914
 MonoBehaviour:
   m_ObjectHideFlags: 0

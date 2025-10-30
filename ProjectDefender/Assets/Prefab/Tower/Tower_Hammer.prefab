@@ -14998,7 +14998,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: a444628f088ef3145af5fb4ea6eb8e14, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -29959,7 +29959,7 @@ MonoBehaviour:
   onGameOverVFX: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   towerAttacksForward: 0
   towerAttackSfx: {fileID: 373433671635809523}
-  limitTowerSfx: 1
+  limitTowerSfx: 0
   towerSfxId: Hammer
   towerSfxCooldown: 0.3
   maxConcurrentTowerSfx: 5
