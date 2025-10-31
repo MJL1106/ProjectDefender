@@ -75,19 +75,13 @@ public class GameManager : MonoBehaviour
 
         if (loseSmokeVFX != null)
         {
-            // Find only ACTIVE castles
             Castle activeCastle = FindFirstObjectByType<Castle>(FindObjectsInactive.Exclude);
         
             if (activeCastle != null)
             {
                 Vector3 spawnPosition = activeCastle.transform.position;
-                spawnPosition.y += 1.5f;
-                Debug.Log($"[LevelFailedCo] Spawning smoke at active castle: {activeCastle.gameObject.name} at {spawnPosition}");
+                spawnPosition.y += 1.3f;
                 Instantiate(loseSmokeVFX, spawnPosition, Quaternion.identity);
-            }
-            else
-            {
-                Debug.LogWarning("[LevelFailedCo] No active castle found to spawn smoke at!");
             }
         }
 
@@ -155,20 +149,14 @@ public class GameManager : MonoBehaviour
     
         if (isFinalLevel && winFireworksVFX != null)
         {
-            // Find only ACTIVE castles
             Castle activeCastle = FindFirstObjectByType<Castle>(FindObjectsInactive.Exclude);
         
             if (activeCastle != null)
             {
                 Vector3 spawnPosition = activeCastle.transform.position;
                 spawnPosition.y += 2f;
-                Debug.Log($"[LevelCompletedCo] Spawning fireworks at active castle: {activeCastle.gameObject.name} at {spawnPosition}");
                 Quaternion spawnRotation = Quaternion.Euler(-90, 0, 0);
                 Instantiate(winFireworksVFX, spawnPosition, spawnRotation);
-            }
-            else
-            {
-                Debug.LogWarning("[LevelCompletedCo] No active castle found to spawn fireworks at!");
             }
         }
     
@@ -202,6 +190,21 @@ public class GameManager : MonoBehaviour
         inGameUI.UpdateCurrencyUI(currency);
         
         newWaveManager.ActivateWaveManager();
+    }
+    
+    public void CleanUpVFX()
+    {
+        int vfxLayer = LayerMask.NameToLayer("VFX");
+    
+        ParticleSystem[] allParticles = FindObjectsByType<ParticleSystem>(FindObjectsSortMode.None);
+    
+        foreach (ParticleSystem ps in allParticles)
+        {
+            if (ps.gameObject.layer == vfxLayer)
+            {
+                Destroy(ps.gameObject);
+            }
+        }
     }
 
     public void UpdateHp(int value)

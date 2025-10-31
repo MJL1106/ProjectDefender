@@ -26,13 +26,6 @@ public class LevelManager : MonoBehaviour
         groundMesh.material = new Material(groundMesh.material);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J)) LoadLevelFromMenu("Level_1");
-        if (Input.GetKeyDown(KeyCode.K)) LoadMainMenu();
-        if (Input.GetKeyDown(KeyCode.R)) RestartCurrentLevel();
-    }
-
     public void RestartCurrentLevel() => StartCoroutine(LoadLevelCo(currentLevelName));
     public void LoadLevel(string levelName) => StartCoroutine(LoadLevelCo(levelName));
     public void LoadNextLevel() => LoadLevel(GetNextLevelName());
@@ -111,6 +104,7 @@ public class LevelManager : MonoBehaviour
     private void CleanUpScene()
     {
         GameManager.instance.StopMakingEnemies();
+        GameManager.instance.CleanUpVFX();
         EliminateAllEnemies();
         EliminateAllTowers();
         
