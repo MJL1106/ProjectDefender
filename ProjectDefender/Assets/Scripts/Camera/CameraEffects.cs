@@ -88,6 +88,20 @@ public class CameraEffects : MonoBehaviour
     
         EnableAllTiles(false);
         EnableLevelButtonTiles(false); // Keep level buttons disabled in menu
+        
+        UnselectAllTiles();
+    }
+    
+    public void UnselectAllTiles()
+    {
+        LevelButtonTile[] levelButtons = FindObjectsByType<LevelButtonTile>(FindObjectsSortMode.None);
+        foreach (var levelButton in levelButtons)
+        {
+            if (levelButton != null && levelButton.outline != null)
+            {
+                levelButton.outline.enabled = false;
+            }
+        }
     }
 
     public void SwitchToGameView()

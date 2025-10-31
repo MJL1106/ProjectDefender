@@ -84,6 +84,7 @@ public class LevelManager : MonoBehaviour
         if (tileAnimator != null)
         {
             tileAnimator.EnableMainSceneObjects(true);
+            cameraEffects.UnselectAllTiles();
             tileAnimator.ShowMainGrid(true);
 
             yield return tileAnimator.GetActiveCoroutine();
