@@ -43,9 +43,12 @@ public class CameraEffects : MonoBehaviour
         if (GameManager.instance.IsTestingLevel())
         {
             camController.EnableCameraControlls(true);
+            EnableAllTiles(true);
             return;
         }
         
+        EnableAllTiles(false); // Disable all tiles in menu
+        EnableLevelButtonTiles(false);
         SwitchToMenuView();
     }
 
@@ -79,9 +82,12 @@ public class CameraEffects : MonoBehaviour
     public void SwitchToMenuView()
     {
         if (cameraCo != null) StopCoroutine(cameraCo);
-        
+    
         cameraCo = StartCoroutine(ChangePositionAndRotation(inMenuPosition, inMenuRotation, transitionDuration));
         camController.AdjustPitchValue(inMenuRotation.eulerAngles.x);
+    
+        EnableAllTiles(false);
+        EnableLevelButtonTiles(false); // Keep level buttons disabled in menu
     }
 
     public void SwitchToGameView()
@@ -92,14 +98,50 @@ public class CameraEffects : MonoBehaviour
         camController.AdjustPitchValue(inGameRotation.eulerAngles.x);
 
         StartCoroutine(EnableCameraControlsAfter(transitionDuration + 1.8f));
+        StartCoroutine(EnableTilesAfter(transitionDuration + 1.8f));
     }
 
     public void SwitchToLevelSelectView()
     {
         if (cameraCo != null) StopCoroutine(cameraCo);
-        
+    
         cameraCo = StartCoroutine(ChangePositionAndRotation(levelSelectPosition, levelSelectRotation, transitionDuration));
         camController.AdjustPitchValue(levelSelectRotation.eulerAngles.x);
+    
+        EnableAllTiles(false);
+        EnableLevelButtonTiles(true);
+    }
+
+    public void EnableLevelButtonTiles(bool enable)
+    {
+        LevelButtonTile[] levelButtons = FindObjectsByType<LevelButtonTile>(FindObjectsSortMode.None);
+        foreach (var levelButton in levelButtons)
+        {
+            Collider collider = levelButton.GetComponent<Collider>();
+            if (collider != null)
+            {
+                collider.enabled = enable;
+            }
+        }
+    }
+
+    public void EnableAllTiles(bool enable)
+    {
+        BuildSlot[] tiles = FindObjectsByType<BuildSlot>(FindObjectsSortMode.None);
+        foreach (var tile in tiles)
+        {
+            Collider collider = tile.GetComponent<Collider>();
+            if (collider != null)
+            {
+                collider.enabled = enable;
+            }
+        }
+    }
+
+    private IEnumerator EnableTilesAfter(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        EnableAllTiles(true); // All tiles clickable in gameplay
     }
 
     private IEnumerator ChangePositionAndRotation(Vector3 targetPosition, Quaternion targetRotation, float duration = 3,

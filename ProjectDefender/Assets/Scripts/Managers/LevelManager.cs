@@ -66,13 +66,13 @@ public class LevelManager : MonoBehaviour
     {
         CleanUpScene();
         ui.EnableInGameUI(false);
-        
-        cameraEffects.SwitchToMenuView();
+    
+        cameraEffects.SwitchToMenuView(); // Start camera transition early
 
         yield return tileAnimator.GetActiveCoroutine();
-        
+    
         UpdateBackgroundColor(defaultColor);
-        
+    
         yield return UnloadCurrentScene();
 
         // Re-find references that might have been in the unloaded scene
@@ -80,7 +80,7 @@ public class LevelManager : MonoBehaviour
         {
             tileAnimator = FindFirstObjectByType<TileAnimator>();
         }
-        
+    
         if (tileAnimator != null)
         {
             tileAnimator.EnableMainSceneObjects(true);
@@ -90,7 +90,10 @@ public class LevelManager : MonoBehaviour
         }
 
         ui.EnableMainMenuUI(true);
-
+    
+        // Disable tiles again in case EnableMainSceneObjects re-enabled them
+        cameraEffects.EnableAllTiles(false);
+        cameraEffects.EnableLevelButtonTiles(false);
     }
 
     private void LoadScene(string sceneNameToLoad)
