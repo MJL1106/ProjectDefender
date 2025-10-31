@@ -20342,7 +20342,10 @@ MonoBehaviour:
   towerCentreY: 0.5
   camShakeDuration: 0.02
   camShakeMagnitude: 0.15
-  buildSound: {fileID: 0}
+  buildSound: {fileID: 8300000, guid: 2e071f5b8b8467d45a5e6e24c23c6ad4, type: 3}
+  sellSound: {fileID: 8300000, guid: 2e071f5b8b8467d45a5e6e24c23c6ad4, type: 3}
+  buildSoundVolume: 1
+  sellSoundVolume: 1
 --- !u!4 &718979425
 Transform:
   m_ObjectHideFlags: 0

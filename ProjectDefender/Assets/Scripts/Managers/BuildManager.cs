@@ -22,6 +22,9 @@ public class BuildManager : MonoBehaviour
    [SerializeField] private float camShakeDuration = .02f;
    [SerializeField] private float camShakeMagnitude = .15f;
    [SerializeField] private AudioClip buildSound;
+   [SerializeField] private AudioClip sellSound;
+   [SerializeField] private float buildSoundVolume = 1f;
+   [SerializeField] private float sellSoundVolume = 1f;
 
    private bool sellMenuEnabled = false;
    private bool buildMenuEnabled = false;
@@ -74,46 +77,47 @@ public class BuildManager : MonoBehaviour
          ui.inGameUI.ShakeCurrencyUI();
          return;
       }
-        
+     
       if (towerToBuild == null) return;
-      
+   
       if (ui.BuildButtonsHolderUI.GetLastSelected() == null) return;
-      
+   
       Transform previewTower = newPreviewTower;
       BuildSlot slotToUse = GetSelectedSlot();
-      
+   
       // Manually hide the preview and build menu
       ui.BuildButtonsHolderUI.GetLastSelected()?.SelectButton(false);
       DisableBuildMenu();
-        
+     
       slotToUse.SnapToDefaultPosition();
       slotToUse.SetSlotAvailableTo(false);
-        
+     
       ui.BuildButtonsHolderUI.SetLastSelected(null, null);
-        
+     
       cameraEffects.ScreenShake(camShakeDuration, camShakeMagnitude);
 
       Vector3 buildPosition = slotToUse.GetBuildPosition(towerCentreY);
 
       GameObject newTower = Instantiate(towerToBuild, buildPosition, Quaternion.identity);
       newTower.transform.rotation = previewTower.rotation;
-      
+   
       // Track the built tower
       builtTowers[slotToUse] = new TowerData(newTower, towerPrice);
-      
+   
+      // Play build sound at the tower's position
       if (buildSound != null && AudioManager.instance != null)
       {
-         AudioManager.instance.PlaySFXOneShot(buildSound, buildPosition, true);
+         AudioManager.instance.PlaySFXOneShot(buildSound, buildPosition, true, buildSoundVolume);
       }
-      
+   
       ForwardAttackDisplay display = newTower.GetComponent<ForwardAttackDisplay>();
       if (display != null)
       {
          display.UpdateLines();
       }
-      
+   
       gameManager.UpdateCurrency(-towerPrice);
-      
+   
       // Clean up the slot selection
       slotToUse.UnselectTile();
       selectedBuildSlot = null;
@@ -225,25 +229,33 @@ public class BuildManager : MonoBehaviour
 
       int sellValue = GetTowerSellValue(selectedBuildSlot);
       BuildSlot slotBeingSold = selectedBuildSlot;
-      
+
       cameraEffects.ScreenShake(camShakeDuration, camShakeMagnitude);
-      
+   
       // Destroy the tower
       TowerData towerData = builtTowers[slotBeingSold];
       if (towerData.towerObject != null)
       {
+         Vector3 towerPosition = towerData.towerObject.transform.position;
+      
+         // Play sell sound at tower position before destroying
+         if (sellSound != null && AudioManager.instance != null)
+         {
+            AudioManager.instance.PlaySFXOneShot(sellSound, towerPosition, true, sellSoundVolume);
+         }
+      
          Destroy(towerData.towerObject);
       }
-      
+   
       // Remove from tracking
       builtTowers.Remove(slotBeingSold);
-      
+   
       // Make slot available again
       slotBeingSold.SetSlotAvailableTo(true);
-      
+   
       // Add currency back to player
       gameManager.UpdateCurrency(sellValue);
-      
+   
       // Hide sell UI and deselect
       CancelBuildAction();
    }
