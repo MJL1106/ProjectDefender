@@ -8,15 +8,6 @@ public class Castle : MonoBehaviour
    private void Start()
    {
       gameManager = GameManager.instance; 
-       
-      if (gameManager != null)
-      {
-         gameManager.RegisterCastle(transform);
-      }
-      else
-      {
-         Debug.LogError("Castle could not find GameManager instance!");
-      }
    }
    
    private void OnTriggerEnter(Collider other)

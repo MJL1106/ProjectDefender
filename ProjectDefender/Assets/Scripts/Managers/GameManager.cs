@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject winFireworksVFX;
     [SerializeField] private GameObject loseSmokeVFX;
     
-    public void RegisterCastle(Transform newCastleTransform) => castleTransform = newCastleTransform;
     
     public int enemiesKilled { get; private set; }
 
@@ -69,20 +68,31 @@ public class GameManager : MonoBehaviour
     public IEnumerator LevelFailedCo()
     {
         gameLost = true;
-        
+
         StopWaveProgression();
         DisableAllTowers();
         FreezeAllEnemies();
-        
-        if (loseSmokeVFX != null && castleTransform != null)
+
+        if (loseSmokeVFX != null)
         {
-            Vector3 spawnPosition = castleTransform.position;
-            spawnPosition.y += 1.5f; 
-            Instantiate(loseSmokeVFX, spawnPosition, Quaternion.identity);
+            // Find only ACTIVE castles
+            Castle activeCastle = FindFirstObjectByType<Castle>(FindObjectsInactive.Exclude);
+        
+            if (activeCastle != null)
+            {
+                Vector3 spawnPosition = activeCastle.transform.position;
+                spawnPosition.y += 1.5f;
+                Debug.Log($"[LevelFailedCo] Spawning smoke at active castle: {activeCastle.gameObject.name} at {spawnPosition}");
+                Instantiate(loseSmokeVFX, spawnPosition, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogWarning("[LevelFailedCo] No active castle found to spawn smoke at!");
+            }
         }
-        
+
         yield return new WaitForSeconds(1f);
-        
+
         yield return ShowGameOverSequence();
     }
 
@@ -142,17 +152,28 @@ public class GameManager : MonoBehaviour
     public IEnumerator LevelCompletedCo()
     {
         bool isFinalLevel = levelManager.HasNoMoreLevels();
-        
-        if (isFinalLevel && winFireworksVFX != null && castleTransform != null)
+    
+        if (isFinalLevel && winFireworksVFX != null)
         {
-            Vector3 spawnPosition = castleTransform.position;
-            spawnPosition.y += 2f; 
-            Quaternion spawnRotation = Quaternion.Euler(-90, 0, 0);
-            Instantiate(winFireworksVFX, spawnPosition, spawnRotation);
+            // Find only ACTIVE castles
+            Castle activeCastle = FindFirstObjectByType<Castle>(FindObjectsInactive.Exclude);
+        
+            if (activeCastle != null)
+            {
+                Vector3 spawnPosition = activeCastle.transform.position;
+                spawnPosition.y += 2f;
+                Debug.Log($"[LevelCompletedCo] Spawning fireworks at active castle: {activeCastle.gameObject.name} at {spawnPosition}");
+                Quaternion spawnRotation = Quaternion.Euler(-90, 0, 0);
+                Instantiate(winFireworksVFX, spawnPosition, spawnRotation);
+            }
+            else
+            {
+                Debug.LogWarning("[LevelCompletedCo] No active castle found to spawn fireworks at!");
+            }
         }
-        
+    
         yield return new WaitForSeconds(1.5f);
-        
+    
         cameraEffects.FocusOnCastle();
 
         yield return cameraEffects.GetActiveCameraCo();
