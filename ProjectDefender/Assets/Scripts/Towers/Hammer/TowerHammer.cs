@@ -33,6 +33,7 @@ public class TowerHammer : Tower
         
         hammerVisuals.HammerAttackAnimation();
         hammerVisuals.PlayAttackAnimation();
+        PlayTowerAttackSound();
 
         foreach (var enemy in ValidEnemyTargets())
         {

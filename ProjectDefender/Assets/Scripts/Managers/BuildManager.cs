@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +21,13 @@ public class BuildManager : MonoBehaviour
    [SerializeField] private float towerCentreY = .5f;
    [SerializeField] private float camShakeDuration = .02f;
    [SerializeField] private float camShakeMagnitude = .15f;
+   [SerializeField] private AudioClip buildSound;
+
+   private bool sellMenuEnabled = false;
+   private bool buildMenuEnabled = false;
    
+   // Tower tracking
+   private Dictionary<BuildSlot, TowerData> builtTowers = new Dictionary<BuildSlot, TowerData>();
 
    private bool isMouseOverUI;
    
@@ -43,8 +48,10 @@ public class BuildManager : MonoBehaviour
    {
       if (Input.GetKeyDown(KeyCode.Escape)) CancelBuildAction();
 
-      if (Input.GetKeyDown(KeyCode.Mouse0) && isMouseOverUI == false)
+      if (Input.GetKeyDown(KeyCode.Mouse0))
       {
+         if (isMouseOverUI) return;
+         
          if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, ~whatToIgnore))
          {
             bool clickedNotOnBuildSlot = hit.collider.GetComponent<BuildSlot>() == null;
@@ -60,7 +67,6 @@ public class BuildManager : MonoBehaviour
       MakeBuildSlotNotAvailableIfNeeded(newWaveManager, currentGrid);
    }
 
-
    public void BuildTower(GameObject towerToBuild, int towerPrice, Transform newPreviewTower)
    {
       if (gameManager.HasEnoughCurrency(towerPrice) == false)
@@ -69,20 +75,16 @@ public class BuildManager : MonoBehaviour
          return;
       }
         
-      if (towerToBuild == null)
-      {
-         Debug.LogWarning("YOu did not assign a tower to this button!");
-         return;
-      }
-
-      if (ui.BuildButtonsHolderUI.GetLastSelected() == null)
-      {
-         return;
-      }
-
+      if (towerToBuild == null) return;
+      
+      if (ui.BuildButtonsHolderUI.GetLastSelected() == null) return;
+      
       Transform previewTower = newPreviewTower;
       BuildSlot slotToUse = GetSelectedSlot();
-      CancelBuildAction();
+      
+      // Manually hide the preview and build menu
+      ui.BuildButtonsHolderUI.GetLastSelected()?.SelectButton(false);
+      DisableBuildMenu();
         
       slotToUse.SnapToDefaultPosition();
       slotToUse.SetSlotAvailableTo(false);
@@ -91,8 +93,30 @@ public class BuildManager : MonoBehaviour
         
       cameraEffects.ScreenShake(camShakeDuration, camShakeMagnitude);
 
-      GameObject newTower = Instantiate(towerToBuild,slotToUse.GetBuildPosition(towerCentreY), Quaternion.identity);
+      Vector3 buildPosition = slotToUse.GetBuildPosition(towerCentreY);
+
+      GameObject newTower = Instantiate(towerToBuild, buildPosition, Quaternion.identity);
       newTower.transform.rotation = previewTower.rotation;
+      
+      // Track the built tower
+      builtTowers[slotToUse] = new TowerData(newTower, towerPrice);
+      
+      if (buildSound != null && AudioManager.instance != null)
+      {
+         AudioManager.instance.PlaySFXOneShot(buildSound, buildPosition, true);
+      }
+      
+      ForwardAttackDisplay display = newTower.GetComponent<ForwardAttackDisplay>();
+      if (display != null)
+      {
+         display.UpdateLines();
+      }
+      
+      gameManager.UpdateCurrency(-towerPrice);
+      
+      // Clean up the slot selection
+      slotToUse.UnselectTile();
+      selectedBuildSlot = null;
    }
 
    public void MouseOverUI(bool isOverUI) => isMouseOverUI = isOverUI;
@@ -129,12 +153,17 @@ public class BuildManager : MonoBehaviour
    public void CancelBuildAction()
    {
       if (selectedBuildSlot == null) return;
-      
+    
       ui.BuildButtonsHolderUI.GetLastSelected()?.SelectButton(false);
-      
+    
       selectedBuildSlot.UnselectTile();
       selectedBuildSlot = null;
+    
       DisableBuildMenu();
+      DisableSellMenu();
+    
+      buildMenuEnabled = false;
+      sellMenuEnabled = false;
    }
 
    public void SelectBuildSlot(BuildSlot newSlot)
@@ -151,17 +180,100 @@ public class BuildManager : MonoBehaviour
 
    public void EnableBuildMenu()
    {
-      if (selectedBuildSlot != null) return;
-      
+      if (buildMenuEnabled) return;
+    
+      buildMenuEnabled = true;
       ui.BuildButtonsHolderUI.ShowBuildButtons(true);
    }
 
-   private void DisableBuildMenu()
+   public void DisableBuildMenu()
    {
+      if (!buildMenuEnabled) return;
+    
+      buildMenuEnabled = false;
       ui.BuildButtonsHolderUI.ShowBuildButtons(false);
+   }
+
+   public void EnableSellMenu()
+   {
+      if (selectedBuildSlot == null || !HasTowerOnSlot(selectedBuildSlot)) return;
+
+      int sellValue = GetTowerSellValue(selectedBuildSlot);
+    
+      // If already enabled, just update the value without animating
+      if (sellMenuEnabled)
+      {
+         ui.inGameUI.UpdateSellTowerValue(sellValue);
+         return;
+      }
+    
+      sellMenuEnabled = true;
+      ui.inGameUI.EnableSellTowerUI(true, sellValue);
+   }
+
+   public void DisableSellMenu()
+   {
+      if (!sellMenuEnabled) return;
+    
+      sellMenuEnabled = false;
+      ui.inGameUI.EnableSellTowerUI(false);
+   }
+
+   public void SellSelectedTower()
+   {
+      if (selectedBuildSlot == null || !HasTowerOnSlot(selectedBuildSlot)) return;
+
+      int sellValue = GetTowerSellValue(selectedBuildSlot);
+      BuildSlot slotBeingSold = selectedBuildSlot;
+      
+      cameraEffects.ScreenShake(camShakeDuration, camShakeMagnitude);
+      
+      // Destroy the tower
+      TowerData towerData = builtTowers[slotBeingSold];
+      if (towerData.towerObject != null)
+      {
+         Destroy(towerData.towerObject);
+      }
+      
+      // Remove from tracking
+      builtTowers.Remove(slotBeingSold);
+      
+      // Make slot available again
+      slotBeingSold.SetSlotAvailableTo(true);
+      
+      // Add currency back to player
+      gameManager.UpdateCurrency(sellValue);
+      
+      // Hide sell UI and deselect
+      CancelBuildAction();
+   }
+
+   public bool HasTowerOnSlot(BuildSlot slot)
+   {
+      return builtTowers.ContainsKey(slot);
+   }
+
+   public int GetTowerSellValue(BuildSlot slot)
+   {
+      if (!HasTowerOnSlot(slot)) return 0;
+      
+      return Mathf.RoundToInt(builtTowers[slot].originalPrice * 0.5f);
    }
 
    public BuildSlot GetSelectedSlot() => selectedBuildSlot;
    public Material GetAttackRadiusMat() => attackRadiusMat;
    public Material GetBuildPreviewMat() => buildPreviewMat;
+}
+
+[System.Serializable]
+public class TowerData
+{
+   public GameObject towerObject;
+   public int originalPrice;
+
+   public TowerData(GameObject tower, int price)
+   {
+      towerObject = tower;
+      originalPrice = price;
+   }
 }

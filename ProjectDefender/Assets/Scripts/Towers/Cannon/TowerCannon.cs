@@ -16,9 +16,20 @@ public class TowerCannon : Tower
 
         Vector3 velocity = CalculateLaunchVelocity();
         attackVFX.Play();
+        PlayTowerAttackSound();
 
         GameObject newProjectile = objectPool.Get(projectilePrefab, gunPoint.position, Quaternion.identity);
-        newProjectile.GetComponent<ProjectileCannon>().SetupProjectile(velocity, damage, objectPool);
+        newProjectile.GetComponent<ProjectileCannon>().SetupProjectile(
+            velocity, 
+            damage, 
+            objectPool,
+            projectileSfx != null ? projectileSfx.clip : null,
+            projectileSfxId,
+            projectileSfxCooldown,
+            maxConcurrentProjectileSfx,
+            limitProjectileSfx,
+            projectileSfx != null ? projectileSfx.volume : 1f
+        );
     }
     
     

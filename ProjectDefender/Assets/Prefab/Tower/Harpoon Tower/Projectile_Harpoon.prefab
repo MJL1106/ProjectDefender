@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1936704094503280464}
   - component: {fileID: 4868161972029030098}
   - component: {fileID: 5031659720690638638}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4851,7 +4851,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1335385950852348772}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: connection_point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4884,7 +4884,7 @@ GameObject:
   - component: {fileID: 434929843029902517}
   - component: {fileID: 9124040724782550555}
   - component: {fileID: 7163493992995213601}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: harpoon_vfx_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9728,7 +9728,7 @@ GameObject:
   - component: {fileID: 4242626372975398515}
   - component: {fileID: 7761025433821105512}
   - component: {fileID: 1675593420566951771}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: harpoon_vfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14572,7 +14572,7 @@ GameObject:
   - component: {fileID: 707079727154560973}
   - component: {fileID: 2117753243151049713}
   - component: {fileID: 4233553909433801051}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14658,7 +14658,7 @@ GameObject:
   - component: {fileID: 5822394010690787680}
   - component: {fileID: 3518355224173136747}
   - component: {fileID: 5217746591822738837}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19500,7 +19500,7 @@ GameObject:
   - component: {fileID: 7883098343335629257}
   - component: {fileID: 7889002383734111691}
   - component: {fileID: 1456685505015678761}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24400,7 +24400,7 @@ GameObject:
   - component: {fileID: 4138505421605639597}
   - component: {fileID: 5484522159860544372}
   - component: {fileID: 6014571554811876169}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29300,7 +29300,7 @@ GameObject:
   - component: {fileID: 562960658171577138}
   - component: {fileID: 9028009055188651890}
   - component: {fileID: 4367924665998702373}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34142,7 +34142,7 @@ GameObject:
   - component: {fileID: 890532148177218868}
   - component: {fileID: 8730555410140600896}
   - component: {fileID: 5453936983550885893}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39041,7 +39041,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8135060064998464854}
   - component: {fileID: 7401672406207611663}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Projectile_Harpoon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39093,7 +39093,7 @@ GameObject:
   - component: {fileID: 8987654786262995763}
   - component: {fileID: 6835093041845478770}
   - component: {fileID: 8457838665798631648}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43935,7 +43935,7 @@ GameObject:
   - component: {fileID: 6414278341903899503}
   - component: {fileID: 5450999225561653739}
   - component: {fileID: 5166943068596953698}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: harpoon_vfx_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48779,7 +48779,7 @@ GameObject:
   - component: {fileID: 6521277072804846466}
   - component: {fileID: 8838028166752071}
   - component: {fileID: 1362342405535184999}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53679,7 +53679,7 @@ GameObject:
   - component: {fileID: 7076504336531456933}
   - component: {fileID: 3190436415141485237}
   - component: {fileID: 6256527422876345054}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: harpoon_vfx_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

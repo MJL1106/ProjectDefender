@@ -17,20 +17,40 @@ public class EnemyFlying : Enemy
         return Vector3.Distance(transform.position, GetFinalWaypoint());
     }
 
-    public void AddObservingTower(TowerHarpoon newTower) => observingTowers.Add(newTower);
+    public void AddObservingTower(TowerHarpoon newTower) 
+    {
+        if (!observingTowers.Contains(newTower))
+        {
+            observingTowers.Add(newTower);
+        }
+    }
+    
+    public void RemoveObservingTower(TowerHarpoon tower)
+    {
+        observingTowers.Remove(tower);
+    }
 
     public override void RemoveEnemy()
     {
-        foreach (var tower in observingTowers)
+        // Create a copy to avoid modification during iteration
+        List<TowerHarpoon> towersToNotify = new List<TowerHarpoon>(observingTowers);
+    
+        foreach (var tower in towersToNotify)
         {
-            tower.ResetAttack();
+            if (tower != null)
+            {
+                // The tower will handle removing itself from the observing list
+                tower.ResetAttack();
+            }
         }
+    
+        observingTowers.Clear();
 
         foreach (var harpoon in GetComponentsInChildren<ProjectileHarpoon>())
         {
             objectPool.Remove(harpoon.gameObject);
         }
-        
+    
         base.RemoveEnemy();
     }
 }

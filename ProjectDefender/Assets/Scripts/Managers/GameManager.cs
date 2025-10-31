@@ -16,9 +16,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxHp; 
     private int currentHp;
     
+    private Transform castleTransform; 
+
+    [Header("Win/Loss Visuals")]
+    [SerializeField] private GameObject winFireworksVFX; // Drag your fireworks prefab here
+    [SerializeField] private GameObject loseSmokeVFX;
+    
+    public void RegisterCastle(Transform newCastleTransform) => castleTransform = newCastleTransform;
+    
     public int enemiesKilled { get; private set; }
 
     private bool gameLost;
+    public bool IsGameLost() => gameLost;
 
     private void Awake()
     {
@@ -27,6 +36,7 @@ public class GameManager : MonoBehaviour
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
         levelManager = FindFirstObjectByType<LevelManager>();
         cameraEffects = FindFirstObjectByType<CameraEffects>();
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("TowerProjectile"), LayerMask.NameToLayer("TowerProjectile"), true);
     }
 
     private void Start()
@@ -59,23 +69,95 @@ public class GameManager : MonoBehaviour
     public IEnumerator LevelFailedCo()
     {
         gameLost = true;
-        currentActiveWaveManager.DeactivateWaveManager();
-        cameraEffects.FocusOnCastle();
-
-        yield return cameraEffects.GetActiveCameraCo();
         
-        inGameUI.EnableGameOverUI(true);
+        StopWaveProgression();
+        DisableAllTowers();
+        FreezeAllEnemies();
+        
+        if (loseSmokeVFX != null && castleTransform != null)
+        {
+            Vector3 spawnPosition = castleTransform.position;
+            spawnPosition.y += 1.5f; 
+            Instantiate(loseSmokeVFX, spawnPosition, Quaternion.identity);
+        }
+        
+        yield return new WaitForSeconds(1f);
+        
+        yield return ShowGameOverSequence();
+    }
+
+    private void StopWaveProgression()
+    {
+        StopMakingEnemies();
+        
+        if (currentActiveWaveManager != null)
+        {
+            currentActiveWaveManager.DeactivateWaveManager();
+        }
+    }
+
+    private void DisableAllTowers()
+    {
+        Tower[] allTowers = FindObjectsByType<Tower>(FindObjectsSortMode.None);
+        foreach (Tower tower in allTowers)
+        {
+            if (tower != null) tower.enabled = false;
+        }
+    }
+
+    private void FreezeAllEnemies()
+    {
+        Enemy[] allEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        foreach (Enemy enemy in allEnemies)
+        {
+            if (enemy != null && enemy.gameObject.activeSelf)
+            {
+                var navAgent = enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                if (navAgent != null && navAgent.enabled)
+                {
+                    navAgent.isStopped = true;
+                    navAgent.velocity = Vector3.zero;
+                }
+                enemy.enabled = false;
+            }
+        }
+    }
+
+    private IEnumerator ShowGameOverSequence()
+    {
+        if (cameraEffects != null)
+        {
+            cameraEffects.FocusOnCastle();
+            yield return cameraEffects.GetActiveCameraCo();
+        }
+        
+        if (inGameUI != null)
+        {
+            inGameUI.EnableGameOverUI(true);
+        }
     }
 
     public void LevelCompleted() => StartCoroutine(LevelCompletedCo());
 
     public IEnumerator LevelCompletedCo()
     {
+        bool isFinalLevel = levelManager.HasNoMoreLevels();
+        
+        if (isFinalLevel && winFireworksVFX != null && castleTransform != null)
+        {
+            Vector3 spawnPosition = castleTransform.position;
+            spawnPosition.y += 2f; 
+            Quaternion spawnRotation = Quaternion.Euler(-90, 0, 0);
+            Instantiate(winFireworksVFX, spawnPosition, spawnRotation);
+        }
+        
+        yield return new WaitForSeconds(1.5f);
+        
         cameraEffects.FocusOnCastle();
 
         yield return cameraEffects.GetActiveCameraCo();
 
-        if (levelManager.HasNoMoreLevels())
+        if (isFinalLevel)
         { 
             inGameUI.EnableVictoryUI(true);
         }
@@ -110,22 +192,17 @@ public class GameManager : MonoBehaviour
         if (currentHp <= 0 && gameLost == false) StartCoroutine(LevelFailedCo());
     }
 
+    public void UpdateEnemiesKilled() => enemiesKilled++;
+    
+
     public void UpdateCurrency(int value)
     {
-        enemiesKilled++;
         currency += value;
         inGameUI.UpdateCurrencyUI(currency);
     }
 
     public bool HasEnoughCurrency(int price)
     {
-        if (price <= currency)
-        {
-            currency = currency - price;
-            inGameUI.UpdateCurrencyUI(currency);
-            return true;
-        }
-
-        return false;
+        return price <= currency;
     }
 }

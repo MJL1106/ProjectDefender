@@ -25,8 +25,10 @@ public class WaveManager : MonoBehaviour
     private UIGame inGameUI;
     [SerializeField] private GridBuilder currentGrid;
     [SerializeField] private NavMeshSurface flyingNavSurface;
+    [SerializeField] private NavMeshSurface flyingBossNavSurface;
     [SerializeField] private NavMeshSurface droneNavSurface;
-    [SerializeField] private MeshCollider[] flyingNavColliders;
+    private MeshCollider[] flyingNavColliders;
+    private MeshCollider[] flyingBossNavColliders;
 
     [Header("Wave Details")]
     [SerializeField] private float timeBetweenWaves = 10;
@@ -60,16 +62,29 @@ public class WaveManager : MonoBehaviour
         tileAnimator = FindFirstObjectByType<TileAnimator>();
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
 
-        flyingNavColliders = GetComponentsInChildren<MeshCollider>();
+        MeshCollider[] allColliders = GetComponentsInChildren<MeshCollider>();
+    
+        List<MeshCollider> flyingList = new List<MeshCollider>();
+        List<MeshCollider> bossList = new List<MeshCollider>();
+    
+        foreach (var collider in allColliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("FlyEnemyBoss_Road"))
+            {
+                bossList.Add(collider);
+            }
+            else if (collider.gameObject.layer == LayerMask.NameToLayer("FlyEnemy_Road"))
+            {
+                flyingList.Add(collider);
+            }
+        }
+    
+        flyingNavColliders = flyingList.ToArray();
+        flyingBossNavColliders = bossList.ToArray();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            ActivateWaveManager();
-        }
-        
         if (gameBegan == false) return;
         
         HandleWaveTimer();
@@ -83,13 +98,23 @@ public class WaveManager : MonoBehaviour
         EnableWaveTimer(true);
     }
 
-    public void DeactivateWaveManager() => gameBegan = false;
+    public void DeactivateWaveManager()
+    {
+        gameBegan = false;
+        waveTimerEnabled = false;
+    
+        // Hide the wave timer UI when deactivating
+        if (inGameUI != null)
+        {
+            inGameUI.EnableWaveTimer(false);
+        }
+    }
 
     public void CheckIfWaveCompleted()
     {
-        if (gameBegan == false) return;
+        if (gameBegan == false || gameManager.IsGameLost()) return;
         
-        if (AllEnemiesDefeated() == false || makingNextWave) return;
+        if (AllEnemiesDefeated() == false || AllPortalsFinishedSpawning() == false || makingNextWave) return;
 
         makingNextWave = true;
         waveIndex++;
@@ -101,7 +126,7 @@ public class WaveManager : MonoBehaviour
         }
 
         if (HasNewLayout())
-        {
+        {   
             AttemptToUpdateLayout();
         }
         else
@@ -113,6 +138,8 @@ public class WaveManager : MonoBehaviour
     
     public void StartNewWave()
     {
+        if (gameManager.IsGameLost()) return;
+        
         UpdateNavMeshes();
         GiveEnemiesToPortals();
         EnableWaveTimer(false);
@@ -122,6 +149,13 @@ public class WaveManager : MonoBehaviour
     private void HandleWaveTimer()
     {
         if (waveTimerEnabled == false) return;
+        
+        if (gameManager.IsGameLost()) 
+        {
+            waveTimerEnabled = false;
+            inGameUI.EnableWaveTimer(false);
+            return;
+        }
         
         waveTimer -= Time.deltaTime;
         inGameUI.UpdateWaveTimerUI(waveTimer);
@@ -148,6 +182,18 @@ public class WaveManager : MonoBehaviour
 
             if (portalIndex >= enemyPortals.Count) portalIndex = 0;
         }
+    }
+    
+    private bool AllPortalsFinishedSpawning()
+    {
+        foreach (EnemyPortal portal in enemyPortals)
+        {
+            if (portal.HasEnemiesToSpawn())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void AttemptToUpdateLayout() => UpdateLevelLayout(levelWaves[waveIndex]);
@@ -231,6 +277,8 @@ public class WaveManager : MonoBehaviour
 
     private void EnableWaveTimer(bool enable)
     {
+        if (enable && gameManager.IsGameLost()) return;
+        
         if (waveTimerEnabled == enable) return;
 
         waveTimer = timeBetweenWaves;
@@ -251,6 +299,14 @@ public class WaveManager : MonoBehaviour
 
     private void UpdateNavMeshes()
     {
+        UpdateNavMeshForFlyingEnemies();
+
+        currentGrid.UpdateNavMesh();
+        droneNavSurface.BuildNavMesh();
+    }
+
+    private void UpdateNavMeshForFlyingEnemies()
+    {
         foreach (var myCollider in flyingNavColliders)
         {
             myCollider.enabled = true;
@@ -262,9 +318,20 @@ public class WaveManager : MonoBehaviour
         {
             myCollider.enabled = false;
         }
+
+        if (flyingBossNavColliders == null || flyingBossNavSurface == null) return;
         
-        currentGrid.UpdateNavMesh();
-        droneNavSurface.BuildNavMesh();
+        foreach (var myCollider in flyingBossNavColliders)
+        {
+            myCollider.enabled = true;
+        }
+        
+        flyingBossNavSurface.BuildNavMesh();
+        
+        foreach (var myCollider in flyingBossNavColliders)
+        {
+            myCollider.enabled = false;
+        }
     }
 
     public void UpdateDroneNavMesh() => droneNavSurface.BuildNavMesh();

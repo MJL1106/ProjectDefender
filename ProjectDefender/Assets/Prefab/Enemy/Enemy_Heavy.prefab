@@ -159,11 +159,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 3
   centrePoint: {fileID: 7726134916000730240}
-  reward: 50
+  reward: 135
+  castleDamage: 5
   maxHp: 20
   turnSpeed: 10
   myWaypoints: []
-  maxShield: 100
+  maxShield: 850
   shieldObject: {fileID: 2601762505387196657}
 --- !u!195 &2339925153305727565
 NavMeshAgent:
@@ -537,7 +538,7 @@ GameObject:
   - component: {fileID: 7342194387142803876}
   - component: {fileID: 247677926410369559}
   - component: {fileID: 5077526734024857698}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: Enemy_shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}

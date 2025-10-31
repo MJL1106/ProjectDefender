@@ -4,8 +4,8 @@ public class TowerMachineGun : Tower
 {
     private MachineGunVisuals machineGunVisuals;
     
-    [Header("Machine gun Details")] [SerializeField]
-    private GameObject projectilePrefab;
+    [Header("Machine gun Details")] 
+    [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float damage;
     [SerializeField] private float projectileSpeed;
     
@@ -13,16 +13,17 @@ public class TowerMachineGun : Tower
     [SerializeField] private Vector3 rotationOffset;
     [SerializeField] private Transform[] gunPointSet;
     private int gunPointIndex;
+    private int shotCounter = 0;
 
     protected override void Awake()
     {
         base.Awake();
         machineGunVisuals = GetComponent<MachineGunVisuals>();
+        shotCounter = playSoundEveryXShots;
     }
 
     protected override void Attack()
     {
-
         gunPoint = gunPointSet[gunPointIndex];
         Vector3 directionToEnemy = DirectionToEnemyFrom(gunPoint);
 
@@ -35,8 +36,16 @@ public class TowerMachineGun : Tower
 
             GameObject newProjectile = objectPool.Get(projectilePrefab, gunPoint.position, gunPoint.rotation);
             newProjectile.GetComponent<ProjectileMachineGun>().SetupProjectile(hitInfo.point, damageable, damage, projectileSpeed, objectPool);
-            
+        
             machineGunVisuals.RecoilVfx(gunPoint);
+            
+            // Only play sound every X shots
+            shotCounter++;
+            if (shotCounter >= playSoundEveryXShots)
+            {
+                PlayTowerAttackSound();
+                shotCounter = 0;
+            }
 
             base.Attack();
             gunPointIndex = (gunPointIndex + 1) % gunPointSet.Length;

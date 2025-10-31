@@ -19,9 +19,13 @@ public class Enemy : MonoBehaviour , IDamageable
 
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private Transform centrePoint;
+    
+    [Header("Stats")]
     [SerializeField] private int reward = 10;
+    [SerializeField] private int castleDamage = 1;
     public float maxHp = 100;
     protected float currentHp = 4;
+    
     protected bool isDead;
     
     [Header("Movement")]
@@ -60,6 +64,17 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         
     }
+    
+    protected virtual void Update()
+    {
+        FaceTarget(agent.steeringTarget);
+        
+        // Check if the agent is close to current target point
+        if (ShouldChangeWaypoint())
+        {
+            ChangeWaypoint();
+        }
+    }
 
     public void SetupEnemy(EnemyPortal myNewPortal)
     {
@@ -86,6 +101,7 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         currentWaypointIndex = 0;
         nextWaypointIndex = 0;
+        totalDistance = 0;
         ChangeWaypoint();
     }
 
@@ -100,17 +116,6 @@ public class Enemy : MonoBehaviour , IDamageable
 
         agent.speed = originalSpeed;
         agent.enabled = true;
-    }
-
-    protected virtual void Update()
-    {
-        FaceTarget(agent.steeringTarget);
-        
-        // Check if the agent is close to current target point
-        if (ShouldChangeWaypoint())
-        {
-            ChangeWaypoint();
-        }
     }
 
     public void SlowEnemy(float slowMultiplier, float duration)
@@ -130,6 +135,8 @@ public class Enemy : MonoBehaviour , IDamageable
 
     public void DisableHide(float duration)
     {
+        if (isDead) return;
+        
         if (disableHideCo != null) StopCoroutine(disableHideCo);
 
         disableHideCo = StartCoroutine(DisableHideCo(duration));
@@ -144,8 +151,12 @@ public class Enemy : MonoBehaviour , IDamageable
 
     public void HideEnemy(float duration)
     {
+        if (isDead) return;
+    
+        if (!gameObject.activeInHierarchy) return;
+    
         if (canBeHidden == false) return;
-        
+    
         if (hideCo != null) StopCoroutine(hideCo);
 
         hideCo = StartCoroutine(HideEnemyCo(duration));
@@ -162,6 +173,8 @@ public class Enemy : MonoBehaviour , IDamageable
         visuals.MakeTransparent(false);
         isHidden = false;
     }
+    
+    public bool IsHidden() => isHidden;
 
     protected virtual void ChangeWaypoint()
     {
@@ -186,7 +199,23 @@ public class Enemy : MonoBehaviour , IDamageable
 
     public virtual float DistanceToFinishLine()
     {
-        return totalDistance + agent.remainingDistance;
+        if (myWaypoints == null || currentWaypointIndex >= myWaypoints.Length)
+        {
+            return 0f;
+        }
+
+        float remainingDistance = 0f;
+
+        // Distance from current position to the current waypoint we're heading toward
+        remainingDistance += Vector3.Distance(transform.position, myWaypoints[currentWaypointIndex]);
+
+        // Add distances between all remaining waypoints after that
+        for (int i = currentWaypointIndex; i < myWaypoints.Length - 1; i++)
+        {
+            remainingDistance += Vector3.Distance(myWaypoints[i], myWaypoints[i + 1]);
+        }
+
+        return remainingDistance;
     }
     
     private void CollectTotalDistance()
@@ -237,19 +266,13 @@ public class Enemy : MonoBehaviour , IDamageable
         return myWaypoints[myWaypoints.Length - 1];
     }
 
-    public Vector3 CentrePoint()
-    {
-        return centrePoint.position;
-    }
-
-    public EnemyType GetEnemyType()
-    {
-        return enemyType;
-    }
+    public Vector3 CentrePoint() => centrePoint.position;
+    public EnemyType GetEnemyType() => enemyType;
+    public int GetCastleDamage() => castleDamage;
 
     public virtual void TakeDamage(float damage)
     {
-        currentHp = currentHp - damage;
+        currentHp -= damage;
 
         if (currentHp <= 0 && isDead == false)
         {
@@ -262,8 +285,11 @@ public class Enemy : MonoBehaviour , IDamageable
     public virtual void Die()
     {
         gameManager.UpdateCurrency(reward);
+        gameManager.UpdateEnemiesKilled();
         RemoveEnemy();
     }
+
+    public bool IsDead() => isDead;
 
     public virtual void RemoveEnemy()
     {

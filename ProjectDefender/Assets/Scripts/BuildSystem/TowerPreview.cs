@@ -14,6 +14,14 @@ public class TowerPreview : MonoBehaviour
     private float attackRange;
     private bool towerAttacksForward;
 
+    /*private void Update()
+    {
+        if (gameObject.activeSelf && towerAttacksForward && forwardDisplay != null)
+        {
+            forwardDisplay.UpdateLines();
+        }
+    }*/
+
     public void SetupTowerPreview(GameObject towerToBuild)
     {
         Tower tower = towerToBuild.GetComponent<Tower>();

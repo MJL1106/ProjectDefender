@@ -439,11 +439,12 @@ MonoBehaviour:
   enemyType: 4
   centrePoint: {fileID: 2851485706542082124}
   reward: 30
+  castleDamage: 2
   maxHp: 80
   turnSpeed: 10
   myWaypoints: []
   enemiesToHide: []
-  hideDuration: 0.5
+  hideDuration: 1.5
   smokeFx: {fileID: 8337841935844351048}
 --- !u!114 &1496493402882020791
 MonoBehaviour:
@@ -10370,8 +10371,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 1, g: 1, b: 1, a: 0.5019608}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      minColor: {r: 0.764151, g: 0.7605465, b: 0.7605465, a: 0.5019608}
+      maxColor: {r: 0.6226415, g: 0.6079566, b: 0.6079566, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
-using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
 public class Tower : MonoBehaviour
@@ -12,6 +10,7 @@ public class Tower : MonoBehaviour
     protected ObjectPoolManager objectPool;
     public Enemy currentEnemy;
 
+    // Spider Boss EMP
     protected bool towerActive = true;
     protected Coroutine deactivatedTowerCo;
     protected GameObject currentEmpVfx;
@@ -31,6 +30,10 @@ public class Tower : MonoBehaviour
     [SerializeField] protected float attackRange = 2.5f;
     [SerializeField] protected LayerMask whatIsEnemy;
     [SerializeField] protected LayerMask whatIsTargetable;
+    
+    [SerializeField] private GameObject onGameOverVFX;
+    
+    [Tooltip("Handles showing the correct preview for the fan tower")] 
     public bool towerAttacksForward;
 
     [Space] 
@@ -38,8 +41,20 @@ public class Tower : MonoBehaviour
     private float lastTimeCheckedTarget;
     protected Collider[] allocatedColliders = new Collider[100];
 
-    [Header("SFX Details")] [SerializeField]
-    protected AudioSource attackSfx;
+    [Header("Tower SFX Details")] 
+    [SerializeField] protected AudioSource towerAttackSfx;
+    [SerializeField] protected int playSoundEveryXShots = 3; // Play sound every 3rd shot
+    [SerializeField] protected bool limitTowerSfx = false;
+    [SerializeField] protected string towerSfxId = "";
+    [SerializeField] protected float towerSfxCooldown = 0.3f;
+    [SerializeField] protected int maxConcurrentTowerSfx = 3;
+
+    [Header("Projectile SFX Details")]
+    [SerializeField] protected AudioSource projectileSfx;
+    [SerializeField] protected bool limitProjectileSfx = false;
+    [SerializeField] protected string projectileSfxId = "";
+    [SerializeField] protected float projectileSfxCooldown = 0.3f;
+    [SerializeField] protected int maxConcurrentProjectileSfx = 3;
 
     protected virtual void Awake()
     {
@@ -91,23 +106,19 @@ public class Tower : MonoBehaviour
     
     private void UpdateTargetIfNeeded()
     {
-        if (currentEnemy == null)
-        {
-            currentEnemy = FindEnemyWithinRange();
-            return;
-        }
-        
-        if (dynamicTargetChange == false) return;
+        if (dynamicTargetChange == false && currentEnemy != null) return;
 
-        if (Time.time > lastTimeCheckedTarget + targetCheckInterval)
+        if (Time.time > lastTimeCheckedTarget + targetCheckInterval || currentEnemy == null)
         {
             lastTimeCheckedTarget = Time.time;
             currentEnemy = FindEnemyWithinRange();
-        } 
+        }
     }
 
     protected void AttemptToAttack()
     {
+        if (currentEnemy == null) return;
+        
         if (!currentEnemy.gameObject.activeSelf)
         {
             currentEnemy = null;
@@ -125,6 +136,35 @@ public class Tower : MonoBehaviour
     protected virtual bool CanAttack()
     {
         return Time.time > lastTimeAttacked + attackCooldown && currentEnemy != null;
+    }
+    
+    protected void PlayTowerAttackSound()
+    {
+        if (towerAttackSfx == null || towerAttackSfx.clip == null) return;
+
+        Vector3 soundPosition = gunPoint != null ? gunPoint.position : transform.position;
+
+        if (limitTowerSfx && !string.IsNullOrEmpty(towerSfxId))
+        {
+            AudioManager.instance?.PlaySFXOneShotLimited(
+                towerAttackSfx.clip, 
+                soundPosition, 
+                towerSfxId, 
+                towerSfxCooldown, 
+                maxConcurrentTowerSfx, 
+                true, 
+                towerAttackSfx.volume
+            );
+        }
+        else
+        {
+            AudioManager.instance?.PlaySFXOneShot(
+                towerAttackSfx.clip, 
+                soundPosition, 
+                true, 
+                towerAttackSfx.volume
+            );
+        }
     }
 
     protected virtual void HandleRotation()
@@ -195,18 +235,17 @@ public class Tower : MonoBehaviour
     {
         Enemy mostAdvancedEnemy = null;
         float minRemainingDistance = float.MaxValue;
-
+        
         foreach (Enemy enemy in targets)
         {
             float remainingDistance = enemy.DistanceToFinishLine();
-
+            
             if (remainingDistance < minRemainingDistance)
             {
                 minRemainingDistance = remainingDistance;
                 mostAdvancedEnemy = enemy;
             }
         }
-
         return mostAdvancedEnemy;
     }
     
@@ -219,6 +258,11 @@ public class Tower : MonoBehaviour
     {
         int enemyColliders = Physics.OverlapSphereNonAlloc(transform.position, attackRange,allocatedColliders, whatIsEnemy);
         return enemyColliders > 0;
+    }
+
+    public virtual void RemoveTower()
+    {
+        objectPool.Remove(gameObject);
     }
 
     protected virtual void OnDrawGizmos()

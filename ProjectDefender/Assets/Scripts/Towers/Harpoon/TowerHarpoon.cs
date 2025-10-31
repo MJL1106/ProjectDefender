@@ -7,7 +7,6 @@ public class TowerHarpoon : Tower
     
     [Header("Harpoon Details")] 
     [SerializeField] private GameObject projectilePrefab;
-
     [SerializeField] private Transform projectileDefaultPosition;
     [SerializeField] private float projectileSpeed = 15;
     private ProjectileHarpoon currentProjectile;
@@ -22,8 +21,9 @@ public class TowerHarpoon : Tower
 
     private bool reachedTarget;
     private bool busyWithAttack;
+    private bool isProcessingHit;
     private Coroutine damageOverTimeCo;
-
+    
     protected override void Awake()
     {
         base.Awake();
@@ -40,25 +40,55 @@ public class TowerHarpoon : Tower
         {
             currentEnemy = hitInfo.collider.GetComponent<Enemy>();
             busyWithAttack = true;
-            currentProjectile.SetupProjectile(currentEnemy, projectileSpeed,this);
+            reachedTarget = false; 
+            isProcessingHit = false; 
+            
+            currentProjectile.SetupProjectile(currentEnemy, projectileSpeed, this);
             harpoonVisuals.EnableChainVisuals(true, currentProjectile.GetConnectionPoint());
             
-            Invoke(nameof(ResetAttackIfMissed),1);
+            PlayTowerAttackSound();
+            
+        
+            Invoke(nameof(ResetAttackIfMissed), 1f);
         }
     }
 
     public void ActivateAttack()
     {
+        isProcessingHit = true;
         reachedTarget = true;
+    
+        CancelInvoke(nameof(ResetAttackIfMissed));
+    
+        if (currentEnemy == null || currentEnemy.IsDead())
+        {
+            ResetAttack();
+            return;
+        }
+    
+        var enemyFlying = currentEnemy.GetComponent<EnemyFlying>();
+        if (enemyFlying != null)
+        {
+            enemyFlying.AddObservingTower(this);
+        }
         
-        currentEnemy.GetComponent<EnemyFlying>().AddObservingTower(this);
         currentEnemy.SlowEnemy(slowEffect, overTimeEffectDuration);
-        harpoonVisuals.CreateElectrifyVFX(currentEnemy.transform);
+        
+        if (harpoonVisuals != null)
+        {
+            harpoonVisuals.CreateElectrifyVFX(currentEnemy.transform);
+        }
 
         IDamageable damageable = currentEnemy.GetComponent<IDamageable>();
         damageable?.TakeDamage(initialDamage);
 
+        if (damageOverTimeCo != null)
+        {
+            StopCoroutine(damageOverTimeCo);
+        }
+        
         damageOverTimeCo = StartCoroutine(DamageOverTimeCo(damageable));
+        isProcessingHit = false;
     }
 
     private IEnumerator DamageOverTimeCo(IDamageable damageable)
@@ -66,36 +96,79 @@ public class TowerHarpoon : Tower
         float time = 0;
         float damageFrequency = overTimeEffectDuration / damageOverTime;
         float damagePerTick = damageOverTime / (overTimeEffectDuration / damageFrequency);
-        
+    
         while (time < overTimeEffectDuration)
         {
+            if (damageable == null || (currentEnemy != null && currentEnemy.IsDead()))
+            {
+                break;
+            }
+            
             damageable?.TakeDamage(damagePerTick);
             yield return new WaitForSeconds(damageFrequency);
             time += damageFrequency;
         }
+    
         ResetAttack();
     }
     
     public void ResetAttack()
     {
-        if (damageOverTimeCo != null) StopCoroutine(damageOverTimeCo);
+        if (!busyWithAttack && !reachedTarget && damageOverTimeCo == null)
+        {
+            return;
+        }
+    
+        CancelInvoke(nameof(ResetAttackIfMissed));
+    
+        if (damageOverTimeCo != null) 
+        {
+            StopCoroutine(damageOverTimeCo);
+            damageOverTimeCo = null;
+        }
+    
+        if (currentProjectile != null)
+        {
+            currentProjectile.ResetProjectile();
+        }
+    
+        if (currentEnemy != null)
+        {
+            var enemyFlying = currentEnemy.GetComponent<EnemyFlying>();
+            if (enemyFlying != null)
+            {
+                enemyFlying.RemoveObservingTower(this);
+            }
+        }
+        
+        if (towerAttackSfx != null) AudioManager.instance?.FadeOutSFX(towerAttackSfx, 0.2f);
         
         busyWithAttack = false;
         reachedTarget = false;
-        
+        isProcessingHit = false;
         currentEnemy = null;
         lastTimeAttacked = Time.time;
+    
         harpoonVisuals.EnableChainVisuals(false);
+        
         CreateNewProjectile();
     }
 
     protected override void LooseTargetIfNeeded()
     {
-        if (busyWithAttack == false) base.LooseTargetIfNeeded();
+        if (busyWithAttack == false) 
+        {
+            base.LooseTargetIfNeeded();
+        }
     }
 
     private void CreateNewProjectile()
     {
+        if (currentProjectile != null && currentProjectile.gameObject.activeSelf)
+        {
+            objectPool.Remove(currentProjectile.gameObject);
+        }
+        
         GameObject newProjectile = objectPool.Get(projectilePrefab, projectileDefaultPosition.position,
             projectileDefaultPosition.rotation, towerHead);
 
@@ -104,14 +177,24 @@ public class TowerHarpoon : Tower
 
     private void ResetAttackIfMissed()
     {
-        if (reachedTarget == true) return;
-        
-        Destroy(currentProjectile.gameObject);
+        if (reachedTarget || isProcessingHit)
+        {
+            return;
+        }
+    
+        if (currentProjectile != null)
+        {
+            currentProjectile.ResetProjectile();
+            objectPool.Remove(currentProjectile.gameObject);
+            currentProjectile = null; 
+        }
+    
         ResetAttack();
     }
-
+    
     protected override bool CanAttack()
     {
-        return base.CanAttack() && busyWithAttack == false;
+        if (busyWithAttack) return false;
+        return base.CanAttack();
     }
 }

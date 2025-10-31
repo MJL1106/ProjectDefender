@@ -860,13 +860,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 5
   centrePoint: {fileID: 3822367589341565741}
-  reward: 100
-  maxHp: 250
+  reward: 400
+  castleDamage: 20
+  maxHp: 1350
   turnSpeed: 10
   myWaypoints: []
   bossUnitPrefab: {fileID: 4748917770879567491, guid: dfecdb324a7420b4f807b6b17c66a64c, type: 3}
   amountToCreate: 150
-  cooldown: 0.05
+  cooldown: 0.2
 --- !u!114 &6969957313169145182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -895,9 +896,9 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5698920117595986346}
   m_Enabled: 1
-  m_AgentTypeID: -1372625422
+  m_AgentTypeID: 1479372276
   m_Radius: 0.5
-  m_Speed: 2
+  m_Speed: 0.4
   m_Acceleration: 8
   avoidancePriority: 1
   m_AngularSpeed: 120

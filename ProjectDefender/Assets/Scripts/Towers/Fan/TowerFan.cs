@@ -15,10 +15,13 @@ public class TowerFan : Tower
         base.Awake();
         
         InvokeRepeating(nameof(RevealEnemies), .1f,revealFrequency);
+        PlayTowerAttackSound();
     }
 
     private void RevealEnemies()
     {
+        enemiesToReveal.RemoveAll(enemy => enemy == null || enemy.IsDead() || !enemy.gameObject.activeInHierarchy);
+        
         foreach (var enemy in enemiesToReveal)
         {
             if (enemy != null) enemy.DisableHide(revealDuration);
