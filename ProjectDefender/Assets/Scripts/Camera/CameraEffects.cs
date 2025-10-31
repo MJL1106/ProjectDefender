@@ -91,7 +91,7 @@ public class CameraEffects : MonoBehaviour
         cameraCo = StartCoroutine(ChangePositionAndRotation(inGamePosition, inGameRotation, transitionDuration));
         camController.AdjustPitchValue(inGameRotation.eulerAngles.x);
 
-        StartCoroutine(EnableCameraControlsAfter(transitionDuration + 1.5f));
+        StartCoroutine(EnableCameraControlsAfter(transitionDuration + 1.8f));
     }
 
     public void SwitchToLevelSelectView()

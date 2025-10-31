@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     
     public UIGame inGameUI { get; private set; }
+    public UISettings settingsUI { get; private set; }
     public WaveManager currentActiveWaveManager;
     private LevelManager levelManager;
     private CameraEffects cameraEffects;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
+        settingsUI = FindFirstObjectByType<UISettings>(FindObjectsInactive.Include);
         levelManager = FindFirstObjectByType<LevelManager>();
         cameraEffects = FindFirstObjectByType<CameraEffects>();
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("TowerProjectile"), LayerMask.NameToLayer("TowerProjectile"), true);
@@ -41,16 +43,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         currentHp = maxHp;
-
-        // Enable if need to test a level using high currency and hp
-        /*if (IsTestingLevel())
-        {
-            currency += 500;
-            currentHp += 9999;
-        }*/
-        
+    
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
         inGameUI.UpdateCurrencyUI(currency);
+
+        // Enable settings UI temporarily to apply settings
+        if (settingsUI != null)
+        {
+            settingsUI.gameObject.SetActive(true);
+            settingsUI.ApplyAllSettingsOnStartup();
+            settingsUI.gameObject.SetActive(false);
+        }
     }
 
     public void StopMakingEnemies()
