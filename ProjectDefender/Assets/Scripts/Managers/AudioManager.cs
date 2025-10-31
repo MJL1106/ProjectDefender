@@ -78,12 +78,8 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Playing sound at position: {position}"); // DEBUG
-
         GameObject tempAudio = new GameObject("TempAudio_" + clip.name);
         tempAudio.transform.position = position;
-    
-        Debug.DrawLine(position, position + Vector3.up * 5f, Color.green, 1f); // DEBUG - shows where sound spawns
     
         AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
         audioSource.clip = clip;

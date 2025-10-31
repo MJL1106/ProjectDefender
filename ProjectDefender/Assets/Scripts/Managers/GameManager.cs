@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private Transform castleTransform; 
 
     [Header("Win/Loss Visuals")]
-    [SerializeField] private GameObject winFireworksVFX; // Drag your fireworks prefab here
+    [SerializeField] private GameObject winFireworksVFX;
     [SerializeField] private GameObject loseSmokeVFX;
     
     public void RegisterCastle(Transform newCastleTransform) => castleTransform = newCastleTransform;
