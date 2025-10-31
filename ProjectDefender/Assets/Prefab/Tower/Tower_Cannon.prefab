@@ -69,7 +69,7 @@ MonoBehaviour:
   onGameOverVFX: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   towerAttacksForward: 0
   towerAttackSfx: {fileID: 19454073791673760}
-  limitTowerSfx: 1
+  limitTowerSfx: 0
   towerSfxId: Cannon
   towerSfxCooldown: 0.3
   maxConcurrentTowerSfx: 3

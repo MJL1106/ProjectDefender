@@ -43,7 +43,6 @@ public class Tower : MonoBehaviour
 
     [Header("Tower SFX Details")] 
     [SerializeField] protected AudioSource towerAttackSfx;
-    [SerializeField] protected int playSoundEveryXShots = 3; // Play sound every 3rd shot
     [SerializeField] protected bool limitTowerSfx = false;
     [SerializeField] protected string towerSfxId = "";
     [SerializeField] protected float towerSfxCooldown = 0.3f;
@@ -146,12 +145,19 @@ public class Tower : MonoBehaviour
 
         if (limitTowerSfx && !string.IsNullOrEmpty(towerSfxId))
         {
-            AudioManager.instance?.PlaySFXOneShotLimited(
+            // Check if this tower type can play (based on max concurrent TOWERS, not sounds)
+            if (!AudioManager.instance.CanTowerPlaySound(towerSfxId, GetInstanceID(), maxConcurrentTowerSfx))
+            {
+                return; // Too many towers of this type already playing
+            }
+        
+            // Register this tower as playing
+            AudioManager.instance.RegisterTowerSound(towerSfxId, GetInstanceID(), towerAttackSfx.clip.length);
+        
+            // Play the sound normally (no limiting on the sound itself)
+            AudioManager.instance?.PlaySFXOneShot(
                 towerAttackSfx.clip, 
                 soundPosition, 
-                towerSfxId, 
-                towerSfxCooldown, 
-                maxConcurrentTowerSfx, 
                 true, 
                 towerAttackSfx.volume
             );

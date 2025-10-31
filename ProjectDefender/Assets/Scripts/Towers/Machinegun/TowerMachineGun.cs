@@ -8,6 +8,7 @@ public class TowerMachineGun : Tower
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float damage;
     [SerializeField] private float projectileSpeed;
+    [SerializeField] protected int playSoundEveryXShots = 3;
     
     [Space]
     [SerializeField] private Vector3 rotationOffset;
