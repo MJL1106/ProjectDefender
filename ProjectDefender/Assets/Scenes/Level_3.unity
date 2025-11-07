@@ -35704,22 +35704,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31aaa69c0e4c114c9a87ea7fda7bbe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towersUnlocked:
-  - towerName: Crossbow
-    unlocked: 1
-  - towerName: Cannon
-    unlocked: 1
-  - towerName: Rapid Fire Gun
-    unlocked: 1
-  - towerName: Hammer
-    unlocked: 1
-  - towerName: Spider Nest
-    unlocked: 0
-  - towerName: Anti-air Harpoon
-    unlocked: 0
-  - towerName: Just Fan
-    unlocked: 1
-  levelCurrency: 650
   myMainGrid: {fileID: 1199274202421046181}
   extraObjectsToDelete:
   - {fileID: 231532976}
@@ -35736,7 +35720,6 @@ MonoBehaviour:
   - {fileID: 1675235818}
   - {fileID: 405194987}
   myWaveManager: {fileID: 687509787}
-  groundMaterial: {fileID: 2100000, guid: 5473bb28f7c69f146ae9e1a8dc65aebb, type: 2}
 --- !u!4 &1105963833
 Transform:
   m_ObjectHideFlags: 0
@@ -36060,7 +36043,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122316687}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

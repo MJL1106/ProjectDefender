@@ -38,9 +38,6 @@ private UI ui;
             
             levelManager.UpdateCurrentGrid(myMainGrid);
 
-            // The line for UpdateBackgroundColor is removed
-            // as LevelManager now handles this *before* loading.
-
             tileAnimator = FindFirstObjectByType<TileAnimator>();
             tileAnimator.ShowGrid(myMainGrid, true);
 
@@ -91,12 +88,6 @@ private UI ui;
         }
         
         ui.BuildButtonsHolderUI.UpdateUnlockedBuildButtons();
-    }
-
-    [ContextMenu("Initialize Tower Data")]
-    private void InitializeTowerData()
-    {
-        // This is now handled by your LevelData assets
     }
 }
 
