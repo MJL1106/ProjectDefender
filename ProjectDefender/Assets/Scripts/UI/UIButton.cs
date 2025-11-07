@@ -19,8 +19,8 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         uiAnim = GetComponentInParent<UIAnimator>();
         myRect = GetComponent<RectTransform>();
     }
-    
-    public void OnPointerEnter(PointerEventData eventData)
+
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
         
@@ -31,7 +31,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (myTextBlinkEffect != null) myTextBlinkEffect.EnableBlink(false);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
         

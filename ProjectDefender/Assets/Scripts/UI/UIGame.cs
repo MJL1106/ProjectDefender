@@ -28,6 +28,17 @@ public class UIGame : MonoBehaviour
     private Coroutine sellTowerMoveCo;
     private Vector3 sellTowerDefaultPosition;
 
+    [Header("Next Wave Details UI")]
+    [SerializeField] private Transform nextWaveDetailsUI;
+    [SerializeField] private float nextWaveDetailsOffset;
+    [SerializeField] private TextMeshProUGUI waveNumberText;
+    [SerializeField] private TextMeshProUGUI enemyDetailsText;
+    [SerializeField] private float detailsBasePadding = 70f;
+    private Coroutine nextWaveDetailsMoveCo;
+    private Vector3 nextWaveDetailsDefaultPosition;
+    private Vector2 nextWaveDetailsOriginalSize;
+    private WaveManager waveManager;
+    
     [Header("Victory and Defeat")] 
     [SerializeField] private GameObject victoryUI;
     [SerializeField] private GameObject gameOverUI;
@@ -52,9 +63,18 @@ public class UIGame : MonoBehaviour
                 this.pauseUI = pauseUI.GetComponent<UIPause>();
             }
         }
+        
+        if (nextWaveDetailsUI != null) 
+        {
+            nextWaveDetailsDefaultPosition = nextWaveDetailsUI.localPosition;
+            // Store the original size from the prefab
+            RectTransform rect = nextWaveDetailsUI.GetComponent<RectTransform>();
+            nextWaveDetailsOriginalSize = rect.sizeDelta;
+        }
 
         if (waveTimer != null) waveTimerDefaultPosition = waveTimer.localPosition;
         if (sellTowerUI != null) sellTowerDefaultPosition = sellTowerUI.localPosition;
+        if (nextWaveDetailsUI != null) nextWaveDetailsDefaultPosition = nextWaveDetailsUI.localPosition;
     }
 
     private void Update()
@@ -170,6 +190,136 @@ public class UIGame : MonoBehaviour
         if (buildManager != null)
         {
             buildManager.SellSelectedTower();
+        }
+    }
+    
+    private void FindWaveManager()
+{
+    if (waveManager == null || waveManager.gameObject == null)
+    {
+        waveManager = FindFirstObjectByType<WaveManager>();
+    }
+}
+
+    public void EnableNextWaveDetails(bool enable)
+    {
+        if (nextWaveDetailsUI == null) return;
+
+        FindWaveManager();
+
+        if (enable && waveManager != null)
+        {
+            WaveDetails[] levelWaves = waveManager.GetLevelWaves();
+            int currentWaveIndex = waveManager.GetCurrentWaveIndex();
+
+            if (currentWaveIndex < levelWaves.Length)
+            {
+                WaveDetails nextWave = levelWaves[currentWaveIndex];
+
+                if (waveNumberText != null)
+                {
+                    waveNumberText.text = $"WAVE {currentWaveIndex + 1}";
+                }
+
+                if (enemyDetailsText != null)
+                {
+                    enemyDetailsText.text = BuildEnemyDetailsString(nextWave);
+                    
+                    // Force the text to update its size
+                    Canvas.ForceUpdateCanvases();
+                    
+                    // Resize parent based on text height
+                    RectTransform parentRect = nextWaveDetailsUI.GetComponent<RectTransform>();
+                    RectTransform textRect = enemyDetailsText.GetComponent<RectTransform>();
+                    
+                    float newHeight = textRect.sizeDelta.y + detailsBasePadding;
+                    parentRect.sizeDelta = new Vector2(parentRect.sizeDelta.x, newHeight);
+                }
+            }
+        }
+
+        if (nextWaveDetailsMoveCo != null) 
+        {
+            StopCoroutine(nextWaveDetailsMoveCo);
+        }
+
+        RectTransform rect = nextWaveDetailsUI.GetComponent<RectTransform>();
+        
+        if (enable)
+        {
+            // When showing, move down by the fixed offset
+            float targetY = nextWaveDetailsDefaultPosition.y - nextWaveDetailsOffset;
+            Vector3 targetPosition = new Vector3(
+                nextWaveDetailsDefaultPosition.x, 
+                targetY, 
+                nextWaveDetailsDefaultPosition.z
+            );
+            Vector3 offset = targetPosition - nextWaveDetailsUI.localPosition;
+            nextWaveDetailsMoveCo = StartCoroutine(animatorUI.ChangePositionCo(rect, offset));
+        }
+        else
+        {
+            // When hiding, calculate how much to move up based on current box height
+            float currentHeight = rect.sizeDelta.y;
+            // Calculate the difference in height from the original
+            float heightDifference = currentHeight - detailsBasePadding;
+            // Add extra offset to ensure it goes completely off-screen
+            float hideOffset = nextWaveDetailsOffset + heightDifference + 80f; // Added extra 20 pixels
+            
+            Vector3 offset = new Vector3(0, hideOffset, 0);
+            nextWaveDetailsMoveCo = StartCoroutine(animatorUI.ChangePositionCo(rect, offset));
+        }
+    }
+
+    public void SnapNextWaveDetailsToDefaultPosition()
+    {
+        if (nextWaveDetailsUI == null) return;
+
+        if (nextWaveDetailsMoveCo != null) StopCoroutine(nextWaveDetailsMoveCo);
+
+        nextWaveDetailsUI.localPosition = nextWaveDetailsDefaultPosition;
+    }
+
+    private string BuildEnemyDetailsString(WaveDetails waveDetails)
+    {
+        System.Collections.Generic.List<string> enemyLines = new System.Collections.Generic.List<string>();
+        
+        if (waveDetails.basicEnemy > 0)
+            enemyLines.Add($"{waveDetails.basicEnemy} x Basic");
+        
+        if (waveDetails.fastEnemy > 0)
+            enemyLines.Add($"{waveDetails.fastEnemy} x Fast");
+        
+        if (waveDetails.swarmEnemy > 0)
+            enemyLines.Add($"{waveDetails.swarmEnemy} x Swarm");
+        
+        if (waveDetails.heavyEnemy > 0)
+            enemyLines.Add($"{waveDetails.heavyEnemy} x Heavy");
+        
+        if (waveDetails.stealthEnemy > 0)
+            enemyLines.Add($"{waveDetails.stealthEnemy} x Stealth");
+        
+        if (waveDetails.flyingEnemy > 0)
+            enemyLines.Add($"{waveDetails.flyingEnemy} x Flying");
+        
+        if (waveDetails.flyingBossEnemy > 0)
+            enemyLines.Add($"{waveDetails.flyingBossEnemy} x Flying Boss");
+        
+        if (waveDetails.spiderBossEnemy > 0)
+            enemyLines.Add($"{waveDetails.spiderBossEnemy} x Spider Boss");
+        
+        if (enemyLines.Count == 0)
+            return "No enemies";
+        
+        return string.Join("\n", enemyLines);
+    }
+    
+    private void OnDisable()
+    {
+        if (nextWaveDetailsUI != null)
+        {
+            RectTransform rect = nextWaveDetailsUI.GetComponent<RectTransform>();
+            rect.sizeDelta = nextWaveDetailsOriginalSize;
         }
     }
 }
