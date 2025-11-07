@@ -44,11 +44,9 @@ public class LevelManager : MonoBehaviour
             Debug.LogError("FATAL: Could not find LevelData at 'Resources/LevelData/" + levelName + "'");
             yield break;
         }
-
-        // 1. Start color fade instantly
+        
         StartCoroutine(UpdateBackgroundColorCo(upcomingData.groundMaterial.color, 1.5f));
-
-        // 2. Do the rest of the work
+        
         CleanUpScene();
         ui.EnableInGameUI(false);
         
@@ -67,11 +65,9 @@ public class LevelManager : MonoBehaviour
             Debug.LogError("FATAL: Could not find LevelData at 'Resources/LevelData/" + levelName + "'");
             yield break;
         }
-
-        // 1. Start color fade instantly
+        
         StartCoroutine(UpdateBackgroundColorCo(upcomingData.groundMaterial.color, 1.5f));
-
-        // 2. Do the rest of the work
+        
         tileAnimator.ShowMainGrid(false);
         ui.EnableMainMenuUI(false);
         
@@ -86,10 +82,8 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadMainMenuCo()
     {
-        // 1. Start color fade instantly
         UpdateBackgroundColor(defaultColor);
-
-        // 2. Do the rest of the work
+        
         CleanUpScene();
         ui.EnableInGameUI(false);
     
@@ -124,21 +118,20 @@ public class LevelManager : MonoBehaviour
         currentLevelName = sceneNameToLoad;
         SceneManager.LoadSceneAsync(sceneNameToLoad, LoadSceneMode.Additive);
     }
-
-    // This is your original, working version
+    
     private AsyncOperation UnloadCurrentScene() => SceneManager.UnloadSceneAsync(currentLevelName);
-
-    // This is your original, working version
+    
     private void CleanUpScene()
     {
         GameManager.instance.StopMakingEnemies();
         GameManager.instance.CleanUpVFX();
         EliminateAllEnemies();
         EliminateAllTowers();
+        RemoveAllPreviews();
         
         if (currentActiveGrid != null) tileAnimator.ShowGrid(currentActiveGrid, false);
     }
-
+    
     private void EliminateAllEnemies()
     {
         Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
@@ -156,6 +149,15 @@ public class LevelManager : MonoBehaviour
         foreach (Tower tower in towers)
         {
             Destroy(tower.gameObject);
+        }
+    }
+    
+    private void RemoveAllPreviews()
+    {
+        TowerPreview[] previews = FindObjectsByType<TowerPreview>(FindObjectsSortMode.None);
+        foreach (var preview in previews)
+        {
+            Destroy(preview.gameObject);
         }
     }
 
