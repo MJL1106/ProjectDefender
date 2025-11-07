@@ -5,33 +5,41 @@ using UnityEngine;
 
 public class LevelSetup : MonoBehaviour
 {
-    private UI ui;
+private UI ui;
     private TileAnimator tileAnimator;
     private LevelManager levelManager;
     private GameManager gameManager;
     private BuildManager buildManager;
     
-    [Header("Level Details")]
-    [SerializeField] private List<TowerUnlockData> towersUnlocked;
-    [SerializeField] private int levelCurrency = 1000;
-
     [Header("Level Setup")] [SerializeField]
     private GridBuilder myMainGrid;
     [SerializeField] private List<GameObject> extraObjectsToDelete = new List<GameObject>();
     [SerializeField] private WaveManager myWaveManager;
-    [SerializeField] private Material groundMaterial;
+
+    private LevelData myLevelData;
     
     private IEnumerator Start()
     {
         if (LevelWasLoadedToMainScene())
         {
+            string sceneName = gameObject.scene.name;
+            myLevelData = Resources.Load<LevelData>("LevelData/" + sceneName);
+            
+            if (myLevelData == null)
+            {
+                 Debug.LogError("FATAL: Could not find LevelData for this scene: " + sceneName);
+                 yield break;
+            }
+
             DeleteExtraObjects();
 
             buildManager = FindFirstObjectByType<BuildManager>();
             buildManager.UpdateBuildManager(myWaveManager, myMainGrid);
             
             levelManager.UpdateCurrentGrid(myMainGrid);
-            levelManager.UpdateBackgroundColor(groundMaterial.color);
+
+            // The line for UpdateBackgroundColor is removed
+            // as LevelManager now handles this *before* loading.
 
             tileAnimator = FindFirstObjectByType<TileAnimator>();
             tileAnimator.ShowGrid(myMainGrid, true);
@@ -42,7 +50,7 @@ public class LevelSetup : MonoBehaviour
             ui.EnableInGameUI(true);
 
             gameManager = FindFirstObjectByType<GameManager>();
-            gameManager.PrepareLevel(levelCurrency, myWaveManager);
+            gameManager.PrepareLevel(myLevelData.levelCurrency, myWaveManager);
         } 
         
         UnlockAvailableTowers();
@@ -65,9 +73,16 @@ public class LevelSetup : MonoBehaviour
 
     private void UnlockAvailableTowers()
     {
+        if (myLevelData == null)
+        {
+            string sceneName = gameObject.scene.name;
+            myLevelData = Resources.Load<LevelData>("LevelData/" + sceneName);
+            if (myLevelData == null) return; 
+        }
+
         UI ui = FindFirstObjectByType<UI>();
 
-        foreach (var unlockData in towersUnlocked)
+        foreach (var unlockData in myLevelData.towersUnlocked)
         {
             foreach (var buildButton in ui.BuildButtonsHolderUI.GetBuildButtons())
             {
@@ -78,20 +93,10 @@ public class LevelSetup : MonoBehaviour
         ui.BuildButtonsHolderUI.UpdateUnlockedBuildButtons();
     }
 
-    public WaveManager GetWaveManager() => myWaveManager;
-
     [ContextMenu("Initialize Tower Data")]
     private void InitializeTowerData()
     {
-        towersUnlocked.Clear();
-        
-        towersUnlocked.Add(new TowerUnlockData("Crossbow",false));
-        towersUnlocked.Add(new TowerUnlockData("Cannon",false));
-        towersUnlocked.Add(new TowerUnlockData("Rapid Fire Gun",false));
-        towersUnlocked.Add(new TowerUnlockData("Hammer",false));
-        towersUnlocked.Add(new TowerUnlockData("Spider Nest",false));
-        towersUnlocked.Add(new TowerUnlockData("Anti-air Harpoon",false));
-        towersUnlocked.Add(new TowerUnlockData("Just Fan",false));
+        // This is now handled by your LevelData assets
     }
 }
 

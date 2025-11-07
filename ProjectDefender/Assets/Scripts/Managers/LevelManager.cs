@@ -38,6 +38,17 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadLevelCo(string levelName)
     {
+        LevelData upcomingData = Resources.Load<LevelData>("LevelData/" + levelName);
+        if (upcomingData == null)
+        {
+            Debug.LogError("FATAL: Could not find LevelData at 'Resources/LevelData/" + levelName + "'");
+            yield break;
+        }
+
+        // 1. Start color fade instantly
+        StartCoroutine(UpdateBackgroundColorCo(upcomingData.groundMaterial.color, 1.5f));
+
+        // 2. Do the rest of the work
         CleanUpScene();
         ui.EnableInGameUI(false);
         
@@ -50,6 +61,17 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadLevelFromMenuCo(string levelName)
     {
+        LevelData upcomingData = Resources.Load<LevelData>("LevelData/" + levelName);
+        if (upcomingData == null)
+        {
+            Debug.LogError("FATAL: Could not find LevelData at 'Resources/LevelData/" + levelName + "'");
+            yield break;
+        }
+
+        // 1. Start color fade instantly
+        StartCoroutine(UpdateBackgroundColorCo(upcomingData.groundMaterial.color, 1.5f));
+
+        // 2. Do the rest of the work
         tileAnimator.ShowMainGrid(false);
         ui.EnableMainMenuUI(false);
         
@@ -64,18 +86,19 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadMainMenuCo()
     {
+        // 1. Start color fade instantly
+        UpdateBackgroundColor(defaultColor);
+
+        // 2. Do the rest of the work
         CleanUpScene();
         ui.EnableInGameUI(false);
     
-        cameraEffects.SwitchToMenuView(); // Start camera transition early
+        cameraEffects.SwitchToMenuView();
 
         yield return tileAnimator.GetActiveCoroutine();
     
-        UpdateBackgroundColor(defaultColor);
-    
         yield return UnloadCurrentScene();
 
-        // Re-find references that might have been in the unloaded scene
         if (tileAnimator == null)
         {
             tileAnimator = FindFirstObjectByType<TileAnimator>();
@@ -92,7 +115,6 @@ public class LevelManager : MonoBehaviour
 
         ui.EnableMainMenuUI(true);
     
-        // Disable tiles again in case EnableMainSceneObjects re-enabled them
         cameraEffects.EnableAllTiles(false);
         cameraEffects.EnableLevelButtonTiles(false);
     }
@@ -103,8 +125,10 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadSceneAsync(sceneNameToLoad, LoadSceneMode.Additive);
     }
 
+    // This is your original, working version
     private AsyncOperation UnloadCurrentScene() => SceneManager.UnloadSceneAsync(currentLevelName);
 
+    // This is your original, working version
     private void CleanUpScene()
     {
         GameManager.instance.StopMakingEnemies();
@@ -158,7 +182,7 @@ public class LevelManager : MonoBehaviour
     }
     
     public void UpdateCurrentGrid(GridBuilder newGrid) => currentActiveGrid = newGrid;
-
+    
     public int GetNextLevelIndex() => SceneUtility.GetBuildIndexByScenePath(currentLevelName) + 1;
     public string GetNextLevelName() => "Level_" + GetNextLevelIndex();
     public bool HasNoMoreLevels() => GetNextLevelIndex() >= SceneManager.sceneCountInBuildSettings;
