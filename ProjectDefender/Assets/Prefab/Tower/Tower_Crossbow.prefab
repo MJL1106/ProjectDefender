@@ -1691,14 +1691,14 @@ MonoBehaviour:
   towerAttacksForward: 0
   towerAttackSfx: {fileID: 7691047474527346684}
   limitTowerSfx: 0
-  towerSfxId: 
+  towerSfxId: Crossbow
   towerSfxCooldown: 0.3
-  maxConcurrentTowerSfx: 3
+  maxConcurrentTowerSfx: 7
   projectileSfx: {fileID: 0}
   limitProjectileSfx: 0
   projectileSfxId: 
-  projectileSfxCooldown: 0.3
-  maxConcurrentProjectileSfx: 3
+  projectileSfxCooldown: 0
+  maxConcurrentProjectileSfx: 0
   damage: 25
 --- !u!114 &4105478440329888710
 MonoBehaviour:

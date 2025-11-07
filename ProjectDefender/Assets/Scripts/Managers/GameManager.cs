@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     
     public UIGame inGameUI { get; private set; }
+    public UISettings settingsUI { get; private set; }
     public WaveManager currentActiveWaveManager;
     private LevelManager levelManager;
     private CameraEffects cameraEffects;
@@ -19,10 +20,9 @@ public class GameManager : MonoBehaviour
     private Transform castleTransform; 
 
     [Header("Win/Loss Visuals")]
-    [SerializeField] private GameObject winFireworksVFX; // Drag your fireworks prefab here
+    [SerializeField] private GameObject winFireworksVFX;
     [SerializeField] private GameObject loseSmokeVFX;
     
-    public void RegisterCastle(Transform newCastleTransform) => castleTransform = newCastleTransform;
     
     public int enemiesKilled { get; private set; }
 
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
+        settingsUI = FindFirstObjectByType<UISettings>(FindObjectsInactive.Include);
         levelManager = FindFirstObjectByType<LevelManager>();
         cameraEffects = FindFirstObjectByType<CameraEffects>();
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("TowerProjectile"), LayerMask.NameToLayer("TowerProjectile"), true);
@@ -42,16 +43,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         currentHp = maxHp;
-
-        // Enable if need to test a level using high currency and hp
-        /*if (IsTestingLevel())
-        {
-            currency += 500;
-            currentHp += 9999;
-        }*/
-        
+    
         inGameUI.UpdateHealthPointsUI(currentHp,maxHp);
         inGameUI.UpdateCurrencyUI(currency);
+
+        // Enable settings UI temporarily to apply settings
+        if (settingsUI != null)
+        {
+            settingsUI.gameObject.SetActive(true);
+            settingsUI.ApplyAllSettingsOnStartup();
+            settingsUI.gameObject.SetActive(false);
+        }
     }
 
     public void StopMakingEnemies()
@@ -69,20 +71,25 @@ public class GameManager : MonoBehaviour
     public IEnumerator LevelFailedCo()
     {
         gameLost = true;
-        
+
         StopWaveProgression();
         DisableAllTowers();
         FreezeAllEnemies();
-        
-        if (loseSmokeVFX != null && castleTransform != null)
+
+        if (loseSmokeVFX != null)
         {
-            Vector3 spawnPosition = castleTransform.position;
-            spawnPosition.y += 1.5f; 
-            Instantiate(loseSmokeVFX, spawnPosition, Quaternion.identity);
+            Castle activeCastle = FindFirstObjectByType<Castle>(FindObjectsInactive.Exclude);
+        
+            if (activeCastle != null)
+            {
+                Vector3 spawnPosition = activeCastle.transform.position;
+                spawnPosition.y += 1.3f;
+                Instantiate(loseSmokeVFX, spawnPosition, Quaternion.identity);
+            }
         }
-        
+
         yield return new WaitForSeconds(1f);
-        
+
         yield return ShowGameOverSequence();
     }
 
@@ -142,17 +149,22 @@ public class GameManager : MonoBehaviour
     public IEnumerator LevelCompletedCo()
     {
         bool isFinalLevel = levelManager.HasNoMoreLevels();
-        
-        if (isFinalLevel && winFireworksVFX != null && castleTransform != null)
+    
+        if (isFinalLevel && winFireworksVFX != null)
         {
-            Vector3 spawnPosition = castleTransform.position;
-            spawnPosition.y += 2f; 
-            Quaternion spawnRotation = Quaternion.Euler(-90, 0, 0);
-            Instantiate(winFireworksVFX, spawnPosition, spawnRotation);
+            Castle activeCastle = FindFirstObjectByType<Castle>(FindObjectsInactive.Exclude);
+        
+            if (activeCastle != null)
+            {
+                Vector3 spawnPosition = activeCastle.transform.position;
+                spawnPosition.y += 2f;
+                Quaternion spawnRotation = Quaternion.Euler(-90, 0, 0);
+                Instantiate(winFireworksVFX, spawnPosition, spawnRotation);
+            }
         }
-        
+    
         yield return new WaitForSeconds(1.5f);
-        
+    
         cameraEffects.FocusOnCastle();
 
         yield return cameraEffects.GetActiveCameraCo();
@@ -181,6 +193,21 @@ public class GameManager : MonoBehaviour
         inGameUI.UpdateCurrencyUI(currency);
         
         newWaveManager.ActivateWaveManager();
+    }
+    
+    public void CleanUpVFX()
+    {
+        int vfxLayer = LayerMask.NameToLayer("VFX");
+    
+        ParticleSystem[] allParticles = FindObjectsByType<ParticleSystem>(FindObjectsSortMode.None);
+    
+        foreach (ParticleSystem ps in allParticles)
+        {
+            if (ps.gameObject.layer == vfxLayer)
+            {
+                Destroy(ps.gameObject);
+            }
+        }
     }
 
     public void UpdateHp(int value)

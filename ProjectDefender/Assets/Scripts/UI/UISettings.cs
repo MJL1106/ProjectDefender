@@ -43,6 +43,35 @@ public class UISettings : MonoBehaviour
     {
         camController = FindFirstObjectByType<CameraController>();
     }
+    
+    public void ApplyAllSettingsOnStartup()
+    {
+        // Load saved values
+        float savedSFX = PlayerPrefs.GetFloat(sfxParameter, 0.6f);
+        float savedBGM = PlayerPrefs.GetFloat(bgmParameter, 0.6f);
+        float savedKeyboard = PlayerPrefs.GetFloat(keyboardSenseParameter, 0.6f);
+        float savedMouse = PlayerPrefs.GetFloat(mouseSensParameter, 0.6f);
+    
+        // Apply audio
+        if (audioMixer != null)
+        {
+            float sfxDB = Mathf.Log10(savedSFX) * mixerMultiplier;
+            float bgmDB = Mathf.Log10(savedBGM) * mixerMultiplier;
+        
+            audioMixer.SetFloat(sfxParameter, sfxDB);
+            audioMixer.SetFloat(bgmParameter, bgmDB);
+        }
+    
+        // Apply camera sensitivity
+        if (camController != null)
+        {
+            float keyboardSens = Mathf.Lerp(minKeyboardSens, maxKeyboardSens, savedKeyboard);
+            float mouseSens = Mathf.Lerp(minMouseSense, maxMouseSense, savedMouse);
+        
+            camController.AdjustKeyboardSensitivity(keyboardSens);
+            camController.AdjustMouseSensitivity(mouseSens);
+        }
+    }
 
     public void SFXSliderValue(float value)
     {

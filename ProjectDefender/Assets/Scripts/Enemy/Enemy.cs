@@ -116,6 +116,8 @@ public class Enemy : MonoBehaviour , IDamageable
 
         agent.speed = originalSpeed;
         agent.enabled = true;
+
+        enabled = true;
     }
 
     public void SlowEnemy(float slowMultiplier, float duration)

@@ -78,10 +78,11 @@ public class UI : MonoBehaviour
 
     public void QuitButton()
     {
-        if (!fadeImageUI.gameObject.activeSelf) return;
-        
-        if (EditorApplication.isPlaying) EditorApplication.isPlaying = false;
-        else Application.Quit();
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                Application.Quit();
+        #endif
     }
 
     public void ActivateFadeEffect(bool fadeIn)

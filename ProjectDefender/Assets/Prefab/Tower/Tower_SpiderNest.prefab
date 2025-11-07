@@ -139,10 +139,10 @@ MonoBehaviour:
   towerSfxCooldown: 0.3
   maxConcurrentTowerSfx: 3
   projectileSfx: {fileID: 6325972818732196275}
-  limitProjectileSfx: 0
+  limitProjectileSfx: 1
   projectileSfxId: SpiderNestExplosion
   projectileSfxCooldown: 0.3
-  maxConcurrentProjectileSfx: 6
+  maxConcurrentProjectileSfx: 15
   spiderPrefab: {fileID: 7060690608549553713, guid: 9d7cdc565b80acb46a736dd2f63ca86b, type: 3}
   damage: 35
   attackTimeMultiplier: 0.401

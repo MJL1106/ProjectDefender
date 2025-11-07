@@ -29966,8 +29966,8 @@ MonoBehaviour:
   projectileSfx: {fileID: 0}
   limitProjectileSfx: 0
   projectileSfxId: 
-  projectileSfxCooldown: 0.3
-  maxConcurrentProjectileSfx: 3
+  projectileSfxCooldown: 0
+  maxConcurrentProjectileSfx: 0
   slowMultiplier: 0.402
   slowDuration: 2
 --- !u!114 &4717701645807103492

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8618287353655712863}
   - component: {fileID: 5304246980973095083}
   - component: {fileID: 620411018027008224}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LoseSmokeVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

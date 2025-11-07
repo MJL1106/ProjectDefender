@@ -26,13 +26,6 @@ public class LevelManager : MonoBehaviour
         groundMesh.material = new Material(groundMesh.material);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J)) LoadLevelFromMenu("Level_1");
-        if (Input.GetKeyDown(KeyCode.K)) LoadMainMenu();
-        if (Input.GetKeyDown(KeyCode.R)) RestartCurrentLevel();
-    }
-
     public void RestartCurrentLevel() => StartCoroutine(LoadLevelCo(currentLevelName));
     public void LoadLevel(string levelName) => StartCoroutine(LoadLevelCo(levelName));
     public void LoadNextLevel() => LoadLevel(GetNextLevelName());
@@ -45,26 +38,46 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadLevelCo(string levelName)
     {
+        LevelData upcomingData = Resources.Load<LevelData>("LevelData/" + levelName);
+        if (upcomingData == null)
+        {
+            Debug.LogError("FATAL: Could not find LevelData at 'Resources/LevelData/" + levelName + "'");
+            yield break;
+        }
+    
+        StartCoroutine(UpdateBackgroundColorCo(upcomingData.groundMaterial.color, 1.5f));
+    
         CleanUpScene();
         ui.EnableInGameUI(false);
-        
+    
         cameraEffects.SwitchToGameView();
         yield return tileAnimator.GetActiveCoroutine();
-        
-        UnloadCurrentScene();
+    
+        yield return UnloadCurrentScene(); // --- CHANGE HERE ---
         LoadScene(levelName);
     }
 
     private IEnumerator LoadLevelFromMenuCo(string levelName)
     {
+        LevelData upcomingData = Resources.Load<LevelData>("LevelData/" + levelName);
+        if (upcomingData == null)
+        {
+            Debug.LogError("FATAL: Could not find LevelData at 'Resources/LevelData/" + levelName + "'");
+            yield break;
+        }
+    
+        StartCoroutine(UpdateBackgroundColorCo(upcomingData.groundMaterial.color, 1.5f));
+    
         tileAnimator.ShowMainGrid(false);
         ui.EnableMainMenuUI(false);
-        
+    
         cameraEffects.SwitchToGameView();
 
         yield return tileAnimator.GetActiveCoroutine();
-        
+    
         tileAnimator.EnableMainSceneObjects(false);
+        
+        yield return cameraEffects.GetActiveCameraCo(); 
         
         LoadScene(levelName);
     }
@@ -73,31 +86,33 @@ public class LevelManager : MonoBehaviour
     {
         CleanUpScene();
         ui.EnableInGameUI(false);
-        
+    
         cameraEffects.SwitchToMenuView();
 
         yield return tileAnimator.GetActiveCoroutine();
-        
+    
         UpdateBackgroundColor(defaultColor);
-        
+    
         yield return UnloadCurrentScene();
-
-        // Re-find references that might have been in the unloaded scene
+        
         if (tileAnimator == null)
         {
             tileAnimator = FindFirstObjectByType<TileAnimator>();
         }
-        
+    
         if (tileAnimator != null)
         {
             tileAnimator.EnableMainSceneObjects(true);
+            cameraEffects.UnselectAllTiles();
             tileAnimator.ShowMainGrid(true);
 
             yield return tileAnimator.GetActiveCoroutine();
         }
 
         ui.EnableMainMenuUI(true);
-
+        
+        cameraEffects.EnableAllTiles(false);
+        cameraEffects.EnableLevelButtonTiles(false);
     }
 
     private void LoadScene(string sceneNameToLoad)
@@ -111,10 +126,21 @@ public class LevelManager : MonoBehaviour
     private void CleanUpScene()
     {
         GameManager.instance.StopMakingEnemies();
+        GameManager.instance.CleanUpVFX();
         EliminateAllEnemies();
         EliminateAllTowers();
+        EliminateAllPreviews();
         
         if (currentActiveGrid != null) tileAnimator.ShowGrid(currentActiveGrid, false);
+    }
+
+    private void EliminateAllPreviews()
+    {
+        TowerPreview[] previews = FindObjectsByType<TowerPreview>(FindObjectsSortMode.None);
+        foreach (var preview in previews)
+        {
+            Destroy(preview.gameObject);
+        }
     }
 
     private void EliminateAllEnemies()

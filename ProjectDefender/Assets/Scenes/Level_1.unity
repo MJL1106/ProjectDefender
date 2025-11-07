@@ -37514,6 +37514,9 @@ MonoBehaviour:
   camShakeDuration: 0.02
   camShakeMagnitude: 0.15
   buildSound: {fileID: 0}
+  sellSound: {fileID: 0}
+  buildSoundVolume: 1
+  sellSoundVolume: 1
 --- !u!4 &718979425
 Transform:
   m_ObjectHideFlags: 0
@@ -60426,22 +60429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31aaa69c0e4c114c9a87ea7fda7bbe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towersUnlocked:
-  - towerName: Crossbow
-    unlocked: 1
-  - towerName: Cannon
-    unlocked: 1
-  - towerName: Rapid Fire Gun
-    unlocked: 0
-  - towerName: Hammer
-    unlocked: 0
-  - towerName: Spider Nest
-    unlocked: 0
-  - towerName: Anti-air Harpoon
-    unlocked: 0
-  - towerName: Just Fan
-    unlocked: 0
-  levelCurrency: 200
   myMainGrid: {fileID: 1199274202421046181}
   extraObjectsToDelete:
   - {fileID: 231532976}
@@ -60458,7 +60445,6 @@ MonoBehaviour:
   - {fileID: 163361700398521113}
   - {fileID: 903957617}
   myWaveManager: {fileID: 1785373446}
-  groundMaterial: {fileID: 2100000, guid: b8455780cbd62554c89f1d78aaa2ff65, type: 2}
 --- !u!4 &1105963833
 Transform:
   m_ObjectHideFlags: 0
@@ -61427,7 +61413,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122316687}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -100213,7 +100199,7 @@ PrefabInstance:
       objectReference: {fileID: 1522258238}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].fastEnemy
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[1].fastEnemy
@@ -100248,11 +100234,23 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[1].heavyEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[1].swarmEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[2].basicEnemy
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[3].basicEnemy
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[4].basicEnemy
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
@@ -100268,11 +100266,23 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[1].stealthEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].flyingBossEnemy
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
       propertyPath: levelWaves.Array.data[0].spiderBossEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[1].flyingBossEnemy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+      propertyPath: levelWaves.Array.data[1].spiderBossEnemy
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7692707195604288094, guid: 5950176d060b82944a52395a7bd62d37, type: 3}

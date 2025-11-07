@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2796400646909843307}
   - component: {fileID: 6605081290392427015}
   - component: {fileID: 7676861134718054962}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4902,7 +4902,7 @@ GameObject:
   - component: {fileID: 4922896081469918054}
   - component: {fileID: 8318277078720982026}
   - component: {fileID: 2123433996831554891}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: WinLevelFireworks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9806,7 +9806,7 @@ GameObject:
   - component: {fileID: 4218047663833152959}
   - component: {fileID: 8413467053660654650}
   - component: {fileID: 52476814767482831}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: subemitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14726,7 +14726,7 @@ GameObject:
   - component: {fileID: 7051669120500243167}
   - component: {fileID: 8565600104913651701}
   - component: {fileID: 3515587015051902951}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: subemitter_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

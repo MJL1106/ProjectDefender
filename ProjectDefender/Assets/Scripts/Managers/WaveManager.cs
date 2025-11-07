@@ -398,6 +398,7 @@ public class WaveManager : MonoBehaviour
     }
     
     public WaveDetails[] GetLevelWaves() => levelWaves;
+    public int GetCurrentWaveIndex() => waveIndex;
     
 
     private bool AllEnemiesDefeated()

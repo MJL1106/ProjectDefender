@@ -7,7 +7,7 @@ public class LevelButtonTile : MonoBehaviour, IPointerDownHandler, IPointerEnter
 {
     private LevelManager levelManager;
     private TileAnimator tileAnimator;
-    private Outline outline;
+    public Outline outline { get; private set; }
     private TextMeshPro myText => GetComponentInChildren<TextMeshPro>();
     
     [SerializeField] private int levelIndex;
