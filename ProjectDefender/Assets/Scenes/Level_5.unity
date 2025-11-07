@@ -29989,7 +29989,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.4585114, y: -0.4, z: 9.569875}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalScale: {x: 50, y: 1, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -49783,6 +49783,9 @@ MonoBehaviour:
   camShakeDuration: 0.2
   camShakeMagnitude: 0.2
   buildSound: {fileID: 0}
+  sellSound: {fileID: 0}
+  buildSoundVolume: 1
+  sellSoundVolume: 1
 --- !u!4 &718979425
 Transform:
   m_ObjectHideFlags: 0
@@ -76164,8 +76167,9 @@ MonoBehaviour:
   - {fileID: 299441678}
   - {fileID: 1122316687}
   - {fileID: 1675235818}
+  - {fileID: 405194987}
   myWaveManager: {fileID: 687509787}
-  groundMaterial: {fileID: 2100000, guid: a3f9d6ebb887a0644b2c5ef586ea193c, type: 2}
+  groundMaterial: {fileID: 2100000, guid: bafabbb1a26fec2468fd3cacb4206f5e, type: 2}
 --- !u!4 &1105963833
 Transform:
   m_ObjectHideFlags: 0
