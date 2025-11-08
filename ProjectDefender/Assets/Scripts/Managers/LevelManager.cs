@@ -66,13 +66,14 @@ public class LevelManager : MonoBehaviour
             yield break;
         }
     
-        StartCoroutine(UpdateBackgroundColorCo(upcomingData.groundMaterial.color, 1.5f));
     
         tileAnimator.ShowMainGrid(false);
         ui.EnableMainMenuUI(false);
     
         cameraEffects.SwitchToGameView();
 
+        StartCoroutine(UpdateBackgroundColorCo(upcomingData.groundMaterial.color, 1.5f));
+        
         yield return tileAnimator.GetActiveCoroutine();
     
         tileAnimator.EnableMainSceneObjects(false);
@@ -89,10 +90,10 @@ public class LevelManager : MonoBehaviour
     
         cameraEffects.SwitchToMenuView();
 
-        yield return tileAnimator.GetActiveCoroutine();
-    
         UpdateBackgroundColor(defaultColor);
-    
+        
+        yield return tileAnimator.GetActiveCoroutine();
+        
         yield return UnloadCurrentScene();
         
         if (tileAnimator == null)
