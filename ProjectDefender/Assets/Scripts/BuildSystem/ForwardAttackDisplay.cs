@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Displays attack range visualization for forward-facing towers.
+/// Creates two parallel lines showing the left and right boundaries of the attack cone.
+/// </summary>
 public class ForwardAttackDisplay : MonoBehaviour
 {
     [SerializeField] private LineRenderer leftLine;
@@ -9,10 +13,16 @@ public class ForwardAttackDisplay : MonoBehaviour
 
     private void Awake()
     {
+        // Disable shadows for UI visualization elements
         leftLine.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         rightLine.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
     }
 
+    /// <summary>
+    /// Toggles line visibility and updates attack range visualization.
+    /// </summary>
+    /// <param name="showLines">Whether to show the attack range lines</param>
+    /// <param name="newRange">The attack range distance to visualize</param>
     public void CreateLines(bool showLines, float newRange)
     {
         leftLine.enabled = showLines;
@@ -24,6 +34,10 @@ public class ForwardAttackDisplay : MonoBehaviour
         UpdateLines();
     }
 
+    /// <summary>
+    /// Refreshes line positions based on current transform.
+    /// Called when tower rotates or attack range changes.
+    /// </summary>
     public void UpdateLines()
     {
         DrawLine(leftLine);

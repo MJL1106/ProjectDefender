@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class TowerFan : Tower
 {
-    [Header("Fan Details")] [SerializeField]
-    private float revealFrequency = .1f;
-
+    [Header("Fan Details")] 
+    [SerializeField] private float revealFrequency = .1f;
     [SerializeField] private float revealDuration = 1f;
+    
     private List<Enemy> enemiesToReveal = new List<Enemy>();
+    private ForwardAttackDisplay display;
 
     protected override void Awake()
     {
         base.Awake();
         
-        InvokeRepeating(nameof(RevealEnemies), .1f,revealFrequency);
+        // Disable the display lines once tower is built (only used in editor/preview)
+        display = GetComponent<ForwardAttackDisplay>();
+        if (display != null) display.CreateLines(false, 0);
+        
+        InvokeRepeating(nameof(RevealEnemies), .1f, revealFrequency);
         PlayTowerAttackSound();
     }
 
@@ -33,8 +38,8 @@ public class TowerFan : Tower
 
     private void OnValidate()
     {
-        ForwardAttackDisplay display = GetComponent<ForwardAttackDisplay>();
-        
-        if (display != null) display.CreateLines(true, attackRange);
+        // Show lines in editor for design purposes
+        ForwardAttackDisplay editorDisplay = GetComponent<ForwardAttackDisplay>();
+        if (editorDisplay != null) editorDisplay.CreateLines(true, attackRange);
     }
 }
