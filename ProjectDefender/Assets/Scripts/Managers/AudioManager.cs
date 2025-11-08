@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.Audio;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Singleton manager for all game audio.
+/// Handles BGM playback, 3D SFX, and advanced SFX limiting (cooldown, concurrent, per-tower).
+/// </summary>
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
@@ -14,7 +18,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource[] bgm;
 
     [Header("Audio Mixer")]
-    [SerializeField] private AudioMixerGroup sfxMixerGroup;
+    [SerializeField] private AudioMixerGroup sfxMixerGroup; // Mixer group for all spawned one-shot SFX
 
     private int currentBgmIndex;
 
@@ -36,28 +40,28 @@ public class AudioManager : MonoBehaviour
         InvokeRepeating(nameof(PlayMusicIfNeeded), 0, 2);
     }
     
+    /// <summary>
+    /// Checks if a specific tower instance can play a sound.
+    /// Used to limit the number of identical towers playing sounds simultaneously.
+    /// </summary>
     public bool CanTowerPlaySound(string towerTypeId, int towerInstanceId, int maxConcurrentTowers)
     {
-        if (!activeTowerInstances.ContainsKey(towerTypeId))
-        {
-            activeTowerInstances[towerTypeId] = new HashSet<int>();
-        }
-    
-        if (activeTowerInstances[towerTypeId].Count >= maxConcurrentTowers && 
-            !activeTowerInstances[towerTypeId].Contains(towerInstanceId))
-        {
-            return false;
-        }
-    
+        if (!activeTowerInstances.ContainsKey(towerTypeId)) activeTowerInstances[towerTypeId] = new HashSet<int>();
+        
+        if (activeTowerInstances[towerTypeId].Count >= maxConcurrentTowers 
+            && !activeTowerInstances[towerTypeId].Contains(towerInstanceId)) return false;
+        
         return true;
     }
     
+    /// <summary>
+    /// Registers that a tower has started playing a sound.
+    /// Automatically unregisters it after the sound's duration.
+    /// </summary>
     public void RegisterTowerSound(string towerTypeId, int towerInstanceId, float duration)
     {
-        if (!activeTowerInstances.ContainsKey(towerTypeId))
-        {
-            activeTowerInstances[towerTypeId] = new HashSet<int>();
-        }
+        if (!activeTowerInstances.ContainsKey(towerTypeId)) activeTowerInstances[towerTypeId] = new HashSet<int>();
+        
     
         activeTowerInstances[towerTypeId].Add(towerInstanceId);
         StartCoroutine(UnregisterTowerSoundCo(towerTypeId, towerInstanceId, duration));
@@ -67,12 +71,14 @@ public class AudioManager : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
     
-        if (activeTowerInstances.ContainsKey(towerTypeId))
-        {
-            activeTowerInstances[towerTypeId].Remove(towerInstanceId);
-        }
+        if (activeTowerInstances.ContainsKey(towerTypeId)) activeTowerInstances[towerTypeId].Remove(towerInstanceId);
+        
     }
     
+    /// <summary>
+    /// Plays a sound from a pre-existing AudioSource component.
+    /// Use for looping or persistent sounds.
+    /// </summary>
     public void PlaySFX(AudioSource audioToPlay, bool randomPitch = false)
     {
         if (audioToPlay.clip == null)
@@ -87,6 +93,10 @@ public class AudioManager : MonoBehaviour
         audioToPlay.Play();
     }
 
+    /// <summary>
+    /// Plays a one-shot 3D sound at a specific position.
+    /// Creates and destroys a temporary audio source.
+    /// </summary>
     public void PlaySFXOneShot(AudioClip clip, Vector3 position, bool randomPitch = false, float volume = 1f)
     {
         if (clip == null)
@@ -98,20 +108,21 @@ public class AudioManager : MonoBehaviour
         CreateAndPlayTemporaryAudio(clip, position, randomPitch, volume);
     }
 
+    /// <summary>
+    /// Plays a one-shot 3D sound, but only if it's not on cooldown.
+    /// Also limits the max concurrent instances of this sound.
+    /// </summary>
     public void PlaySFXOneShotLimited(AudioClip clip, Vector3 position, string soundId, float cooldown = 0.2f, int maxConcurrent = 4, bool randomPitch = false, float volume = 1f)
     {
         if (clip == null) return;
 
         // Check cooldown
-        if (lastPlayTime.ContainsKey(soundId) && Time.time - lastPlayTime[soundId] < cooldown) 
-            return;
+        if (lastPlayTime.ContainsKey(soundId) && Time.time - lastPlayTime[soundId] < cooldown) return;
         
         // Check concurrent limit
-        if (!concurrentSounds.ContainsKey(soundId)) 
-            concurrentSounds[soundId] = 0;
+        if (!concurrentSounds.ContainsKey(soundId)) concurrentSounds[soundId] = 0;
 
-        if (concurrentSounds[soundId] >= maxConcurrent) 
-            return;
+        if (concurrentSounds[soundId] >= maxConcurrent) return;
 
         // Play sound
         CreateAndPlayTemporaryAudio(clip, position, randomPitch, volume);
@@ -123,6 +134,9 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(DecreaseConcurrentSoundCo(soundId, clip.length));
     }
 
+    /// <summary>
+    /// Creates a temporary GameObject with an AudioSource to play a 3D sound.
+    /// </summary>
     private void CreateAndPlayTemporaryAudio(AudioClip clip, Vector3 position, bool randomPitch, float volume)
     {
         GameObject tempAudio = new GameObject("TempAudio_" + clip.name);
@@ -151,18 +165,17 @@ public class AudioManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         
-        if (concurrentSounds.ContainsKey(soundId))
-        {
-            concurrentSounds[soundId] = Mathf.Max(0, concurrentSounds[soundId] - 1);
-        }
+        if (concurrentSounds.ContainsKey(soundId)) concurrentSounds[soundId] = Mathf.Max(0, concurrentSounds[soundId] - 1);
+        
     }
 
+    /// <summary>
+    /// Smoothly fades out a playing AudioSource then stops it.
+    /// </summary>
     public void FadeOutSFX(AudioSource audioToFade, float fadeTime = 0.2f)
     {
-        if (audioToFade != null && audioToFade.isPlaying)
-        {
-            StartCoroutine(FadeOutCo(audioToFade, fadeTime));
-        }
+        if (audioToFade != null && audioToFade.isPlaying) StartCoroutine(FadeOutCo(audioToFade, fadeTime));
+        
     }
 
     private IEnumerator FadeOutCo(AudioSource audio, float fadeTime)
@@ -181,6 +194,10 @@ public class AudioManager : MonoBehaviour
         audio.volume = startVolume;
     }
 
+    /// <summary>
+    /// Checks if BGM should be playing and starts a new track if needed.
+    /// Called by InvokeRepeating.
+    /// </summary>
     private void PlayMusicIfNeeded()
     {
         if (bgm.Length <= 0)
@@ -194,13 +211,18 @@ public class AudioManager : MonoBehaviour
         if (bgm[currentBgmIndex].isPlaying == false) PlayRandomBGM();
     }
 
-    [ContextMenu("Play Random music")]
+    /// <summary>
+    /// Selects and plays a random BGM track from the list.
+    /// </summary>
     public void PlayRandomBGM()
     {
         currentBgmIndex = Random.Range(0, bgm.Length);
         PlayBGM(currentBgmIndex);
     }
     
+    /// <summary>
+    /// Plays a specific BGM track by its index.
+    /// </summary>
     public void PlayBGM(int bgmToPlay)
     {
         if (bgm.Length <= 0)
@@ -216,7 +238,9 @@ public class AudioManager : MonoBehaviour
         bgm[bgmToPlay].Play();
     }
 
-    [ContextMenu("Stop all music")]
+    /// <summary>
+    /// Stops all BGM tracks currently playing.
+    /// </summary>
     public void StopAllBGM()
     {
         for (int i = 0; i < bgm.Length; i++)

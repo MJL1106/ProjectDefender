@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
+/// <summary>
+/// A singleton manager for handling object pooling.
+/// Creates and manages pools for enemies, projectiles, and VFX to improve performance.
+/// </summary>
 public class ObjectPoolManager : MonoBehaviour
 {
     public static ObjectPoolManager instance;
@@ -12,18 +16,15 @@ public class ObjectPoolManager : MonoBehaviour
     [SerializeField] private GameObject[] enemyPools;
     [SerializeField] private GameObject[] projectilePools;
     [SerializeField] private GameObject[] vfxPools;
-    [SerializeField] private int defaultPoolSize = 50;
-    [SerializeField] private int maxPoolSize = 500;
+    [SerializeField] private int defaultPoolSize = 50; // Initial number of objects to create for each pool
+    [SerializeField] private int maxPoolSize = 500; // Max objects allowed in a pool before errors
 
     private Dictionary<GameObject, ObjectPool<GameObject>> poolDictionary;
 
     private void Awake()
     {
         if (instance == null) instance = this;
-        else
-        {
-            Destroy(gameObject);
-        }
+        else Destroy(gameObject);
     }
 
     private void Start()
@@ -31,6 +32,10 @@ public class ObjectPoolManager : MonoBehaviour
         InitializePools();
     }
 
+    /// <summary>
+    /// Retrieves an object from the pool for the specified prefab.
+    /// Activates the object and sets its position, rotation, and parent.
+    /// </summary>
     public GameObject Get(GameObject prefab, Vector3 position, Quaternion? rotation = null, Transform parent = null)
     {
         if (!poolDictionary.ContainsKey(prefab))
@@ -48,6 +53,10 @@ public class ObjectPoolManager : MonoBehaviour
         return objectToGet;
     }
 
+    /// <summary>
+    /// Returns an object to its corresponding pool.
+    /// Finds the original prefab via the 'PooledObject' component.
+    /// </summary>
     public void Remove(GameObject objectToRemove)
     {
         GameObject originalPrefab = objectToRemove.GetComponent<PooledObject>()?.originalPrefab;
@@ -62,6 +71,9 @@ public class ObjectPoolManager : MonoBehaviour
         poolDictionary[originalPrefab].Release(objectToRemove);
     }
 
+    /// <summary>
+    /// Creates all predefined pools specified in the inspector arrays.
+    /// </summary>
     private void InitializePools()
     {
         poolDictionary = new Dictionary<GameObject, ObjectPool<GameObject>>();
@@ -82,6 +94,9 @@ public class ObjectPoolManager : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Creates a new object pool for a given prefab and adds it to the dictionary.
+    /// </summary>
     private void CreateNewPool(GameObject prefab)
     {
         var pool = new ObjectPool<GameObject>
@@ -103,6 +118,10 @@ public class ObjectPoolManager : MonoBehaviour
         StartCoroutine(PreloadPoolCo(pool, defaultPoolSize));
     }
 
+    /// <summary>
+    /// Pre-warms a pool by getting and releasing the default number of objects.
+    /// Helps prevent frame drops on the first spawn of an object type.
+    /// </summary>
     private IEnumerator PreloadPoolCo(ObjectPool<GameObject> poolToPreload, int count)
     {
         List<GameObject> preloadedObjects = new List<GameObject>();
@@ -120,6 +139,10 @@ public class ObjectPoolManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The 'create' function for the object pool.
+    /// Instantiates a new prefab and adds a 'PooledObject' component to track it.
+    /// </summary>
     private GameObject NewPoolObject(GameObject prefab)
     {
         GameObject newObject = Instantiate(prefab);

@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
 
+/// <summary>
+/// A data class holding the composition of a single enemy wave.
+/// Also stores references to new grids or portals for layout changes.
+/// </summary>
 [System.Serializable]
 public class WaveDetails
 {
-    public GridBuilder nextGrid;
-    public EnemyPortal[] newPortals;
+    public GridBuilder nextGrid; // The grid layout to transition to *after* this wave
+    public EnemyPortal[] newPortals; // New portals to activate *after* this wave
     public int basicEnemy;
     public int fastEnemy;
     public int swarmEnemy;
@@ -18,6 +22,10 @@ public class WaveDetails
     public int spiderBossEnemy;
 }
 
+/// <summary>
+/// Manages the progression of enemy waves within a level.
+/// Handles wave timers, enemy spawning, and triggering level layout changes.
+/// </summary>
 public class WaveManager : MonoBehaviour
 {
     private GameManager gameManager;
@@ -31,13 +39,13 @@ public class WaveManager : MonoBehaviour
     private MeshCollider[] flyingBossNavColliders;
 
     [Header("Wave Details")]
-    [SerializeField] private float timeBetweenWaves = 10;
+    [SerializeField] private float timeBetweenWaves = 10; // Time in seconds for the countdown timer
     [SerializeField] private float waveTimer;
     [SerializeField] private WaveDetails[] levelWaves;
     [SerializeField] private int waveIndex;
 
-    [Header("Level Update Details")] [SerializeField]
-    private float yOffset = 5;
+    [Header("Level Update Details")] 
+    [SerializeField] private float yOffset = 5; // Vertical distance tiles travel when changing layout
     [SerializeField] private float tileDelay = .1f;
     
     [Header("Enemy Prefabs")]
@@ -62,6 +70,7 @@ public class WaveManager : MonoBehaviour
         tileAnimator = FindFirstObjectByType<TileAnimator>();
         inGameUI = FindFirstObjectByType<UIGame>(FindObjectsInactive.Include);
 
+        // Cache colliders for specialized NavMesh baking
         MeshCollider[] allColliders = GetComponentsInChildren<MeshCollider>();
     
         List<MeshCollider> flyingList = new List<MeshCollider>();
@@ -90,6 +99,10 @@ public class WaveManager : MonoBehaviour
         HandleWaveTimer();
     }
 
+    /// <summary>
+    /// Starts the wave progression for the level.
+    /// Called by GameManager when the level is prepared.
+    /// </summary>
     [ContextMenu("Activate wave manager")]
     public void ActivateWaveManager()
     {
@@ -98,6 +111,10 @@ public class WaveManager : MonoBehaviour
         EnableWaveTimer(true);
     }
 
+    /// <summary>
+    /// Stops all wave timers and logic.
+    /// Called by GameManager on game over or level exit.
+    /// </summary>
     public void DeactivateWaveManager()
     {
         gameBegan = false;
@@ -110,6 +127,10 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if all enemies are defeated and portals are empty.
+    /// If so, advances the wave index and triggers the next wave or level completion.
+    /// </summary>
     public void CheckIfWaveCompleted()
     {
         if (gameBegan == false || gameManager.IsGameLost()) return;
@@ -136,6 +157,10 @@ public class WaveManager : MonoBehaviour
         
     }
     
+    /// <summary>
+    /// Starts the next wave.
+    /// Updates NavMeshes, gives enemies to portals, and stops the countdown timer.
+    /// </summary>
     public void StartNewWave()
     {
         if (gameManager.IsGameLost()) return;
@@ -146,6 +171,9 @@ public class WaveManager : MonoBehaviour
         makingNextWave = false;
     }
     
+    /// <summary>
+    /// Manages the countdown timer between waves.
+    /// </summary>
     private void HandleWaveTimer()
     {
         if (waveTimerEnabled == false) return;
@@ -164,6 +192,9 @@ public class WaveManager : MonoBehaviour
         
     }
     
+    /// <summary>
+    /// Distributes the enemy prefabs for the current wave to the active portals.
+    /// </summary>
     private void GiveEnemiesToPortals()
     {
         List<GameObject> newEnemies = GetNewEnemies();
@@ -184,20 +215,26 @@ public class WaveManager : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Checks if all enemy portals have finished spawning their queued enemies.
+    /// </summary>
     private bool AllPortalsFinishedSpawning()
     {
         foreach (EnemyPortal portal in enemyPortals)
         {
-            if (portal.HasEnemiesToSpawn())
-            {
-                return false;
-            }
+            if (portal.HasEnemiesToSpawn()) return false;
         }
         return true;
     }
 
+    /// <summary>
+    /// Triggers the level layout update based on the next wave's data.
+    /// </summary>
     private void AttemptToUpdateLayout() => UpdateLevelLayout(levelWaves[waveIndex]);
 
+    /// <summary>
+    /// Compares the current grid to the next wave's grid and identifies tiles to be added/removed.
+    /// </summary>
     private void UpdateLevelLayout(WaveDetails nextWave)
     {
         GridBuilder nextGrid = nextWave.nextGrid;
@@ -235,6 +272,9 @@ public class WaveManager : MonoBehaviour
         StartCoroutine(RebuildLevelCo(tilesToRemove, tilesToAdd, nextWave, tileDelay));
     }
 
+    /// <summary>
+    /// Coroutine to animate the removal of old tiles and addition of new tiles.
+    /// </summary>
     private IEnumerator RebuildLevelCo(List<TileSlot> tilesToRemove, List<TileSlot> tilesToAdd, WaveDetails waveDetails, float delay)
     {
         for (int i = 0; i < tilesToRemove.Count; i++)
@@ -253,6 +293,9 @@ public class WaveManager : MonoBehaviour
         EnableWaveTimer(true);
     }
     
+    /// <summary>
+    /// Animates a new tile moving up and dissolving in.
+    /// </summary>
     private void AddTile(TileSlot newTile)
     {
         newTile.gameObject.SetActive(true);
@@ -265,6 +308,9 @@ public class WaveManager : MonoBehaviour
         tileAnimator.MoveTile(newTile.transform, targetPosition, true);
     }
 
+    /// <summary>
+    /// Animates an old tile moving down and dissolving out.
+    /// </summary>
     private void RemoveTile(TileSlot tileToRemove)
     {
         Vector3 targetPosition = tileToRemove.transform.position + new Vector3(0, -yOffset, 0);
@@ -275,6 +321,9 @@ public class WaveManager : MonoBehaviour
         Destroy(tileToRemove.gameObject, 3);
     }
 
+    /// <summary>
+    /// Enables or disables the between-wave countdown timer.
+    /// </summary>
     private void EnableWaveTimer(bool enable)
     {
         if (enable && gameManager.IsGameLost()) return;
@@ -286,6 +335,9 @@ public class WaveManager : MonoBehaviour
         inGameUI.EnableWaveTimer(enable);
     }
     
+    /// <summary>
+    /// Activates and registers new enemy portals defined in the wave data.
+    /// </summary>
     private void EnableNewPortals(EnemyPortal[] newPortals)
     {
         foreach (EnemyPortal portal in newPortals)
@@ -297,6 +349,9 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Rebuilds all NavMesh surfaces in the level.
+    /// </summary>
     private void UpdateNavMeshes()
     {
         UpdateNavMeshForFlyingEnemies();
@@ -305,6 +360,9 @@ public class WaveManager : MonoBehaviour
         droneNavSurface.BuildNavMesh();
     }
 
+    /// <summary>
+    /// Rebuilds the NavMesh for flying enemies by temporarily enabling their path colliders.
+    /// </summary>
     private void UpdateNavMeshForFlyingEnemies()
     {
         foreach (var myCollider in flyingNavColliders)
@@ -333,9 +391,10 @@ public class WaveManager : MonoBehaviour
             myCollider.enabled = false;
         }
     }
-
-    public void UpdateDroneNavMesh() => droneNavSurface.BuildNavMesh();
     
+    /// <summary>
+    /// Generates a list of enemy prefabs based on the current wave's data.
+    /// </summary>
     private List<GameObject> GetNewEnemies()
     {
         if (waveIndex >= levelWaves.Length)
@@ -401,20 +460,26 @@ public class WaveManager : MonoBehaviour
     public int GetCurrentWaveIndex() => waveIndex;
     
 
+    /// <summary>
+    /// Checks if all active enemies in all portals have been defeated.
+    /// </summary>
     private bool AllEnemiesDefeated()
     {
         foreach (EnemyPortal portal in enemyPortals)
         {
-            if (portal.GetActiveEnemies().Count > 0)
-            {
-                return false;
-            }
+            if (portal.GetActiveEnemies().Count > 0) return false;
         }
 
         return true;
     }
-
+    
+    /// <summary>
+    /// Checks if the next wave has a new grid layout defined.
+    /// </summary>
     private bool HasNewLayout() => waveIndex < levelWaves.Length && levelWaves[waveIndex].nextGrid != null;
 
+    /// <summary>
+    /// Checks if the level is out of waves.
+    /// </summary>
     private bool HasNoMoreWaves() => waveIndex >= levelWaves.Length;
 }

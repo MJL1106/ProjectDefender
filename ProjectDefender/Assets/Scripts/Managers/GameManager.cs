@@ -3,6 +3,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Singleton manager for core game state.
+/// Tracks currency, castle health, win/loss conditions, and scene-level setup.
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -14,7 +18,7 @@ public class GameManager : MonoBehaviour
     private CameraEffects cameraEffects;
     
     [SerializeField] private int currency;
-    [SerializeField] private int maxHp; 
+    [SerializeField] private int maxHp; // Starting and maximum health of the castle
     private int currentHp;
     
     private Transform castleTransform; 
@@ -56,6 +60,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Tells all active EnemyPortals to stop spawning new enemies.
+    /// </summary>
     public void StopMakingEnemies()
     {
         EnemyPortal[] portals = FindObjectsByType<EnemyPortal>(FindObjectsSortMode.None);
@@ -66,8 +73,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the game is in a test scene (no LevelManager) or a real level.
+    /// </summary>
     public bool IsTestingLevel() => levelManager == null;
 
+    /// <summary>
+    /// Triggers the entire game over sequence.
+    /// Stops waves, freezes units, shows VFX, and brings up the game over UI.
+    /// </summary>
     public IEnumerator LevelFailedCo()
     {
         gameLost = true;
@@ -93,16 +107,20 @@ public class GameManager : MonoBehaviour
         yield return ShowGameOverSequence();
     }
 
+    /// <summary>
+    /// Stops all wave timers and enemy spawners.
+    /// </summary>
     private void StopWaveProgression()
     {
         StopMakingEnemies();
         
-        if (currentActiveWaveManager != null)
-        {
-            currentActiveWaveManager.DeactivateWaveManager();
-        }
+        if (currentActiveWaveManager != null) currentActiveWaveManager.DeactivateWaveManager();
+        
     }
 
+    /// <summary>
+    /// Disables all active towers in the scene.
+    /// </summary>
     private void DisableAllTowers()
     {
         Tower[] allTowers = FindObjectsByType<Tower>(FindObjectsSortMode.None);
@@ -112,6 +130,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Stops all active enemies from moving or acting.
+    /// </summary>
     private void FreezeAllEnemies()
     {
         Enemy[] allEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
@@ -130,6 +151,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Focuses the camera on the castle and shows the game over UI.
+    /// </summary>
     private IEnumerator ShowGameOverSequence()
     {
         if (cameraEffects != null)
@@ -144,8 +168,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Public wrapper to start the level completion coroutine.
+    /// </summary>
     public void LevelCompleted() => StartCoroutine(LevelCompletedCo());
 
+    /// <summary>
+    /// Triggers the level complete sequence.
+    /// Plays VFX, focuses camera, shows victory UI, and unlocks the next level.
+    /// </summary>
     public IEnumerator LevelCompletedCo()
     {
         bool isFinalLevel = levelManager.HasNoMoreLevels();
@@ -180,6 +211,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called by LevelSetup to initialize game state for the new level.
+    /// </summary>
     public void PrepareLevel(int levelCurrency, WaveManager newWaveManager)
     {
         gameLost = false;
@@ -195,6 +229,10 @@ public class GameManager : MonoBehaviour
         newWaveManager.ActivateWaveManager();
     }
     
+    /// <summary>
+    /// Destroys all objects on the "VFX" layer.
+    /// Used for scene cleanup during level transitions.
+    /// </summary>
     public void CleanUpVFX()
     {
         int vfxLayer = LayerMask.NameToLayer("VFX");
@@ -203,13 +241,13 @@ public class GameManager : MonoBehaviour
     
         foreach (ParticleSystem ps in allParticles)
         {
-            if (ps.gameObject.layer == vfxLayer)
-            {
-                Destroy(ps.gameObject);
-            }
+            if (ps.gameObject.layer == vfxLayer) Destroy(ps.gameObject);
         }
     }
 
+    /// <summary>
+    /// Updates the castle's health points, updates UI, and checks for game over.
+    /// </summary>
     public void UpdateHp(int value)
     {
         currentHp += value;
@@ -219,15 +257,24 @@ public class GameManager : MonoBehaviour
         if (currentHp <= 0 && gameLost == false) StartCoroutine(LevelFailedCo());
     }
 
+    /// <summary>
+    /// Increments the count of enemies killed.
+    /// </summary>
     public void UpdateEnemiesKilled() => enemiesKilled++;
     
 
+    /// <summary>
+    /// Updates the player's currency and refreshes the UI.
+    /// </summary>
     public void UpdateCurrency(int value)
     {
         currency += value;
         inGameUI.UpdateCurrencyUI(currency);
     }
 
+    /// <summary>
+    // Checks if the player has enough currency for a purchase.
+    /// </summary>
     public bool HasEnoughCurrency(int price)
     {
         return price <= currency;
