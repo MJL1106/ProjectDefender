@@ -2,6 +2,10 @@ using System;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Projectile used by the TowerCannon.
+/// Applies area-of-effect (AOE) damage on impact.
+/// </summary>
 public class ProjectileCannon : MonoBehaviour
 {
     private TrailRenderer trail;
@@ -9,10 +13,11 @@ public class ProjectileCannon : MonoBehaviour
     private Rigidbody rb;
     private float damage;
     
-    [SerializeField] private float damageRadius;
+    [SerializeField] private float damageRadius; // The radius of the AOE damage
     [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private GameObject explosionVfx;
     
+    // Cached audio settings
     private AudioClip explosionSfx;
     private string explosionSfxId;
     private float explosionSfxCooldown;
@@ -26,6 +31,19 @@ public class ProjectileCannon : MonoBehaviour
         trail = GetComponent<TrailRenderer>();
     }
 
+    /// <summary>
+    /// Initializes the projectile with velocity, damage, and audio settings.
+    /// Called from the object pool when the cannon tower fires.
+    /// </summary>
+    /// <param name="newVelocity">The calculated launch velocity (including gravity compensation).</param>
+    /// <param name="newDamage">The damage to apply to each enemy in the AOE.</param>
+    /// <param name="newPool">The ObjectPoolManager instance.</param>
+    /// <param name="expSfx">The AudioClip for the explosion sound.</param>
+    /// <param name="expSfxId">The unique ID for sound limiting.</param>
+    /// <param name="expSfxCooldown">The cooldown for the sound.</param>
+    /// <param name="maxConcurrent">The max concurrent instances of this sound.</param>
+    /// <param name="limitSfx">Whether to apply sound limiting.</param>
+    /// <param name="expVolume">The volume for the explosion sound.</param>
     public void SetupProjectile(Vector3 newVelocity, float newDamage, ObjectPoolManager newPool,
         AudioClip expSfx, string expSfxId, float expSfxCooldown, int maxConcurrent, bool limitSfx, float expVolume)
     {
@@ -43,6 +61,10 @@ public class ProjectileCannon : MonoBehaviour
         explosionVolume = expVolume;
     }
 
+    /// <summary>
+    /// Finds and damages all enemies within the 'damageRadius'.
+    /// Skips any enemies that are currently hidden (stealthed).
+    /// </summary>
     private void DamageEnemiesAround()
     {
         Collider[] enemiesAround = Physics.OverlapSphere(transform.position, damageRadius, whatIsEnemy);
@@ -71,12 +93,12 @@ public class ProjectileCannon : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Triggers the explosion on contact with any valid object.
+    /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Untargetable"))
-        {
-            return;
-        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("Untargetable")) return;
         
         DamageEnemiesAround();
 

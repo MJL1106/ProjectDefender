@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Manages all visual effects for the TowerCrossbow.
+/// Handles emission glow, string tension, rotor animation, and attack visuals.
+/// </summary>
 public class CrossbowVisuals : MonoBehaviour
 {
    private ObjectPoolManager objectPool;
@@ -55,7 +59,7 @@ public class CrossbowVisuals : MonoBehaviour
    [SerializeField] private LineRenderer[] lineRenderers;
 
 
-private void Awake()
+   private void Awake()
    {
       material = new Material(meshRenderer.material);
       meshRenderer.material = material;
@@ -86,6 +90,9 @@ private void Awake()
       UpdateAttackVisualsIfNeeded();
    }
 
+   /// <summary>
+   /// Spawns the 'onHitVfx' prefab at the projectile's hit location.
+   /// </summary>
    public void CreateOnHitVFX(Vector3 hitPoint) => objectPool.Get(onHitVfx, hitPoint, Random.rotation);
 
    private void UpdateAttackVisualsIfNeeded()
@@ -108,6 +115,9 @@ private void Awake()
       material.SetColor("_EmissionColor", emissionColor);
    }
 
+   /// <summary>
+   /// Triggers the reload animation (emission glow and rotor movement) over a duration.
+   /// </summary>
    public void PlayerReloadVFX(float duration)
    {
       float newDuration = duration / 2;
@@ -116,11 +126,17 @@ private void Awake()
       StartCoroutine(UpdateRotorPosition(newDuration));
    }
 
+   /// <summary>
+   /// Triggers the attack 'laser' visual from the start to end point.
+   /// </summary>
    public void PlayAttackVFX(Vector3 startPoint, Vector3 endPoint)
    {
       StartCoroutine(VFXCoroutine(startPoint, endPoint));
    }
 
+   /// <summary>
+   /// Coroutine to show the attack LineRenderer for a short duration.
+   /// </summary>
    private IEnumerator VFXCoroutine(Vector3 startPoint, Vector3 endPoint)
    {
       hitPoint = endPoint;
@@ -134,6 +150,9 @@ private void Awake()
       attackVisuals.enabled = false;
    }
 
+   /// <summary>
+   /// Coroutine to lerp the material's emission intensity over time.
+   /// </summary>
    private IEnumerator ChangeEmission(float duration)
    {
       float startTime = Time.time;
@@ -150,6 +169,9 @@ private void Awake()
       currentIntensity = maxIntensity;
    }
 
+   /// <summary>
+   /// Coroutine to lerp the rotor's position from 'unloaded' to 'loaded'.
+   /// </summary>
    private IEnumerator UpdateRotorPosition(float duration)
    {
       float startTime = Time.time;
@@ -164,6 +186,9 @@ private void Awake()
       rotor.position = rotorLoaded.position;
    }
 
+   /// <summary>
+   /// Updates a LineRenderer's start and end points to match two transforms.
+   /// </summary>
    private void UpdateStringVisual(LineRenderer lineRenderer, Transform startPoint, Transform endPoint)
    {
       lineRenderer.SetPosition(0, startPoint.position);

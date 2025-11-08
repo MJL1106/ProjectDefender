@@ -1,15 +1,22 @@
 using Unity.Mathematics;
 using UnityEngine;
 
+/// <summary>
+/// A tower that lobs an explosive projectile.
+/// Prioritizes targeting enemies that are clustered together.
+/// </summary>
 public class TowerCannon : Tower
 {
     [Header("Cannon Details")] 
-    [SerializeField] private float timeToTarget = 1.5f;
+    [SerializeField] private float timeToTarget = 1.5f; // Time in seconds for the projectile to reach the target
     [SerializeField] private float damage;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private ParticleSystem attackVFX;
 
 
+    /// <summary>
+    /// Calculates launch velocity and fires a projectile from the object pool.
+    /// </summary>
     protected override void Attack()
     {
         base.Attack();
@@ -33,7 +40,10 @@ public class TowerCannon : Tower
     }
     
     
-    // Finds the enemy with the most enemies around it, makes tower cannon useful for destroying large slow groups of enemies
+    /// <summary>
+    /// Overrides base targeting to find the enemy with the most enemies around it.
+    /// Makes the cannon useful for destroying large, slow groups.
+    /// </summary>
     protected override Enemy FindEnemyWithinRange()
     {
         int collidersFound = Physics.OverlapSphereNonAlloc(transform.position, attackRange, allocatedColliders, whatIsEnemy);
@@ -56,11 +66,17 @@ public class TowerCannon : Tower
         return bestTarget;
     }
 
+    /// <summary>
+    /// Checks how many enemies are within a 1-unit radius of the target.
+    /// </summary>
     private int EnemiesAroundEnemy(Transform enemyToCheck)
     {
         return Physics.OverlapSphereNonAlloc(enemyToCheck.position, 1, allocatedColliders, whatIsEnemy);
     }
 
+    /// <summary>
+    /// Overrides base rotation to aim the body and head separately for the ballistic arc.
+    /// </summary>
     protected override void HandleRotation()
     {
         if (currentEnemy == null) return;
@@ -69,6 +85,9 @@ public class TowerCannon : Tower
         FaceLaunchDirection();
     }
 
+    /// <summary>
+    /// Aims the tower head (vertical axis) along the calculated launch velocity vector.
+    /// </summary>
     private void FaceLaunchDirection()
     {
         Vector3 attackDirection = CalculateLaunchVelocity();
@@ -79,6 +98,10 @@ public class TowerCannon : Tower
         towerHead.rotation = Quaternion.Euler(rotation.x, towerHead.eulerAngles.y, 0);
     }
 
+    /// <summary>
+    /// Calculates the required launch velocity to hit the target in 'timeToTarget' seconds.
+    /// Compensates for gravity.
+    /// </summary>
     private Vector3 CalculateLaunchVelocity()
     {
         Vector3 direction = currentEnemy.CentrePoint() - gunPoint.position;

@@ -2,16 +2,20 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Manages all visual animations and particle effects for the TowerHammer.
+/// Handles the hammer slam, reload, and associated component animations (valve, wires).
+/// </summary>
 public class HammerVisuals : MonoBehaviour
 {
     private TowerHammer myTower;
     
     [SerializeField] private ParticleSystem[] vfx;
-    [SerializeField] private RotateObject valveRotation;
+    [SerializeField] private RotateObject valveRotation; // Controls the spinning valve on top
     
     [Header("Hammer Details")] [SerializeField]
-    private Transform hammer;
-    [SerializeField] private Transform hammerHolder;
+    private Transform hammer; // The hammer head
+    [SerializeField] private Transform hammerHolder; // The piston/holder for the hammer
 
     [Space] 
     [SerializeField] private Transform sideWire;
@@ -29,12 +33,18 @@ public class HammerVisuals : MonoBehaviour
         reloadDuration = myTower.GetAttackCooldown() - attackDuration;
     }
 
+    /// <summary>
+    /// Triggers the full hammer slam and reload animation sequence.
+    /// </summary>
     public void HammerAttackAnimation()
     {
         StopAllCoroutines();
         StartCoroutine(HammerAttackCo());
     }
 
+    /// <summary>
+    /// Plays the ground-slam particle VFX.
+    /// </summary>
     public void PlayAttackAnimation()
     {
         foreach (var p in vfx)
@@ -43,6 +53,10 @@ public class HammerVisuals : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Coroutine that animates the hammer slam down, plays VFX,
+    /// then animates the reload back up over the attack cooldown.
+    /// </summary>
     private IEnumerator HammerAttackCo()
     {
         valveRotation.AdjustRotationSpeed(25);
@@ -66,6 +80,12 @@ public class HammerVisuals : MonoBehaviour
     }
     
     
+    /// <summary>
+    /// Coroutine to lerp the hammer's local position by a Y-axis offset.
+    /// </summary>
+    /// <param name="transform">The transform to move.</param>
+    /// <param name="yOffset">The amount to add to the transform's local Y position.</param>
+    /// <param name="duration">The time in seconds for the lerp.</param>
     public IEnumerator ChangePositionCo(Transform transform, float yOffset, float duration = .1f)
     {
         float time = 0;
@@ -85,6 +105,12 @@ public class HammerVisuals : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Coroutine to lerp the hammer's local Y-scale.
+    /// </summary>
+    /// <param name="transform">The transform to scale.</param>
+    /// <param name="newScale">The target local Y-scale. (X and Z scale remain 1).</param>
+    /// <param name="duration">The time in seconds for the lerp.</param>
     private IEnumerator ChangeScaleCo(Transform transform, float newScale, float duration = .25f)
     {
         float time = 0;

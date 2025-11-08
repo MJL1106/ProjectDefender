@@ -1,23 +1,27 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// A tower that fires a latching harpoon.
+/// The harpoon attaches, slows, and deals damage over time.
+/// </summary>
 public class TowerHarpoon : Tower
 {
     private HarpoonVisuals harpoonVisuals;
     
     [Header("Harpoon Details")] 
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private Transform projectileDefaultPosition;
+    [SerializeField] private Transform projectileDefaultPosition; // Where the projectile rests
     [SerializeField] private float projectileSpeed = 15;
     private ProjectileHarpoon currentProjectile;
 
     [Header("Damage Details")] 
-    [SerializeField] private float initialDamage = 5;
-    [SerializeField] private float damageOverTime = 10;
-    [SerializeField] private float overTimeEffectDuration = 4;
+    [SerializeField] private float initialDamage = 5; // Damage on impact
+    [SerializeField] private float damageOverTime = 10; // Total damage dealt over the duration
+    [SerializeField] private float overTimeEffectDuration = 4; // Duration of the DOT and slow
     
     [Range(0f, 1f)] 
-    [SerializeField] private float slowEffect = .7f;
+    [SerializeField] private float slowEffect = .7f; // Slow multiplier (e.g., 0.7 = 30% speed)
 
     private bool reachedTarget;
     private bool busyWithAttack;
@@ -31,6 +35,9 @@ public class TowerHarpoon : Tower
         harpoonVisuals = GetComponent<HarpoonVisuals>();
     }
 
+    /// <summary>
+    /// Fires the harpoon projectile at the target.
+    /// </summary>
     protected override void Attack()
     {
         base.Attack();
@@ -53,6 +60,10 @@ public class TowerHarpoon : Tower
         }
     }
 
+    /// <summary>
+    /// Called by the projectile when it hits the enemy.
+    /// Applies initial damage, slow, and starts the damage-over-time coroutine.
+    /// </summary>
     public void ActivateAttack()
     {
         isProcessingHit = true;
@@ -67,30 +78,26 @@ public class TowerHarpoon : Tower
         }
     
         var enemyFlying = currentEnemy.GetComponent<EnemyFlying>();
-        if (enemyFlying != null)
-        {
-            enemyFlying.AddObservingTower(this);
-        }
+        
+        if (enemyFlying != null) enemyFlying.AddObservingTower(this);
         
         currentEnemy.SlowEnemy(slowEffect, overTimeEffectDuration);
         
-        if (harpoonVisuals != null)
-        {
-            harpoonVisuals.CreateElectrifyVFX(currentEnemy.transform);
-        }
-
+        if (harpoonVisuals != null) harpoonVisuals.CreateElectrifyVFX(currentEnemy.transform);
+        
         IDamageable damageable = currentEnemy.GetComponent<IDamageable>();
         damageable?.TakeDamage(initialDamage);
 
-        if (damageOverTimeCo != null)
-        {
-            StopCoroutine(damageOverTimeCo);
-        }
+        if (damageOverTimeCo != null) StopCoroutine(damageOverTimeCo);
         
         damageOverTimeCo = StartCoroutine(DamageOverTimeCo(damageable));
         isProcessingHit = false;
     }
 
+    /// <summary>
+    /// Coroutine to apply damage over time to the latched enemy.
+    /// </summary>
+    /// <param name="damageable">The enemy's IDamageable interface.</param>
     private IEnumerator DamageOverTimeCo(IDamageable damageable)
     {
         float time = 0;
@@ -99,10 +106,7 @@ public class TowerHarpoon : Tower
     
         while (time < overTimeEffectDuration)
         {
-            if (damageable == null || (currentEnemy != null && currentEnemy.IsDead()))
-            {
-                break;
-            }
+            if (damageable == null || (currentEnemy != null && currentEnemy.IsDead())) break;
             
             damageable?.TakeDamage(damagePerTick);
             yield return new WaitForSeconds(damageFrequency);
@@ -112,12 +116,12 @@ public class TowerHarpoon : Tower
         ResetAttack();
     }
     
+    /// <summary>
+    /// Resets the entire attack sequence, detaches the harpoon, and readies the tower to fire again.
+    /// </summary>
     public void ResetAttack()
     {
-        if (!busyWithAttack && !reachedTarget && damageOverTimeCo == null)
-        {
-            return;
-        }
+        if (!busyWithAttack && !reachedTarget && damageOverTimeCo == null) return;
     
         CancelInvoke(nameof(ResetAttackIfMissed));
     
@@ -127,18 +131,13 @@ public class TowerHarpoon : Tower
             damageOverTimeCo = null;
         }
     
-        if (currentProjectile != null)
-        {
-            currentProjectile.ResetProjectile();
-        }
-    
+        if (currentProjectile != null) currentProjectile.ResetProjectile();
+        
         if (currentEnemy != null)
         {
             var enemyFlying = currentEnemy.GetComponent<EnemyFlying>();
-            if (enemyFlying != null)
-            {
-                enemyFlying.RemoveObservingTower(this);
-            }
+            
+            if (enemyFlying != null) enemyFlying.RemoveObservingTower(this);
         }
         
         if (towerAttackSfx != null) AudioManager.instance?.FadeOutSFX(towerAttackSfx, 0.2f);
@@ -154,20 +153,21 @@ public class TowerHarpoon : Tower
         CreateNewProjectile();
     }
 
+    /// <summary>
+    /// Overrides base targeting to prevent target loss while an attack is in progress.
+    /// </summary>
     protected override void LooseTargetIfNeeded()
     {
-        if (busyWithAttack == false) 
-        {
-            base.LooseTargetIfNeeded();
-        }
+        if (busyWithAttack == false) base.LooseTargetIfNeeded();
     }
 
+    /// <summary>
+    /// Returns the old projectile to the pool and gets a new one, placing it at the ready position.
+    /// </summary>
     private void CreateNewProjectile()
     {
-        if (currentProjectile != null && currentProjectile.gameObject.activeSelf)
-        {
+        if (currentProjectile != null && currentProjectile.gameObject.activeSelf) 
             objectPool.Remove(currentProjectile.gameObject);
-        }
         
         GameObject newProjectile = objectPool.Get(projectilePrefab, projectileDefaultPosition.position,
             projectileDefaultPosition.rotation, towerHead);
@@ -175,13 +175,13 @@ public class TowerHarpoon : Tower
         currentProjectile = newProjectile.GetComponent<ProjectileHarpoon>();
     }
 
+    /// <summary>
+    /// Failsafe in case the projectile never hits its target (e.g., target destroyed mid-flight).
+    /// </summary>
     private void ResetAttackIfMissed()
     {
-        if (reachedTarget || isProcessingHit)
-        {
-            return;
-        }
-    
+        if (reachedTarget || isProcessingHit) return;
+        
         if (currentProjectile != null)
         {
             currentProjectile.ResetProjectile();
@@ -192,6 +192,9 @@ public class TowerHarpoon : Tower
         ResetAttack();
     }
     
+    /// <summary>
+    /// Prevents the tower from attacking if it's already in an attack sequence.
+    /// </summary>
     protected override bool CanAttack()
     {
         if (busyWithAttack) return false;

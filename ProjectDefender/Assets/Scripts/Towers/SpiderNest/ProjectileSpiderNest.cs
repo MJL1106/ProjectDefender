@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// A small, ground-based unit that seeks the closest enemy and explodes.
+/// Spawned by the TowerSpiderNest.
+/// </summary>
 public class ProjectileSpiderNest : MonoBehaviour
 {
     private TrailRenderer trail;
@@ -12,14 +16,15 @@ public class ProjectileSpiderNest : MonoBehaviour
 
     [Header("Base Stats")]
     [SerializeField] private float damage;
-    [SerializeField] private float baseDamageRadius = .8f;
-    [SerializeField] private float baseDetonateDistance = .5f;
+    [SerializeField] private float baseDamageRadius = .8f; // Default AOE damage radius
+    [SerializeField] private float baseDetonateDistance = .5f; // Default proximity to detonate
     
     private float currentDamageRadius;
     private float currentDetonateDistance;
 
     [SerializeField] private GameObject explosionVfx;
     
+    // Cached audio settings
     private AudioClip explosionSfx;
     private string explosionSfxId;
     private float explosionSfxCooldown;
@@ -29,9 +34,9 @@ public class ProjectileSpiderNest : MonoBehaviour
     
     [Space]
     [SerializeField] private LayerMask whatIsEnemy;
-    [SerializeField] private LayerMask whatIsShield;
-    [SerializeField] private float enemyCheckRadius = 10;
-    [SerializeField] private float targetUpdateInterval = .5f;
+    [SerializeField] private LayerMask whatIsShield; // Layer for enemy shields (to detonate early)
+    [SerializeField] private float enemyCheckRadius = 10; // How far the spider can "see" to find a new target
+    [SerializeField] private float targetUpdateInterval = .5f; // How often to re-scan for the closest enemy
 
     private void Awake()
     {
@@ -53,18 +58,20 @@ public class ProjectileSpiderNest : MonoBehaviour
 
         Vector3 directionToTarget = (currentTarget.transform.position - transform.position).normalized;
         
+        // Detonate early if a shield is in the way
         if (Physics.Raycast(transform.position, directionToTarget, out RaycastHit hit, currentDetonateDistance + 0.1f, whatIsShield))
         {
             Explode();
             return;
         }
 
-        if (agent.hasPath && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            Explode();
-        }
+        // Detonate upon reaching the target
+        if (agent.hasPath && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance) Explode();
     }
 
+    /// <summary>
+    /// Damages enemies, plays VFX/SFX, and returns to the pool.
+    /// </summary>
     private void Explode()
     {
         DamageEnemiesAround();
@@ -94,12 +101,23 @@ public class ProjectileSpiderNest : MonoBehaviour
         objectPool.Remove(gameObject);
     }
 
+    /// <summary>
+    /// Initializes the unit when it's launched from the nest.
+    /// </summary>
+    /// <param name="newDamage">The damage to apply on explosion.</param>
+    /// <param name="expSfx">The AudioClip for the explosion sound.</param>
+    /// <param name="expSfxId">The unique ID for sound limiting.</param>
+    /// <param name="expSfxCooldown">The cooldown for the sound.</param>
+    /// <param name="maxConcurrent">The max concurrent instances of this sound.</param>
+    /// <param name="limitSfx">Whether to apply sound limiting.</param>
+    /// <param name="expVolume">The volume for the explosion sound.</param>
     public void SetupSpider(float newDamage, AudioClip expSfx, string expSfxId, float expSfxCooldown, int maxConcurrent, bool limitSfx, float expVolume)
     {
         if (trail != null) trail.Clear();
     
         damage = newDamage;
     
+        // Cache audio settings
         explosionSfx = expSfx;
         explosionSfxId = expSfxId;
         explosionSfxCooldown = expSfxCooldown;
@@ -118,6 +136,9 @@ public class ProjectileSpiderNest : MonoBehaviour
         transform.parent = null;
     }
     
+    /// <summary>
+    /// Applies AOE damage, skipping hidden enemies.
+    /// </summary>
     private void DamageEnemiesAround()
     {
         Collider[] enemiesAround = Physics.OverlapSphere(transform.position, currentDamageRadius, whatIsEnemy);
@@ -136,7 +157,7 @@ public class ProjectileSpiderNest : MonoBehaviour
                 Enemy enemyComponent = damageable as Enemy;
                 if (enemyComponent != null && enemyComponent.IsHidden())
                 {
-                    continue;
+                    continue; // Skip hidden enemies
                 }
             
                 damageable.TakeDamage(damage);
@@ -144,6 +165,9 @@ public class ProjectileSpiderNest : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Finds and sets the closest non-hidden enemy as the target.
+    /// </summary>
     private void UpdateClosestTarget()
     {
         Enemy newTarget = FindClosestEnemy();
@@ -170,6 +194,9 @@ public class ProjectileSpiderNest : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Scans in a radius for the nearest non-hidden enemy.
+    /// </summary>
     private Enemy FindClosestEnemy()
     {
         Collider[] enemiesAround = Physics.OverlapSphere(transform.position, enemyCheckRadius, whatIsEnemy);
@@ -201,6 +228,9 @@ public class ProjectileSpiderNest : MonoBehaviour
         return nearestEnemy;
     }
 
+    /// <summary>
+    /// Returns a larger detonate distance for large enemies.
+    /// </summary>
     private float GetDetonateDistanceForType(EnemyType type)
     {
         switch (type)
@@ -214,6 +244,9 @@ public class ProjectileSpiderNest : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Returns a larger damage radius for large enemies.
+    /// </summary>
     private float GetDamageRadiusForType(EnemyType type)
     {
         switch (type)

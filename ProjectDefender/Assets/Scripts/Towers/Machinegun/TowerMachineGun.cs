@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// A rapid-fire tower that fires fast projectiles from alternating barrels.
+/// Sound is limited to play every few shots to reduce noise.
+/// </summary>
 public class TowerMachineGun : Tower
 {
     private MachineGunVisuals machineGunVisuals;
@@ -8,13 +12,13 @@ public class TowerMachineGun : Tower
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float damage;
     [SerializeField] private float projectileSpeed;
-    [SerializeField] protected int playSoundEveryXShots = 3;
+    [SerializeField] protected int playSoundEveryXShots = 3; // Only plays the attack sound every X shots to reduce noise
     
     [Space]
-    [SerializeField] private Vector3 rotationOffset;
-    [SerializeField] private Transform[] gunPointSet;
+    [SerializeField] private Vector3 rotationOffset; // Aims slightly above the enemy's center point
+    [SerializeField] private Transform[] gunPointSet; // The array of gun barrels to fire from
     private int gunPointIndex;
-    private int shotCounter = 0;
+    private int shotCounter = 0; // Tracks shots for the audio limiting
 
     protected override void Awake()
     {
@@ -23,6 +27,9 @@ public class TowerMachineGun : Tower
         shotCounter = playSoundEveryXShots;
     }
 
+    /// <summary>
+    /// Fires a projectile from the current gun barrel and cycles to the next.
+    /// </summary>
     protected override void Attack()
     {
         gunPoint = gunPointSet[gunPointIndex];
@@ -53,6 +60,9 @@ public class TowerMachineGun : Tower
         }
     }
 
+    /// <summary>
+    /// Rotates the tower head to face the enemy, applying a vertical offset.
+    /// </summary>
     protected override void RotateTowardsEnemy()
     {
         if (currentEnemy == null) return;
