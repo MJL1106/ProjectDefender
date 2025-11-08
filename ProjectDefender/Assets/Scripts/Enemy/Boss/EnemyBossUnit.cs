@@ -2,20 +2,23 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Ground unit spawned by EnemyFlyingBoss that drops from the sky.
+/// Temporarily invincible during fall until landing, then navigates normally.
+/// Snaps to boss position if knocked off NavMesh.
+/// </summary>
 public class EnemyBossUnit : Enemy
 {
     private Vector3 savedDestination;
     private Vector3 lastKnownBossPosition;
     private EnemyFlyingBoss myBoss;
     
-    // Invincibility handling
     private int originalLayer;
     private bool isInvincible = false;
     
-    // You can adjust this in the inspector if needed
     [Header("Invincibility Settings")]
     [SerializeField] private float invincibilityDuration = 1f;
-    [SerializeField] private string untargetableLayerName = "Untargetable"; // Or use layer index directly
+    [SerializeField] private string untargetableLayerName = "Untargetable";
     
     protected override void Awake()
     {
@@ -27,10 +30,13 @@ public class EnemyBossUnit : Enemy
     {
         base.Update();
 
-        if (myBoss != null)
-            lastKnownBossPosition = myBoss.transform.position;
+        if (myBoss != null) lastKnownBossPosition = myBoss.transform.position;
     }
 
+    /// <summary>
+    /// Initializes unit after being spawned by boss.
+    /// Applies temporary invincibility and physics-based falling.
+    /// </summary>
     public void SetupEnemy(Vector3 destination, EnemyFlyingBoss myNewBoss, EnemyPortal myNewPortal)
     {
         ResetEnemy();
@@ -42,12 +48,14 @@ public class EnemyBossUnit : Enemy
 
         savedDestination = destination;
         
-        // Make unit invincible when spawned
         MakeInvincible();
 
         InvokeRepeating(nameof(SnapToBossIfNeeded), .1f, .5f);
     }
 
+    /// <summary>
+    /// Enables physics for falling behavior before landing.
+    /// </summary>
     private void ResetMovement()
     {
         rb.useGravity = true;
@@ -57,46 +65,44 @@ public class EnemyBossUnit : Enemy
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Enemy")
-            return;
+        if (collision.collider.tag == "Enemy") return;
 
+        // Switch to NavMesh navigation after landing
         rb.useGravity = false;
         rb.isKinematic = true;
 
         agent.enabled = true;
         agent.SetDestination(savedDestination);
         
-        // Remove invincibility when landing (if still invincible)
-        if (isInvincible)
-        {
-            RemoveInvincibility();
-        }
+        if (isInvincible) RemoveInvincibility();
     }
     
+    /// <summary>
+    /// Makes unit invincible and untargetable by changing layer.
+    /// Automatically times out as fallback if unit never lands properly.
+    /// </summary>
     private void MakeInvincible()
     {
         isInvincible = true;
         gameObject.layer = LayerMask.NameToLayer(untargetableLayerName);
         
-        // Optional: Add visual feedback (transparency, outline, etc.)
-        // You could modify the material or add a shader effect here
-        
-        // Fallback timer in case unit never lands properly
         Invoke(nameof(RemoveInvincibility), invincibilityDuration);
     }
     
     private void RemoveInvincibility()
     {
-        if (!isInvincible) return; // Prevent double removal
+        if (!isInvincible) return;
         
         isInvincible = false;
         gameObject.layer = originalLayer;
         
-        // Remove visual feedback if any
-        
-        CancelInvoke(nameof(RemoveInvincibility)); // Cancel the timer if it's still running
+        CancelInvoke(nameof(RemoveInvincibility));
     }
 
+    /// <summary>
+    /// Safety check to prevent units from getting stuck off NavMesh.
+    /// Teleports unit back to boss if too far and not on NavMesh.
+    /// </summary>
     private void SnapToBossIfNeeded()
     {
         if (agent.enabled && agent.isOnNavMesh == false)
@@ -109,7 +115,6 @@ public class EnemyBossUnit : Enemy
         }
     }
     
-    // Override TakeDamage if your Enemy base class has it
     public override void TakeDamage(float damage)
     {
         if (isInvincible) return;
@@ -121,13 +126,12 @@ public class EnemyBossUnit : Enemy
         return Vector3.Distance(transform.position, GetFinalWaypoint());
     }
     
-    // Clean up when disabled/destroyed
     protected override void OnDisable()
     {
         CancelInvoke(nameof(RemoveInvincibility));
         CancelInvoke(nameof(SnapToBossIfNeeded));
         
-        // Reset to original layer in case object is pooled
+        // Reset to original layer for object pooling
         gameObject.layer = originalLayer;
         isInvincible = false;
         

@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Armored enemy with shield that absorbs damage.
+/// Shield must be depleted before enemy takes health damage.
+/// </summary>
 public class EnemyHeavy : Enemy
 {
     [Header("Enemy Details")] 
@@ -17,12 +21,12 @@ public class EnemyHeavy : Enemy
 
     private void EnableShieldIfNeeded()
     {
-        if (shieldObject != null && currentShield > 0)
-        {
-            shieldObject.gameObject.SetActive(true);
-        }
+        if (shieldObject != null && currentShield > 0) shieldObject.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Applies damage to shield first, then to health when shield depletes.
+    /// </summary>
     public override void TakeDamage(float damage)
     {
         if (currentShield > 0)
@@ -36,6 +40,5 @@ public class EnemyHeavy : Enemy
         {
             base.TakeDamage(damage);
         }
-        
     }
 }

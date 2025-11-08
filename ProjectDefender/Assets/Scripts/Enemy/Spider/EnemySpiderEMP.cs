@@ -1,6 +1,11 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// EMP projectile fired by spider enemies.
+/// Moves toward target tower and disables it on contact.
+/// Shrinks and self-destructs after reaching destination.
+/// </summary>
 public class EnemySpiderEMP : MonoBehaviour
 {
     private ObjectPoolManager objectPool;
@@ -9,7 +14,7 @@ public class EnemySpiderEMP : MonoBehaviour
     [SerializeField] private float moveSpeed = 1;
     [SerializeField] private float empRadius = 2;
     [SerializeField] private float empEffectDuration = 2;
-    [SerializeField] private float minLifetime = 0.5f;
+    [SerializeField] private float minLifetime = 0.5f; // Prevents instant destruction on spawn
 
     private Vector3 destination;
     private Vector3 originalScale;
@@ -33,40 +38,35 @@ public class EnemySpiderEMP : MonoBehaviour
     private void Update()
     {
         MoveTowardsTarget();
-        
         if (shouldShrink) Shrink();
     }
 
+    /// <summary>
+    /// Gradually reduces scale until EMP returns to pool.
+    /// </summary>
     private void Shrink()
     {
         transform.localScale -= Vector3.one * shrinkSpeed * Time.deltaTime;
-        
-        if (transform.localScale.x <= .01f)
-        {
-            objectPool.Remove(gameObject);
-        }
+        if (transform.localScale.x <= .01f) objectPool.Remove(gameObject);
     }
 
     private void MoveTowardsTarget()
     {
         float distance = Vector3.Distance(transform.position, destination);
-        
         transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
 
         float timeAlive = Time.time - spawnTime;
-        
-        if (distance < 0.1f && timeAlive > minLifetime)
-        {
-            DeactivateEMP();
-        }
+        if (distance < 0.1f && timeAlive > minLifetime) DeactivateEMP();
     }
 
+    /// <summary>
+    /// Initializes EMP with target position and effect duration.
+    /// </summary>
     public void SetupEMP(float duration, Vector3 newTarget, float empDuration)
     {
         empEffectDuration = duration;
         destination = newTarget;
         shouldShrink = false;
-        //Invoke(nameof(DeactivateEMP), empDuration);
     }
 
     private void DeactivateEMP()
@@ -77,11 +77,7 @@ public class EnemySpiderEMP : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Tower tower = other.GetComponent<Tower>();
-        
-        if (tower != null)
-        {
-            tower.DeactivateTower(empEffectDuration, empVfx);
-        }
+        if (tower != null) tower.DeactivateTower(empEffectDuration, empVfx);
     }
     
     private void OnDrawGizmos()

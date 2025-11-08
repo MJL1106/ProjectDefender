@@ -1,28 +1,29 @@
 using UnityEngine;
 
+/// <summary>
+/// Handles spider-specific visual effects including procedural leg animation,
+/// body bobbing, and smoke particle effects.
+/// </summary>
 public class EnemySpiderVisuals : EnemyVisuals
 {
-    [Header("Leg Details")] public float legSpeed = 3;
-
+    [Header("Leg Details")] 
+    public float legSpeed = 3;
     public float increasedLegSpeed = 10;
 
     private SpiderLeg[] legs;
 
-    [Header("Body animation")] [SerializeField]
-    private Transform bodyTransform;
-
+    [Header("Body animation")] 
+    [SerializeField] private Transform bodyTransform;
     [SerializeField] private float bodyAnimSpeed = 1;
-    [SerializeField] private float maxHeight = .1f;
+    [SerializeField] private float maxHeight = .1f; // Vertical bobbing distance
 
     private Vector3 startPosition;
     private float elapsedTime;
 
-    [Header("Smoke animation")] [SerializeField]
-    private ParticleSystem[] smokeVfx;
-
+    [Header("Smoke animation")] 
+    [SerializeField] private ParticleSystem[] smokeVfx;
     [SerializeField] private float smokeCooldown;
     private float smokeTimer;
-
 
     protected override void Awake()
     {
@@ -45,6 +46,9 @@ public class EnemySpiderVisuals : EnemyVisuals
         UpdateSpiderLegs();
     }
 
+    /// <summary>
+    /// Creates sine wave bobbing motion for spider body.
+    /// </summary>
     private void AnimateBody()
     {
         elapsedTime += Time.deltaTime * bodyAnimSpeed;
@@ -78,6 +82,10 @@ public class EnemySpiderVisuals : EnemyVisuals
         }
     }
 
+    /// <summary>
+    /// Temporarily increases leg movement speed for visual emphasis.
+    /// Called when spider changes waypoints.
+    /// </summary>
     public void BrieflySpeedUpLegs()
     {
         foreach (var leg in legs)
