@@ -2,12 +2,15 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// A visual-only component that moves a build button up/down on hover/selection.
+/// </summary>
 public class UIBuildButtonOnHoverEffect : MonoBehaviour
 {
     [SerializeField] private float adjustmentSpeed = 10;
 
-    [SerializeField] private float showcaseY;
-    [SerializeField] private float defaultY;
+    [SerializeField] private float showcaseY; // The target Y position when selected
+    [SerializeField] private float defaultY; // The resting Y position
     
     private float targetY;
 
@@ -24,15 +27,16 @@ public class UIBuildButtonOnHoverEffect : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Enables or disables the hover movement and resets the button's position.
+    /// </summary>
+    /// <param name="buttonsMenuActive">True if the build menu is active, false otherwise.</param>
     public void ToggleMovement(bool buttonsMenuActive)
     {
         canMove = buttonsMenuActive;
         SetTargetY(defaultY);
 
-        if (buttonsMenuActive == false)
-        {
-            SetPositionToDefault();
-        }
+        if (buttonsMenuActive == false) SetPositionToDefault();
     }
     
     private void SetPositionToActive(float newPositionY)
@@ -47,15 +51,13 @@ public class UIBuildButtonOnHoverEffect : MonoBehaviour
 
     private void SetTargetY(float newY) => targetY = newY;
 
+    /// <summary>
+    /// Sets the target Y position to the 'showcase' or 'default' state.
+    /// </summary>
+    /// <param name="showcase">True to move up, false to move to default.</param>
     public void ShowCaseButton(bool showcase)
     {
-        if (showcase)
-        {
-            SetTargetY(showcaseY);
-        }
-        else
-        {
-            SetTargetY(defaultY);      
-        }
+        if (showcase) SetTargetY(showcaseY);
+        else SetTargetY(defaultY);      
     }
 }

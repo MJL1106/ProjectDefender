@@ -2,24 +2,27 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manages all game settings, including audio sliders and sensitivity.
+/// Applies settings on startup and saves them to PlayerPrefs when closed.
+/// </summary>
 public class UISettings : MonoBehaviour
 {
     private CameraController camController;
     
     [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private float mixerMultiplier = 25;
+    [SerializeField] private float mixerMultiplier = 25; // Multiplier for converting linear slider to logarithmic dB
 
     [Header("SFX Settings")] 
     [SerializeField] private Slider sfxSlider;
-    [SerializeField] private string sfxParameter;
+    [SerializeField] private string sfxParameter; // The parameter name in the AudioMixer
     [SerializeField] private TextMeshProUGUI sfxSliderText;
     
     [Header("BGM Settings")] 
     [SerializeField] private Slider bgmSlider;
-    [SerializeField] private string bgmParameter;
+    [SerializeField] private string bgmParameter; // The parameter name in the AudioMixer
     [SerializeField] private TextMeshProUGUI bgmSliderText;
     
     [Header("Keyboard Sensitivity")] [SerializeField]
@@ -44,6 +47,10 @@ public class UISettings : MonoBehaviour
         camController = FindFirstObjectByType<CameraController>();
     }
     
+    /// <summary>
+    /// Loads all settings from PlayerPrefs and applies them.
+    /// Called by GameManager on startup.
+    /// </summary>
     public void ApplyAllSettingsOnStartup()
     {
         // Load saved values
@@ -73,6 +80,10 @@ public class UISettings : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called by the SFX slider. Updates the AudioMixer and text.
+    /// </summary>
+    /// <param name="value">The slider value (0.0 to 1.0).</param>
     public void SFXSliderValue(float value)
     {
         float newValue = MathF.Log10(value) * mixerMultiplier;
@@ -81,6 +92,10 @@ public class UISettings : MonoBehaviour
         sfxSliderText.text = Mathf.RoundToInt(value * 100) + "%";
     }
 
+    /// <summary>
+    /// Called by the BGM slider. Updates the AudioMixer and text.
+    /// </summary>
+    /// <param name="value">The slider value (0.0 to 1.0).</param>
     public void BGMSliderValue(float value)
     {
         float newValue = MathF.Log10(value) * mixerMultiplier;
@@ -89,6 +104,10 @@ public class UISettings : MonoBehaviour
         bgmSliderText.text = Mathf.RoundToInt(value * 100) + "%";
     }
 
+    /// <summary>
+    /// Called by the keyboard sensitivity slider. Updates the CameraController and text.
+    /// </summary>
+    /// <param name="value">The slider value (0.0 to 1.0).</param>
     public void KeyboardSensitivity(float value)
     {
         float newSensitivity = Mathf.Lerp(minKeyboardSens, maxKeyboardSens, value);
@@ -97,6 +116,10 @@ public class UISettings : MonoBehaviour
         keyboardSenseText.text = Mathf.RoundToInt(value * 100) + "%";
     }
 
+    /// <summary>
+    /// Called by the mouse sensitivity slider. Updates the CameraController and text.
+    /// </summary>
+    /// <param name="value">The slider value (0.0 to 1.0).</param>
     public void MouseSensitivity(float value)
     {
         float newSensitivity = Mathf.Lerp(minMouseSense, maxMouseSense, value);
@@ -105,6 +128,9 @@ public class UISettings : MonoBehaviour
         mouseSenseText.text = Mathf.RoundToInt(value * 100) + "%";
     }
 
+    /// <summary>
+    /// Saves all slider values to PlayerPrefs when the settings panel is closed.
+    /// </summary>
     private void OnDisable()
     {
         PlayerPrefs.SetFloat(keyboardSenseParameter, keyboardSenseSlider.value);
@@ -113,6 +139,9 @@ public class UISettings : MonoBehaviour
         PlayerPrefs.SetFloat(sfxParameter, sfxSlider.value);
     }
 
+    /// <summary>
+    /// Loads saved values from PlayerPrefs and sets the sliders' positions.
+    /// </summary>
     private void OnEnable()
     {
         keyboardSenseSlider.value = PlayerPrefs.GetFloat(keyboardSenseParameter, .6f);

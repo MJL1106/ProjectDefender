@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
+/// <summary>
+/// Manages a single tower build button in the UI.
+/// Handles hover, selection, preview spawning, and purchase confirmation.
+/// </summary>
 public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     private UI ui;
@@ -42,6 +46,9 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         CreateTowerPreview();
     }
 
+    /// <summary>
+    /// Instantiates the tower's preview model and caches it.
+    /// </summary>
     private void CreateTowerPreview()
     {
         GameObject newPreview = Instantiate(towerToBuild, Vector3.zero, Quaternion.identity);
@@ -51,6 +58,10 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         towerPreview.transform.parent = buildManager.transform;
     }
 
+    /// <summary>
+    /// Selects or deselects this button, showing/hiding the tower preview on the build slot.
+    /// </summary>
+    /// <param name="select">True to select and show preview, false to deselect.</param>
     public void SelectButton(bool select)
     {
         if (buildManager == null) 
@@ -63,10 +74,7 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (slotToUse == null) return;
         
-        if (towerPreview == null && towerToBuild != null)
-        {
-            CreateTowerPreview();
-        }
+        if (towerPreview == null && towerToBuild != null) CreateTowerPreview();
 
         Vector3 previewPosition = slotToUse.GetBuildPosition(1f);
         
@@ -76,6 +84,11 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         buildButtonsHolder.SetLastSelected(this, towerPreview.transform);
     }
 
+    /// <summary>
+    /// Checks if this button matches the tower name and sets its unlocked status.
+    /// </summary>
+    /// <param name="towerNameToCheck">The name of the tower to check against.</param>
+    /// <param name="unlockStatus">True to unlock and show, false to lock and hide.</param>
     public void UnlockTowerIfNeeded(string towerNameToCheck, bool unlockStatus)
     {
         if (towerNameToCheck != towerName) return;
@@ -84,12 +97,12 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         gameObject.SetActive(unlockStatus);
     
         // Create preview when unlocking if it doesn't exist
-        if (unlockStatus && towerPreview == null && towerToBuild != null)
-        {
-            CreateTowerPreview();
-        }
+        if (unlockStatus && towerPreview == null && towerToBuild != null) CreateTowerPreview();
     }
 
+    /// <summary>
+    /// Finalizes the build action by calling the BuildManager.
+    /// </summary>
     public void ConfirmTowerBuild()
     {
         buildManager.BuildTower(towerToBuild, towerPrice, towerPreview.transform);
@@ -111,6 +124,9 @@ public class UIBuildButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         buildManager.MouseOverUI(false);
     }
 
+    /// <summary>
+    /// Editor-only. Updates text and GameObject name based on properties.
+    /// </summary>
     private void OnValidate()
     {
         towerNameText.text = towerName;

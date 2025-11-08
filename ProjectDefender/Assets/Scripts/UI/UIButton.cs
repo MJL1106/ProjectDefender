@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// A generic UI button that plays sounds and scales on hover.
+/// </summary>
 public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     private UI ui;
     private UIAnimator uiAnim;
     private RectTransform myRect;
 
-    [SerializeField] private float showcaseScale = 1.1f;
+    [SerializeField] private float showcaseScale = 1.1f; // The scale to pop to on hover
     [SerializeField] private float scaleUpDuration = .25f;
 
     private Coroutine scaleCoroutine;
@@ -20,6 +23,9 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         myRect = GetComponent<RectTransform>();
     }
 
+    /// <summary>
+    /// Plays hover sound and scales up.
+    /// </summary>
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
         if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
@@ -31,6 +37,9 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (myTextBlinkEffect != null) myTextBlinkEffect.EnableBlink(false);
     }
 
+    /// <summary>
+    /// Scales back to default.
+    /// </summary>
     public virtual void OnPointerExit(PointerEventData eventData)
     {
         if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
@@ -39,6 +48,9 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (myTextBlinkEffect != null) myTextBlinkEffect.EnableBlink(true);
     }
 
+    /// <summary>
+    /// Plays click sound and resets scale.
+    /// </summary>
     public void OnPointerDown(PointerEventData eventData)
     {
         AudioManager.instance?.PlaySFX(ui.onClickSFX);

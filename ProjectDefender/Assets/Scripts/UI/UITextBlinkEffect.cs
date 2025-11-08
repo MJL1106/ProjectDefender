@@ -1,8 +1,9 @@
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
+/// <summary>
+/// Creates a blinking effect on a TextMeshProUGUI component by lerping its alpha.
+/// </summary>
 public class UITextBlinkEffect : MonoBehaviour
 {
     private TextMeshProUGUI myText;
@@ -31,6 +32,10 @@ public class UITextBlinkEffect : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Toggles the blink effect on or off.
+    /// </summary>
+    /// <param name="enable">True to start blinking, false to stop and set alpha to 1.</param>
     public void EnableBlink(bool enable)
     {
         canBlink = enable;
@@ -38,8 +43,15 @@ public class UITextBlinkEffect : MonoBehaviour
         if (canBlink == false) ChangeColourAlpha(1);
     }
 
+    /// <summary>
+    /// Flips the target alpha between 0 and 1.
+    /// </summary>
     private void ChangeTargetAlpha() => targetAlpha = Mathf.Approximately(targetAlpha, 1) ? 0 : 1;
     
+    /// <summary>
+    /// Sets the alpha of the text's color.
+    /// </summary>
+    /// <param name="newAlpha">The new alpha value (0-1).</param>
     private void ChangeColourAlpha(float newAlpha)
     {
         Color myColor = myText.color;
