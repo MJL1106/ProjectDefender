@@ -117,7 +117,6 @@ MonoBehaviour:
   whatIsTargetable:
     serializedVersion: 2
     m_Bits: 0
-  onGameOverVFX: {fileID: 7029580738374021707, guid: 0281718142ee1034d9ad80dcde3b3dd8, type: 3}
   towerAttacksForward: 1
   towerAttackSfx: {fileID: 7704858908784677666}
   limitTowerSfx: 0

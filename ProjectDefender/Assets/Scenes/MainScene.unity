@@ -9710,7 +9710,6 @@ MonoBehaviour:
   edgeMovementSpeed: 200
   focusPoint: {fileID: 605182631}
   maxFocusPointDistance: 15
-  rotationSpeed: 500
   minPitch: 46
   maxPitch: 85
   zoomSpeed: 200
@@ -67914,6 +67913,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 911075193}
+    - target: {fileID: 5211401724386384089, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6145423565368005782, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -67930,8 +67933,7 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 330585549}
-    m_RemovedComponents:
-    - {fileID: 2741093748297021940, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

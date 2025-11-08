@@ -10689,13 +10689,13 @@ MonoBehaviour:
   keyboardSenseSlider: {fileID: 8339877432924866928}
   keyboardSenseParameter: keyboardSens
   keyboardSenseText: {fileID: 2091271457931629412}
-  minKeyboardSens: 60
-  maxKeyboardSens: 240
+  minKeyboardSens: 30
+  maxKeyboardSens: 750
   mouseSenseSlider: {fileID: 7540226130463389197}
   mouseSensParameter: mouseSense
   mouseSenseText: {fileID: 1732304330427254112}
-  minMouseSense: 1
-  maxMouseSense: 10
+  minMouseSense: 50
+  maxMouseSense: 750
 --- !u!1 &4500539389174556317
 GameObject:
   m_ObjectHideFlags: 0
@@ -12595,17 +12595,21 @@ MonoBehaviour:
   m_text: 'left mb - select tile
 
 
-    q - rotate tower left
+    Hold Right MB - Adjust view
 
 
-    e - rotate tower
-    right
+    q - rotate
+    tower left
+
+
+    e - rotate tower right
 
 
     esc - cancel tile select
 
 
-    pause menu - f10'
+    f10
+    - Pause'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a459ab9dc8dcd1540aba3fdcd328747c, type: 2}
   m_sharedMaterial: {fileID: 1616691561250190026, guid: a459ab9dc8dcd1540aba3fdcd328747c, type: 2}
@@ -13178,7 +13182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7023095460826527405
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16735,17 +16739,21 @@ MonoBehaviour:
   m_text: 'left mb - select tile
 
 
-    q - rotate tower left
+    Hold Right MB - Adjust view
 
 
-    e - rotate tower
-    right
+    q - rotate
+    tower left
+
+
+    e - rotate tower right
 
 
     esc - cancel tile select
 
 
-    pause menu - f10'
+    f10
+    - Pause'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a459ab9dc8dcd1540aba3fdcd328747c, type: 2}
   m_sharedMaterial: {fileID: 1616691561250190026, guid: a459ab9dc8dcd1540aba3fdcd328747c, type: 2}
@@ -18174,13 +18182,13 @@ MonoBehaviour:
   keyboardSenseSlider: {fileID: 1212525178219629869}
   keyboardSenseParameter: keyboardSens
   keyboardSenseText: {fileID: 6592353388731731774}
-  minKeyboardSens: 60
-  maxKeyboardSens: 240
+  minKeyboardSens: 30
+  maxKeyboardSens: 750
   mouseSenseSlider: {fileID: 2274018688088136217}
   mouseSensParameter: mouseSense
   mouseSenseText: {fileID: 6092661086811193807}
-  minMouseSense: 1
-  maxMouseSense: 10
+  minMouseSense: 50
+  maxMouseSense: 750
 --- !u!1 &7427503816880077443
 GameObject:
   m_ObjectHideFlags: 0

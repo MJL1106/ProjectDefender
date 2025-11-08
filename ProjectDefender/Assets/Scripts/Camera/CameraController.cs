@@ -26,7 +26,6 @@ public class CameraController : MonoBehaviour
     [Header("Rotation details")] 
     [SerializeField] private Transform focusPoint;
     [SerializeField] private float maxFocusPointDistance = 15;
-    [SerializeField] private float rotationSpeed = 200;
     
     [Space] 
     private float pitch;
@@ -77,7 +76,7 @@ public class CameraController : MonoBehaviour
     public float AdjustKeyboardSensitivity(float value) => movementSpeed = value;
 
     /// <summary>
-    /// Adjusts middle mouse drag speed. Called from settings menu.
+    /// Adjusts mouse movement speed. Called from settings menu.
     /// </summary>
     public float AdjustMouseSensitivity(float value) => mouseMovementSpeed = value;
     
@@ -116,8 +115,8 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
-            float horizontalRotation = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
-            float verticalRotation = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
+            float horizontalRotation = Input.GetAxis("Mouse X") * mouseMovementSpeed * Time.deltaTime;
+            float verticalRotation = Input.GetAxis("Mouse Y") * mouseMovementSpeed * Time.deltaTime;
 
             pitch -= verticalRotation;
             pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
