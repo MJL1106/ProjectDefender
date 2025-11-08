@@ -112,6 +112,13 @@ public class AudioManager : MonoBehaviour
     /// Plays a one-shot 3D sound, but only if it's not on cooldown.
     /// Also limits the max concurrent instances of this sound.
     /// </summary>
+    /// <param name="clip">The audio clip to play.</param>
+    /// <param name="position">The world-space position to play the sound at.</param>
+    /// <param name="soundId">A unique string key to identify this sound for limiting purposes.</param>
+    /// <param name="cooldown">The minimum time in seconds before this soundId can be played again.</param>
+    /// <param name="maxConcurrent">The maximum number of this soundId that can play at once.</param>
+    /// <param name="randomPitch">If true, applies a slight random pitch.</param>
+    /// <param name="volume">The volume of the sound (0-1).</param>
     public void PlaySFXOneShotLimited(AudioClip clip, Vector3 position, string soundId, float cooldown = 0.2f, int maxConcurrent = 4, bool randomPitch = false, float volume = 1f)
     {
         if (clip == null) return;

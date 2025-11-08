@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// A component on the GridBuilder that holds prefab references.
+/// Used by TileSlot to identify tile types (e.g., to know if it's a buildable "tileField").
+/// </summary>
 public class TileSetHolder : MonoBehaviour
 {
     public GameObject levelSelectTile;

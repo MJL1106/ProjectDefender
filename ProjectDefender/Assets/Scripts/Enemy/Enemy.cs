@@ -132,6 +132,8 @@ public class Enemy : MonoBehaviour , IDamageable
     /// Temporarily reduces enemy movement speed.
     /// Used by slow towers and ice effects.
     /// </summary>
+    /// <param name="slowMultiplier">The multiplier to apply (e.g., 0.5 for 50% slow).</param>
+    /// <param name="duration">How long the slow effect lasts in seconds.</param>
     public void SlowEnemy(float slowMultiplier, float duration)
     {
         StartCoroutine(SlowEnemyCo(slowMultiplier, duration));

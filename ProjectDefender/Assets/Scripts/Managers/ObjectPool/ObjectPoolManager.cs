@@ -36,6 +36,10 @@ public class ObjectPoolManager : MonoBehaviour
     /// Retrieves an object from the pool for the specified prefab.
     /// Activates the object and sets its position, rotation, and parent.
     /// </summary>
+    /// <param name="prefab">The prefab to get an instance of.</param>
+    /// <param name="position">The world position to spawn at.</param>
+    /// <param name="rotation">The rotation to apply. Defaults to Quaternion.identity.</param>
+    /// <param name="parent">The parent transform to set. Defaults to null.</param>
     public GameObject Get(GameObject prefab, Vector3 position, Quaternion? rotation = null, Transform parent = null)
     {
         if (!poolDictionary.ContainsKey(prefab))

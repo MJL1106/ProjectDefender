@@ -5,6 +5,11 @@ using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// Component on an individual tile.
+/// Manages its mesh, material, collider, and type (e.g., buildable).
+/// Used by the level editor tools.
+/// </summary>
 public class TileSlot : MonoBehaviour
 {
     private int originalLayerIndex;
@@ -22,6 +27,10 @@ public class TileSlot : MonoBehaviour
         originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
     }
     
+    /// <summary>
+    /// Transforms this tile into a copy of a reference tile.
+    /// Copies mesh, material, collider, children, and layer.
+    /// </summary>
     public void SwitchTile(GameObject referenceTile)
     {
         gameObject.name = referenceTile.name;
@@ -39,6 +48,9 @@ public class TileSlot : MonoBehaviour
         TurnIntoBuildSlotIfNeeded(referenceTile);
     }
 
+    /// <summary>
+    /// Gets the tile's original shared material assigned on Awake.
+    /// </summary>
     public Material GetOriginalMaterial()
     {
         if (originalMaterial == null) originalMaterial = GetComponent<MeshRenderer>().sharedMaterial;
@@ -46,9 +58,24 @@ public class TileSlot : MonoBehaviour
         return originalMaterial;
     }
 
+    /// <summary>
+    /// Gets the tile's current shared material.
+    /// </summary>
     public Material GetMaterial() => meshRenderer.sharedMaterial;
+    
+    /// <summary>
+    /// Gets the tile's current shared mesh.
+    /// </summary>
     public Mesh GetMesh() => meshFilter.sharedMesh;
+    
+    /// <summary>
+    /// Gets the tile's primary collider.
+    /// </summary>
     public Collider GetCollider() => myCollider;
+    
+    /// <summary>
+    /// Returns a list of all immediate child GameObjects.
+    /// </summary>
     public List<GameObject> GetAllChildren()
     {
         List<GameObject> children = new List<GameObject>();
@@ -61,21 +88,29 @@ public class TileSlot : MonoBehaviour
         return children;
     }
 
+    /// <summary>
+    /// Adds or removes the BuildSlot component based on the reference tile type.
+    /// Only "tileField" is buildable.
+    /// </summary>
     public void TurnIntoBuildSlotIfNeeded(GameObject referenceTile)
     {
         BuildSlot buildSlot = GetComponent<BuildSlot>();
 
         if (referenceTile != tileSetHolder.tileField)
-        {
             if (buildSlot != null) DestroyImmediate(buildSlot);
-        }
         else
-        {
             if (buildSlot == null) gameObject.AddComponent<BuildSlot>();
-        }
+        
     }
+    
+    /// <summary>
+    /// Rebuilds the parent's NavMesh.
+    /// </summary>
     private void UpdateNavMesh() => myNavMesh.BuildNavMesh();
 
+    /// <summary>
+    /// Replaces this tile's collider with a copy of the reference collider.
+    /// </summary>
     private void UpdateCollider(Collider newCollider)
     {
         DestroyImmediate(myCollider);
@@ -99,6 +134,9 @@ public class TileSlot : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Replaces this tile's children with copies of the reference tile's children.
+    /// </summary>
     private void UpdateChildren(TileSlot newTile)
     {
         foreach (GameObject obj in GetAllChildren())
@@ -112,23 +150,37 @@ public class TileSlot : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the tile's layer to match a reference object.
+    /// </summary>
     public void UpdateLayer(GameObject referenceObj)
     {
         gameObject.layer = referenceObj.layer;
         originalLayerIndex = gameObject.layer;
     }
 
+    /// <summary>
+    /// Toggles the tile's layer to or from a non-interactable layer (15).
+    /// </summary>
     public void MakeNonInteractable(bool nonInteractable)
     {
         gameObject.layer = nonInteractable ? 15 : originalLayerIndex;
     }
 
+    /// <summary>
+    /// Rotates the tile 90 degrees and updates the NavMesh.
+    /// </summary>
+    /// <param name="dir">The direction multiplier (e.g., 1 for 90°, -1 for -90°).</param>
     public void RotateTile(int dir)
     {
         transform.Rotate(0, 90 * dir, 0);
         UpdateNavMesh();
     }
 
+    /// <summary>
+    /// Checks if all 4 sides are blocked and disables shadows if so.
+    /// Used for performance optimization on hidden tiles.
+    /// </summary>
     public void DisableShadowsIfNeeded()
     {
         UnityEngine.Rendering.ShadowCastingMode shadowMode = UnityEngine.Rendering.ShadowCastingMode.On;
@@ -139,8 +191,7 @@ public class TileSlot : MonoBehaviour
 
         foreach (Vector3 dir in direction)
         {
-            if (Physics.Raycast(point, dir, .6f))
-                blockedSides++;
+            if (Physics.Raycast(point, dir, .6f)) blockedSides++;
         }
 
         if (blockedSides == direction.Length) shadowMode = UnityEngine.Rendering.ShadowCastingMode.Off;
@@ -148,11 +199,13 @@ public class TileSlot : MonoBehaviour
         meshRenderer.shadowCastingMode = shadowMode;
     }
 
+    /// <summary>
+    /// Moves the tile up or down by a small increment and updates NavMesh.
+    /// </summary>
+    /// <param name="verticalDir">The direction multiplier (e.g., 1 for up, -1 for down).</param>
     public void AdjustY(int verticalDir)
     {
         transform.position += new Vector3(0, .1f * verticalDir, 0);
         UpdateNavMesh();
     }
-    
-    
 }

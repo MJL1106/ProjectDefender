@@ -28,6 +28,8 @@ public class EnemyStealthHideArea : MonoBehaviour
     /// Manages stealth hide list based on proximity.
     /// Ignores other stealth enemies to prevent recursive hiding.
     /// </summary>
+    /// <param name="enemyCollider">The collider of the enemy entering/exiting the trigger.</param>
+    /// <param name="addEnemy">True to add the enemy, false to remove it from the list.</param>
     private void AddEnemyToHideList(Collider enemyCollider, bool addEnemy)
     {
         Enemy newEnemy = enemyCollider.GetComponent<Enemy>();

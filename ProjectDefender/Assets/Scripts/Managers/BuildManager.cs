@@ -81,6 +81,9 @@ public class BuildManager : MonoBehaviour
    /// Builds a tower on the currently selected slot.
    /// Spends currency, plays effects, and tracks the new tower.
    /// </summary>
+   /// <param name="towerToBuild">The prefab of the tower to instantiate.</param>
+   /// <param name="towerPrice">The currency cost of the tower.</param>
+   /// <param name="newPreviewTower">The preview object, used to copy its rotation to the new tower.</param>
    public void BuildTower(GameObject towerToBuild, int towerPrice, Transform newPreviewTower)
    {
       if (gameManager.HasEnoughCurrency(towerPrice) == false)

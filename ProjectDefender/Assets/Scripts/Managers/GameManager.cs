@@ -248,6 +248,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Updates the castle's health points, updates UI, and checks for game over.
     /// </summary>
+    /// <param name="value">The amount to add to health. Can be negative for damage.</param>
     public void UpdateHp(int value)
     {
         currentHp += value;
