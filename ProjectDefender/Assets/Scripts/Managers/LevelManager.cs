@@ -53,7 +53,7 @@ public class LevelManager : MonoBehaviour
         cameraEffects.SwitchToGameView();
         yield return tileAnimator.GetActiveCoroutine();
     
-        yield return UnloadCurrentScene(); // --- CHANGE HERE ---
+        yield return UnloadCurrentScene();
         LoadScene(levelName);
     }
 
