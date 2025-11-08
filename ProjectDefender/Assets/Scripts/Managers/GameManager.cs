@@ -180,6 +180,12 @@ public class GameManager : MonoBehaviour
     public IEnumerator LevelCompletedCo()
     {
         bool isFinalLevel = levelManager.HasNoMoreLevels();
+        
+        if (!isFinalLevel)
+        {
+            PlayerPrefs.SetInt(levelManager.GetNextLevelName() + " unlocked", 1);
+            PlayerPrefs.Save();
+        }
     
         if (isFinalLevel && winFireworksVFX != null)
         {
@@ -200,15 +206,8 @@ public class GameManager : MonoBehaviour
 
         yield return cameraEffects.GetActiveCameraCo();
 
-        if (isFinalLevel)
-        { 
-            inGameUI.EnableVictoryUI(true);
-        }
-        else
-        {
-            inGameUI.EnableLevelCompletedUI(true);
-            PlayerPrefs.SetInt(levelManager.GetNextLevelName() + " unlocked", 1);
-        }
+        if (isFinalLevel) inGameUI.EnableVictoryUI(true);
+        else inGameUI.EnableLevelCompletedUI(true);
     }
 
     /// <summary>
