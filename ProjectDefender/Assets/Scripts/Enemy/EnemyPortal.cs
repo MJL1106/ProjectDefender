@@ -4,27 +4,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Spawns enemies for a wave and provides them with a waypoint path.
+/// Manages the spawn queue, tracks active enemies, and links to the WaveManager.
+/// </summary>
 public class EnemyPortal : MonoBehaviour
 {
     private ObjectPoolManager objectPool;
     
     [SerializeField] private WaveManager myWaveManager;
-    [SerializeField] private float spawnCooldown;
+    [SerializeField] private float spawnCooldown; // Time between individual enemy spawns
     private float spawnTimer;
     private bool canCreateEnemies = true;
 
     [Space] 
-    [SerializeField] private ParticleSystem flyPortalVfx;
+    [SerializeField] private ParticleSystem flyPortalVfx; // Spawn point and VFX for flying enemies
 
     private Coroutine flyPortalVfxCo;
     
     [Space]
     
     [SerializeField] private List<Waypoint> waypointList;
-    public Vector3[] currentWaypoints { get; private set; }
+    public Vector3[] currentWaypoints { get; private set; } // The path passed to enemies
 
-    private List<GameObject> enemiesToCreate = new List<GameObject>();
-    private List<GameObject> activeEnemies = new List<GameObject>();
+    private List<GameObject> enemiesToCreate = new List<GameObject>(); // Queue of enemy prefabs to spawn this wave
+    private List<GameObject> activeEnemies = new List<GameObject>(); // List of enemies currently spawned and alive
 
     private void Awake()
     {
@@ -41,7 +45,14 @@ public class EnemyPortal : MonoBehaviour
         objectPool = ObjectPoolManager.instance;
     }
 
+    /// <summary>
+    /// Assigns the WaveManager, called during wave setup.
+    /// </summary>
     public void AssignWaveManager(WaveManager newWaveManager) => myWaveManager = newWaveManager;
+    
+    /// <summary>
+    /// Checks if spawn timer has elapsed and enemies are in queue.
+    /// </summary>
     private bool CanMakeNewEnemy()
     {
         spawnTimer -= Time.deltaTime;
@@ -54,6 +65,10 @@ public class EnemyPortal : MonoBehaviour
 
         return false;
     }
+    
+    /// <summary>
+    /// Spawns a single enemy from the pool and assigns its path.
+    /// </summary>
     private void CreateEnemy()
     {
         if (!canCreateEnemies) return;
@@ -70,6 +85,9 @@ public class EnemyPortal : MonoBehaviour
         activeEnemies.Add(newEnemy);
     }
 
+    /// <summary>
+    /// Repositions flying enemies to the dedicated fly portal and plays VFX.
+    /// </summary>
     private void PlaceEnemyAtFlyPortalIfNeeded(GameObject newEnemy, EnemyType enemyType)
     {
         if (enemyType != EnemyType.Flying) return;
@@ -80,6 +98,9 @@ public class EnemyPortal : MonoBehaviour
         newEnemy.transform.position = flyPortalVfx.transform.position;
     }
 
+    /// <summary>
+    /// Plays the flying portal VFX for a short duration.
+    /// </summary>
     private IEnumerator EnableFlyPortalVfxCo()
     {
         flyPortalVfx.Play();
@@ -89,6 +110,9 @@ public class EnemyPortal : MonoBehaviour
         flyPortalVfx.Stop();
     }
 
+    /// <summary>
+    /// Selects, removes, and returns a random enemy prefab from the spawn queue.
+    /// </summary>
     private GameObject GetRandomEnemy()
     {
         if (enemiesToCreate.Count == 0) return null;
@@ -101,22 +125,35 @@ public class EnemyPortal : MonoBehaviour
         return chosenEnemy;
     }
 
+    /// <summary>
+    /// Adds an enemy prefab to the spawn queue for this wave.
+    /// </summary>
     public void AddEnemy(GameObject enemyToAdd) => enemiesToCreate.Add(enemyToAdd);
+    
     public List<GameObject> GetActiveEnemies() => activeEnemies;
     public bool HasEnemiesToSpawn()=> enemiesToCreate.Count > 0;
+    
+    /// <summary>
+    /// Toggles the portal's ability to spawn new enemies.
+    /// </summary>
     public void CanCreateNewEnemies(bool canCreate) => canCreateEnemies = canCreate;
 
 
+    /// <summary>
+    /// Removes an enemy from the active list (on death/despawn).
+    /// Triggers WaveManager to check for wave completion.
+    /// </summary>
     public void RemoveActiveEnemy(GameObject enemyToRemove)
     {
-        if (activeEnemies.Contains(enemyToRemove))
-        {
-            activeEnemies.Remove(enemyToRemove);
-        }
+        if (activeEnemies.Contains(enemyToRemove)) activeEnemies.Remove(enemyToRemove);
         
         myWaveManager.CheckIfWaveCompleted();
     }
 
+    /// <summary>
+    /// Populates the waypoint list from child 'Waypoint' objects.
+    /// Called from Awake and via [ContextMenu].
+    /// </summary>
     [ContextMenu("Add waypoints")]
     private void CollectWaypoints()
     {

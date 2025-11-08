@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Stealth enemy that hides itself and nearby enemies.
+/// Creates smoke VFX while hiding ability is active.
+/// Can be revealed by detection towers to disable hiding.
+/// </summary>
 public class EnemyStealth : Enemy
 {
     [Header("Stealth enemy details")]
@@ -12,6 +17,10 @@ public class EnemyStealth : Enemy
 
     private void HideItself() => HideEnemy(hideDuration);
 
+    /// <summary>
+    /// Applies stealth effect to all nearby enemies in hide area.
+    /// Removes dead enemies from list before processing.
+    /// </summary>
     private void HideEnemies()
     {
         if (canHideEnemies == false) return;
@@ -40,6 +49,10 @@ public class EnemyStealth : Enemy
         }
     }
 
+    /// <summary>
+    /// Disables hiding ability and smoke effect when revealed.
+    /// Overrides base to add smoke control and hide prevention.
+    /// </summary>
     protected override IEnumerator DisableHideCo(float duration)
     {
         EnableSmoke(false);

@@ -7,6 +7,11 @@ using UnityEngine.Serialization;
 
 public enum EnemyType { Basic, Fast, Swarm, Heavy, Stealth, Flying, BossSpider, None}
 
+/// <summary>
+/// Base enemy class handling navigation, health, damage, and mechanics.
+/// Uses NavMesh for pathfinding through waypoint system.
+/// Supports object pooling, slowing effects, and temporary invisibility.
+/// </summary>
 public class Enemy : MonoBehaviour , IDamageable
 {
     public EnemyVisuals visuals { get; private set; }
@@ -18,11 +23,11 @@ public class Enemy : MonoBehaviour , IDamageable
     protected Rigidbody rb;
 
     [SerializeField] private EnemyType enemyType;
-    [SerializeField] private Transform centrePoint;
+    [SerializeField] private Transform centrePoint; // Center point for targeting
     
     [Header("Stats")]
-    [SerializeField] private int reward = 10;
-    [SerializeField] private int castleDamage = 1;
+    [SerializeField] private int reward = 10; // Currency given on death
+    [SerializeField] private int castleDamage = 1; // Damage dealt to castle on reach
     public float maxHp = 100;
     protected float currentHp = 4;
     
@@ -49,7 +54,7 @@ public class Enemy : MonoBehaviour , IDamageable
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
-        agent.avoidancePriority = Mathf.RoundToInt(agent.speed * 10);
+        agent.avoidancePriority = Mathf.RoundToInt(agent.speed * 10); // Faster enemies have priority
 
         visuals = GetComponent<EnemyVisuals>();
         originalLayerIndex = gameObject.layer;
@@ -69,13 +74,13 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         FaceTarget(agent.steeringTarget);
         
-        // Check if the agent is close to current target point
-        if (ShouldChangeWaypoint())
-        {
-            ChangeWaypoint();
-        }
+        if (ShouldChangeWaypoint()) ChangeWaypoint();
     }
 
+    /// <summary>
+    /// Initializes enemy with portal and waypoint data.
+    /// Called when spawned from portal.
+    /// </summary>
     public void SetupEnemy(EnemyPortal myNewPortal)
     {
         myPortal = myNewPortal;
@@ -84,7 +89,6 @@ public class Enemy : MonoBehaviour , IDamageable
         CollectTotalDistance();
         ResetEnemy();
         BeginMovement();
-
     }
 
     private void UpdateWaypoints(Vector3[] newWaypoints)
@@ -105,6 +109,10 @@ public class Enemy : MonoBehaviour , IDamageable
         ChangeWaypoint();
     }
 
+    /// <summary>
+    /// Resets enemy state when retrieved from object pool.
+    /// Restores health, speed, visibility, and NavMesh agent.
+    /// </summary>
     protected void ResetEnemy()
     {
         gameObject.layer = originalLayerIndex;
@@ -120,6 +128,10 @@ public class Enemy : MonoBehaviour , IDamageable
         enabled = true;
     }
 
+    /// <summary>
+    /// Temporarily reduces enemy movement speed.
+    /// Used by slow towers and ice effects.
+    /// </summary>
     public void SlowEnemy(float slowMultiplier, float duration)
     {
         StartCoroutine(SlowEnemyCo(slowMultiplier, duration));
@@ -135,6 +147,10 @@ public class Enemy : MonoBehaviour , IDamageable
         agent.speed = originalSpeed;
     }
 
+    /// <summary>
+    /// Temporarily disables enemy's ability to be hidden by stealth enemies.
+    /// Used by reveal towers like TowerFan.
+    /// </summary>
     public void DisableHide(float duration)
     {
         if (isDead) return;
@@ -151,18 +167,21 @@ public class Enemy : MonoBehaviour , IDamageable
         canBeHidden = true;
     }
 
+    /// <summary>
+    /// Makes enemy invisible and untargetable temporarily.
+    /// Applied by nearby stealth enemies.
+    /// </summary>
     public void HideEnemy(float duration)
     {
         if (isDead) return;
-    
         if (!gameObject.activeInHierarchy) return;
-    
         if (canBeHidden == false) return;
     
         if (hideCo != null) StopCoroutine(hideCo);
 
         hideCo = StartCoroutine(HideEnemyCo(duration));
     }
+    
     private IEnumerator HideEnemyCo(float duration)
     {
         gameObject.layer = LayerMask.NameToLayer("Untargetable");
@@ -183,7 +202,10 @@ public class Enemy : MonoBehaviour , IDamageable
         agent.SetDestination(GetNextWaypoint());
     }
 
-
+    /// <summary>
+    /// Determines if enemy should advance to next waypoint.
+    /// Checks both remaining distance and relative positioning.
+    /// </summary>
     protected virtual bool ShouldChangeWaypoint()
     {
         if (nextWaypointIndex >= myWaypoints.Length) return false;
@@ -199,6 +221,10 @@ public class Enemy : MonoBehaviour , IDamageable
         return distanceBetweenPoints > distanceToNextWaypoint;
     }
 
+    /// <summary>
+    /// Calculates total remaining path distance to castle.
+    /// Used for enemy threat prioritization in tower targeting.
+    /// </summary>
     public virtual float DistanceToFinishLine()
     {
         if (myWaypoints == null || currentWaypointIndex >= myWaypoints.Length)
@@ -208,10 +234,10 @@ public class Enemy : MonoBehaviour , IDamageable
 
         float remainingDistance = 0f;
 
-        // Distance from current position to the current waypoint we're heading toward
+        // Distance from current position to current waypoint
         remainingDistance += Vector3.Distance(transform.position, myWaypoints[currentWaypointIndex]);
 
-        // Add distances between all remaining waypoints after that
+        // Add distances between remaining waypoints
         for (int i = currentWaypointIndex; i < myWaypoints.Length - 1; i++)
         {
             remainingDistance += Vector3.Distance(myWaypoints[i], myWaypoints[i + 1]);
@@ -220,6 +246,9 @@ public class Enemy : MonoBehaviour , IDamageable
         return remainingDistance;
     }
     
+    /// <summary>
+    /// Calculates total path length from start to castle.
+    /// </summary>
     private void CollectTotalDistance()
     {
         for (int i = 0; i < myWaypoints.Length - 1; i++)
@@ -229,29 +258,33 @@ public class Enemy : MonoBehaviour , IDamageable
         }
     }
     
+    /// <summary>
+    /// Smoothly rotates enemy to face movement direction.
+    /// Ignores Y-axis to prevent tilting.
+    /// </summary>
     private void FaceTarget(Vector3 newTarget)
     {
         Vector3 directionToTarget = newTarget - transform.position;
         if (directionToTarget.magnitude == 0) return;
         directionToTarget.y = 0;
 
-        // Create a rotation that points the forward vector to the calculated direction
         Quaternion newRotation = Quaternion.LookRotation(directionToTarget);
-
         transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, turnSpeed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Advances to next waypoint and updates remaining distance tracking.
+    /// </summary>
     private Vector3 GetNextWaypoint()
     {
         if (nextWaypointIndex >= myWaypoints.Length) return transform.position;
         
         Vector3 targetPoint = myWaypoints[nextWaypointIndex];
 
-        // Once the enemy is past the first waypoint, calculate the distance from the previous waypoint
+        // Update total remaining distance
         if (nextWaypointIndex > 0)
         {
             float distance = Vector3.Distance(myWaypoints[nextWaypointIndex], myWaypoints[nextWaypointIndex - 1]);
-            // Workout new total distance left to finish point
             totalDistance = totalDistance - distance;
         }
         
@@ -264,7 +297,6 @@ public class Enemy : MonoBehaviour , IDamageable
     protected Vector3 GetFinalWaypoint()
     {
         if (myWaypoints.Length == 0) return transform.position;
-
         return myWaypoints[myWaypoints.Length - 1];
     }
 
@@ -278,8 +310,7 @@ public class Enemy : MonoBehaviour , IDamageable
 
         if (currentHp <= 0 && isDead == false)
         {
-            // isDead prevents Die() from being called twice.
-            isDead = true;
+            isDead = true; // Prevents multiple death calls
             Die();
         }
     }
@@ -293,6 +324,10 @@ public class Enemy : MonoBehaviour , IDamageable
 
     public bool IsDead() => isDead;
 
+    /// <summary>
+    /// Returns enemy to object pool and notifies portal of removal.
+    /// Creates death VFX before cleanup.
+    /// </summary>
     public virtual void RemoveEnemy()
     {
         visuals.CreateOnDeathVfx();
