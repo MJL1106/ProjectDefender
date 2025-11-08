@@ -11570,7 +11570,7 @@ MonoBehaviour:
   limitTowerSfx: 1
   towerSfxId: MachineGun
   towerSfxCooldown: 0.15
-  maxConcurrentTowerSfx: 6
+  maxConcurrentTowerSfx: 5
   projectileSfx: {fileID: 0}
   limitProjectileSfx: 0
   projectileSfxId: 
@@ -11579,7 +11579,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1604615626006732164, guid: 9537d3bbcd543974eaa30d9346acef05, type: 3}
   damage: 6
   projectileSpeed: 15
-  playSoundEveryXShots: 4
+  playSoundEveryXShots: 2
   rotationOffset: {x: 0, y: 0.7, z: 0}
   gunPointSet:
   - {fileID: 330417177924612910}
