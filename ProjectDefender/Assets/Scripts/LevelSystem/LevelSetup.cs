@@ -3,21 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Runs at the start of a level scene to configure it.
+/// Loads LevelData, sets up the grid, deletes menu objects, and prepares managers.
+/// </summary>
 public class LevelSetup : MonoBehaviour
 {
-private UI ui;
+    private UI ui;
     private TileAnimator tileAnimator;
     private LevelManager levelManager;
     private GameManager gameManager;
     private BuildManager buildManager;
     
-    [Header("Level Setup")] [SerializeField]
-    private GridBuilder myMainGrid;
-    [SerializeField] private List<GameObject> extraObjectsToDelete = new List<GameObject>();
-    [SerializeField] private WaveManager myWaveManager;
+    [Header("Level Setup")] 
+    [SerializeField] private GridBuilder myMainGrid; // The grid/map for this specific level
+    [SerializeField] private List<GameObject> extraObjectsToDelete; // Objects from menu/other scenes to remove
+    [SerializeField] private WaveManager myWaveManager; // The wave manager for this level
 
     private LevelData myLevelData;
     
+    /// <summary>
+    /// Initializes the level by loading data, setting up managers, and animating the grid.
+    /// </summary>
     private IEnumerator Start()
     {
         if (LevelWasLoadedToMainScene())
@@ -53,6 +60,10 @@ private UI ui;
         UnlockAvailableTowers();
     }
 
+    /// <summary>
+    /// Checks if the LevelManager exists, indicating this is a level scene
+    /// loaded from the main scene, not a standalone test.
+    /// </summary>
     private bool LevelWasLoadedToMainScene()
     {
         levelManager = FindFirstObjectByType<LevelManager>();
@@ -60,6 +71,10 @@ private UI ui;
         return levelManager != null;
     }
 
+    /// <summary>
+    /// Removes specified GameObjects that are not part of the level.
+    /// e.g., Menu UI, level selection grid, etc.
+    /// </summary>
     private void DeleteExtraObjects()
     {
         foreach (var obj in extraObjectsToDelete)
@@ -68,6 +83,9 @@ private UI ui;
         }
     }
 
+    /// <summary>
+    /// Reads the LevelData to unlock the correct build buttons in the UI.
+    /// </summary>
     private void UnlockAvailableTowers()
     {
         if (myLevelData == null)
@@ -88,18 +106,5 @@ private UI ui;
         }
         
         ui.BuildButtonsHolderUI.UpdateUnlockedBuildButtons();
-    }
-}
-
-[System.Serializable]
-public class TowerUnlockData
-{
-    public string towerName;
-    public bool unlocked;
-
-    public TowerUnlockData(string newTowerName, bool newUnlockedStatus)
-    {
-        towerName = newTowerName;
-        unlocked = newUnlockedStatus;
     }
 }
