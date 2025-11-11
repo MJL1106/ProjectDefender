@@ -133,6 +133,8 @@ public class LevelManager : MonoBehaviour
         {
             tileAnimator.EnableMainSceneObjects(true);
             cameraEffects.UnselectAllTiles();
+            
+            RefreshLevelButtonTiles();
             tileAnimator.ShowMainGrid(true);
 
             yield return tileAnimator.GetActiveCoroutine();
@@ -257,4 +259,20 @@ public class LevelManager : MonoBehaviour
     /// Checks if the current level is the last one in the build settings.
     /// </summary>
     public bool HasNoMoreLevels() => GetNextLevelIndex() >= SceneManager.sceneCountInBuildSettings;
+    
+    /// <summary>
+    /// Refreshes all level button tiles to show correct locked/unlocked state.
+    /// Called after returning to main menu from a completed level.
+    /// </summary>
+    private void RefreshLevelButtonTiles()
+    {
+        LevelButtonTile[] levelButtons = FindObjectsByType<LevelButtonTile>(FindObjectsSortMode.None);
+
+        Debug.Log($"[LevelManager] Refreshing {levelButtons.Length} level button tiles");
+
+        foreach (var btn in levelButtons)
+        {
+            btn.CheckIfLevelUnlocked();
+        }
+    }
 }
