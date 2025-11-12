@@ -338,6 +338,14 @@ public class Enemy : MonoBehaviour , IDamageable
         
         if (myPortal != null) myPortal.RemoveActiveEnemy(gameObject);
     }
+    
+    public void RemoveEnemyForMainMenuLoading()
+    {
+        objectPool.Remove(gameObject);
+        agent.enabled = false;
+        
+        if (myPortal != null) myPortal.RemoveActiveEnemy(gameObject);
+    }
 
     protected virtual void OnEnable()
     {

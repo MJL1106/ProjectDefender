@@ -167,9 +167,9 @@ public class LevelManager : MonoBehaviour
     {
         GameManager.instance.StopMakingEnemies();
         GameManager.instance.CleanUpVFX();
-        EliminateAllEnemies();
-        EliminateAllTowers();
-        EliminateAllPreviews();
+        RemoveAllEnemies();
+        RemoveAllTowers();
+        RemoveAllPreviews();
         
         if (currentActiveGrid != null) tileAnimator.ShowGrid(currentActiveGrid, false);
     }
@@ -177,7 +177,7 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Destroys all active tower preview objects.
     /// </summary>
-    private void EliminateAllPreviews()
+    private void RemoveAllPreviews()
     {
         TowerPreview[] previews = FindObjectsByType<TowerPreview>(FindObjectsSortMode.None);
         foreach (var preview in previews)
@@ -189,20 +189,20 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Removes all active enemies from the scene.
     /// </summary>
-    private void EliminateAllEnemies()
+    private void RemoveAllEnemies()
     {
         Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
         foreach (var enemy in enemies)
         {
-            enemy.RemoveEnemy();
+            enemy.RemoveEnemyForMainMenuLoading();
         }
     }
 
     /// <summary>
     /// Destroys all built towers.
     /// </summary>
-    private void EliminateAllTowers()
+    private void RemoveAllTowers()
     {
         Tower[] towers = FindObjectsByType<Tower>(FindObjectsSortMode.None);
 
@@ -267,8 +267,6 @@ public class LevelManager : MonoBehaviour
     private void RefreshLevelButtonTiles()
     {
         LevelButtonTile[] levelButtons = FindObjectsByType<LevelButtonTile>(FindObjectsSortMode.None);
-
-        Debug.Log($"[LevelManager] Refreshing {levelButtons.Length} level button tiles");
 
         foreach (var btn in levelButtons)
         {

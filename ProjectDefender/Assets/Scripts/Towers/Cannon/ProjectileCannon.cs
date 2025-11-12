@@ -98,6 +98,8 @@ public class ProjectileCannon : MonoBehaviour
     /// </summary>
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Projectile hit " + other.gameObject.name);
+        
         if (other.gameObject.layer == LayerMask.NameToLayer("Untargetable")) return;
         
         DamageEnemiesAround();
