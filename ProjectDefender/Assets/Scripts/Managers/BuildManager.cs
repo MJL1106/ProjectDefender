@@ -114,7 +114,10 @@ public class BuildManager : MonoBehaviour
 
       GameObject newTower = Instantiate(towerToBuild, buildPosition, Quaternion.identity);
       newTower.transform.rotation = previewTower.rotation;
-   
+      
+      Tower tower = newTower.GetComponent<Tower>();
+      if (tower != null) tower.TowerPlaced();
+         
       // Track the built tower
       builtTowers[slotToUse] = new TowerData(newTower, towerPrice);
    
@@ -127,7 +130,7 @@ public class BuildManager : MonoBehaviour
       if (display != null) display.UpdateLines();
       
       gameManager.UpdateCurrency(-towerPrice);
-   
+      
       // Clean up the slot selection
       slotToUse.UnselectTile();
       selectedBuildSlot = null;
