@@ -16696,7 +16696,6 @@ MonoBehaviour:
   edgeMovementSpeed: 200
   focusPoint: {fileID: 605182631}
   maxFocusPointDistance: 15
-  rotationSpeed: 500
   minPitch: 5
   maxPitch: 85
   zoomSpeed: 200
@@ -99385,6 +99384,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5211401724386384089, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6476713000767615994, guid: 4ccb78ee72054ec449cb4d103c9657d3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -100322,7 +100325,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6572409651803518628, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+    - {fileID: 2946865593451307507, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+    - {fileID: 4604846684671497920, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+    - {fileID: 2224445649154221276, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+    - {fileID: 995204158997342381, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+    - {fileID: 7450457275328123699, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+    - {fileID: 374545648054012900, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+    - {fileID: 8459082314993533358, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+    - {fileID: 1545721856978025495, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
+    - {fileID: 5787457765701255498, guid: 5950176d060b82944a52395a7bd62d37, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5950176d060b82944a52395a7bd62d37, type: 3}

@@ -200,6 +200,11 @@ public class Tower : MonoBehaviour
         }
     }
 
+    public virtual void TowerPlaced()
+    {
+        
+    }
+
     /// <summary>
     /// Main rotation handler, called every frame.
     /// Updates both head and body rotation.

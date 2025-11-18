@@ -41,12 +41,15 @@ public class UISettings : MonoBehaviour
 
     [SerializeField] private float minMouseSense = 1;
     [SerializeField] private float maxMouseSense = 10;
+    
+    private bool isInitializing = false;
 
     private void Awake()
     {
         camController = FindFirstObjectByType<CameraController>();
     }
     
+
     /// <summary>
     /// Loads all settings from PlayerPrefs and applies them.
     /// Called by GameManager on startup.
@@ -62,11 +65,19 @@ public class UISettings : MonoBehaviour
         // Apply audio
         if (audioMixer != null)
         {
-            float sfxDB = Mathf.Log10(savedSFX) * mixerMultiplier;
-            float bgmDB = Mathf.Log10(savedBGM) * mixerMultiplier;
-        
+            // Clamp to avoid Log10(0) which is undefined
+            float clampedSFX = Mathf.Max(savedSFX, 0.0001f);
+            float clampedBGM = Mathf.Max(savedBGM, 0.0001f);
+            
+            float sfxDB = Mathf.Log10(clampedSFX) * mixerMultiplier;
+            float bgmDB = Mathf.Log10(clampedBGM) * mixerMultiplier;
+            
             audioMixer.SetFloat(sfxParameter, sfxDB);
             audioMixer.SetFloat(bgmParameter, bgmDB);
+        }
+        else
+        {
+            Debug.LogWarning("[ApplyAllSettingsOnStartup] AudioMixer is null!");
         }
     
         // Apply camera sensitivity
@@ -86,7 +97,12 @@ public class UISettings : MonoBehaviour
     /// <param name="value">The slider value (0.0 to 1.0).</param>
     public void SFXSliderValue(float value)
     {
-        float newValue = MathF.Log10(value) * mixerMultiplier;
+        if (isInitializing) return;
+        
+        // Clamp to avoid Log10(0) which is undefined
+        float clampedValue = Mathf.Max(value, 0.0001f);
+        float newValue = MathF.Log10(clampedValue) * mixerMultiplier;
+        
         audioMixer.SetFloat(sfxParameter, newValue);
         
         sfxSliderText.text = Mathf.RoundToInt(value * 100) + "%";
@@ -98,7 +114,12 @@ public class UISettings : MonoBehaviour
     /// <param name="value">The slider value (0.0 to 1.0).</param>
     public void BGMSliderValue(float value)
     {
-        float newValue = MathF.Log10(value) * mixerMultiplier;
+        if (isInitializing) return;
+        
+        // Clamp to avoid Log10(0) which is undefined
+        float clampedValue = Mathf.Max(value, 0.0001f);
+        float newValue = MathF.Log10(clampedValue) * mixerMultiplier;
+        
         audioMixer.SetFloat(bgmParameter, newValue);
         
         bgmSliderText.text = Mathf.RoundToInt(value * 100) + "%";
@@ -144,9 +165,12 @@ public class UISettings : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        float loadedBGM = PlayerPrefs.GetFloat(bgmParameter, .6f);
+        float loadedSFX = PlayerPrefs.GetFloat(sfxParameter, .6f);
+
         keyboardSenseSlider.value = PlayerPrefs.GetFloat(keyboardSenseParameter, .6f);
         mouseSenseSlider.value = PlayerPrefs.GetFloat(mouseSensParameter, .6f);
-        bgmSlider.value = PlayerPrefs.GetFloat(bgmParameter, .6f);
-        sfxSlider.value = PlayerPrefs.GetFloat(sfxParameter, .6f);
+        bgmSlider.value = loadedBGM;
+        sfxSlider.value = loadedSFX;
     }
 }

@@ -261,7 +261,7 @@ public class UIGame : MonoBehaviour
             {
                 WaveDetails nextWave = levelWaves[currentWaveIndex];
 
-                if (waveNumberText != null) waveNumberText.text = $"WAVE {currentWaveIndex + 1}";
+                if (waveNumberText != null) waveNumberText.text = $"WAVE {currentWaveIndex + 1}/{levelWaves.Length}";
 
                 if (enemyDetailsText != null)
                 {
@@ -335,8 +335,8 @@ public class UIGame : MonoBehaviour
         if (waveDetails.heavyEnemy > 0) enemyLines.Add($"{waveDetails.heavyEnemy} x Heavy");
         if (waveDetails.stealthEnemy > 0) enemyLines.Add($"{waveDetails.stealthEnemy} x Stealth");
         if (waveDetails.flyingEnemy > 0) enemyLines.Add($"{waveDetails.flyingEnemy} x Flying");
-        if (waveDetails.flyingBossEnemy > 0) enemyLines.Add($"{waveDetails.flyingBossEnemy} x Flying Boss");
-        if (waveDetails.spiderBossEnemy > 0) enemyLines.Add($"{waveDetails.spiderBossEnemy} x Spider Boss");
+        if (waveDetails.flyingBossEnemy > 0) enemyLines.Add($"<color=red>{waveDetails.flyingBossEnemy} x Flying Boss</color>");
+        if (waveDetails.spiderBossEnemy > 0) enemyLines.Add($"<color=red>{waveDetails.spiderBossEnemy} x Spider Boss</color>");
         
         if (enemyLines.Count == 0) return "No enemies";
         

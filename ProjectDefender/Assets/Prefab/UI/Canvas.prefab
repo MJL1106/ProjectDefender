@@ -8735,7 +8735,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 5160894622376785764}
         m_TargetAssemblyTypeName: UIGame, Assembly-CSharp
-        m_MethodName: EnableGameOverUI
+        m_MethodName: EnableLevelCompletedUI
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13182,7 +13182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7023095460826527405
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15128,7 +15128,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5084136925497401828}
-  - component: {fileID: 2201279323541430569}
   m_Layer: 5
   m_Name: Victory_UI
   m_TagString: Untagged
@@ -15158,21 +15157,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2201279323541430569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6314055933026970032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0219895475205934a8631555a1d04cc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseUiElements:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &6364388314497101482
 GameObject:
   m_ObjectHideFlags: 0

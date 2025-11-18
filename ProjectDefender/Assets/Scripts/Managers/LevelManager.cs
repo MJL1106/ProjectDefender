@@ -133,6 +133,8 @@ public class LevelManager : MonoBehaviour
         {
             tileAnimator.EnableMainSceneObjects(true);
             cameraEffects.UnselectAllTiles();
+            
+            RefreshLevelButtonTiles();
             tileAnimator.ShowMainGrid(true);
 
             yield return tileAnimator.GetActiveCoroutine();
@@ -165,9 +167,9 @@ public class LevelManager : MonoBehaviour
     {
         GameManager.instance.StopMakingEnemies();
         GameManager.instance.CleanUpVFX();
-        EliminateAllEnemies();
-        EliminateAllTowers();
-        EliminateAllPreviews();
+        RemoveAllEnemies();
+        RemoveAllTowers();
+        RemoveAllPreviews();
         
         if (currentActiveGrid != null) tileAnimator.ShowGrid(currentActiveGrid, false);
     }
@@ -175,7 +177,7 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Destroys all active tower preview objects.
     /// </summary>
-    private void EliminateAllPreviews()
+    private void RemoveAllPreviews()
     {
         TowerPreview[] previews = FindObjectsByType<TowerPreview>(FindObjectsSortMode.None);
         foreach (var preview in previews)
@@ -187,20 +189,20 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Removes all active enemies from the scene.
     /// </summary>
-    private void EliminateAllEnemies()
+    private void RemoveAllEnemies()
     {
         Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
         foreach (var enemy in enemies)
         {
-            enemy.RemoveEnemy();
+            enemy.RemoveEnemyForMainMenuLoading();
         }
     }
 
     /// <summary>
     /// Destroys all built towers.
     /// </summary>
-    private void EliminateAllTowers()
+    private void RemoveAllTowers()
     {
         Tower[] towers = FindObjectsByType<Tower>(FindObjectsSortMode.None);
 
@@ -257,4 +259,18 @@ public class LevelManager : MonoBehaviour
     /// Checks if the current level is the last one in the build settings.
     /// </summary>
     public bool HasNoMoreLevels() => GetNextLevelIndex() >= SceneManager.sceneCountInBuildSettings;
+    
+    /// <summary>
+    /// Refreshes all level button tiles to show correct locked/unlocked state.
+    /// Called after returning to main menu from a completed level.
+    /// </summary>
+    private void RefreshLevelButtonTiles()
+    {
+        LevelButtonTile[] levelButtons = FindObjectsByType<LevelButtonTile>(FindObjectsSortMode.None);
+
+        foreach (var btn in levelButtons)
+        {
+            btn.CheckIfLevelUnlocked();
+        }
+    }
 }

@@ -27,6 +27,11 @@ public class TowerFan : Tower
         if (display != null) display.CreateLines(false, 0);
         
         InvokeRepeating(nameof(RevealEnemies), .1f, revealFrequency);
+    }
+
+    public override void TowerPlaced()
+    {
+        base.TowerPlaced();
         PlayTowerAttackSound();
     }
 
